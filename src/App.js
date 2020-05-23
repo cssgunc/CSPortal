@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-// import * as firebase from "firebase/app";
 import axios from 'axios';
-
-// Add the Firebase services that you want to use
-import "firebase/auth";
-import "firebase/firestore";
 
 export const airtableKey = process.env.REACT_APP_API_KEY;
 
@@ -19,29 +14,19 @@ class App extends Component {
   }
 
   componentDidMount(){
-    axios.get(`https://api.airtable.com/v0/app4bBP7ysJFDeHQk/Users?api_key=${airtableKey}`)
+    axios.get(`https://api.airtable.com/v0/app4bBP7ysJFDeHQk/MarriedatFirstSightStats?api_key=keycRgSqJzorAUJO0`)
+    // .then(result => result.json())
     .then(result => {
+      console.log(result)
       this.setState({users: result.data.records});
     })
     .catch(error => {console.log(error)})
   }
 
   render () {
+    console.log(this.state)
     return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and hi to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
       <ul>
         {this.state.users.map(user => <li>{user.fields.Name}</li>)}
       </ul>
