@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import './App.css';
+import './Landing.css';
 import axios from 'axios';
 import 'bulma/css/bulma.css';
 
 export const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
 
-class App extends Component {
+class Landing extends Component {
 
   constructor(props){
     super(props);
@@ -79,4 +79,4 @@ class App extends Component {
   )}
 }
 
-export default App;
+export default Landing;
