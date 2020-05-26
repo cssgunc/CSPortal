@@ -5,7 +5,6 @@ import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import * as ROUTES from '../../constants/routes';
@@ -38,14 +37,27 @@ class App extends Component {
     return (
       <AuthUserContext.Provider value={this.state.authUser}>
       <Router>
+      <section className="hero is-medium is-primary is-bold">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              CS+SG: Rewriting the Code
+            </h1>
+            <h2 className="subtitle">
+              Testing the Tech Stack
+            </h2>
+          </div>
+        </div>
+      </section>
         <Navigation/>
+        <div className="App">
         <Route exact path={ROUTES.LANDING} component={LandingPage} />
         <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
         <Route path={ROUTES.SIGN_IN} component={SignInPage} />
         <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-        <Route path={ROUTES.HOME} component={HomePage} />
         <Route path={ROUTES.ACCOUNT} component={AccountPage} />
         <Route path={ROUTES.ADMIN} component={AdminPage} />
+        </div>
       </Router>
       </AuthUserContext.Provider>
     )

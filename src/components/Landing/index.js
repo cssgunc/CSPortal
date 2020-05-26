@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './Landing.css';
 import axios from 'axios';
 import 'bulma/css/bulma.css';
 
@@ -15,29 +14,21 @@ class Landing extends Component {
   }
 
   componentDidMount(){
-    axios.get(`https://api.airtable.com/v0/app4bBP7ysJFDeHQk/MarriedatFirstSightStats?api_key=${airtableKey}`)
+    axios.get(`https://api.airtable.com/v0/app4bBP7ysJFDeHQk/MarriedatFirstSightStats`,
+    {headers: {Authorization: `Bearer ${airtableKey}`}})
     .then(result => {
       this.setState({data: result.data.records});
+      axios.post(`https://api.airtable.com/v0/app4bBP7ysJFDeHQk/Users`, {fields: {Name: "Rupali"}}, {headers:{Authorization: `Bearer ${airtableKey}`, "Content-Type": "application/json"}})
+        .then(result => {console.log(result)})
+        .catch(error => {console.log(error)})
     })
     .catch(error => {console.log(error)})
   }
 
   render () {
     return (
-    <div className="App">
-      <section className="hero is-medium is-primary is-bold">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
-              CS+SG: Rewriting the Code
-            </h1>
-            <h2 className="subtitle">
-              Testing the Tech Stack
-            </h2>
-          </div>
-        </div>
-      </section>
-      <section class="section">
+    <div>
+      <section className="section is-white">
       <div className="container">
       <h4 className="title is-4">Links to Airtable as a Database <span role="img" aria-label="check">✅</span></h4>
       <hr/>
@@ -55,14 +46,16 @@ class Landing extends Component {
       )}
       </div>
       </section>
-      <section class="section">
+      <section className="section is-white">
       <div className="container">
         <h4 className="title is-4">Embeds Airtable as a view <span role="img" aria-label="check">✅</span></h4>
         <hr/>
-        <iframe title="RTCTestingAirtableView" className="airtable-embed airtable" src="https://airtable.com/embed/shr8VpOlIzRJGScYC?backgroundColor=teal" frameBorder="0" width="100%" height="533"></iframe>
+        <div className="card">
+        <iframe title="RTCTestingAirtableView" class="airtable-embed airtable" src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on" frameborder="0" width="100%" height="533"></iframe>
+        </div>
       </div>
       </section>
-      <section class="section">
+      <section className="section is-white">
       <div className="container">
         <h4 className="title is-4">Deployed through Firebase <span role="img" aria-label="check">✅</span></h4>
         <hr/>

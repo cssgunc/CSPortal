@@ -7,9 +7,14 @@ import * as ROUTES from '../../constants/routes';
  
 const SignInPage = () => (
   <div>
-    <h1>Sign In</h1>
-    <SignInForm />
-    <SignUpLink />
+    <section className="section is-gray">
+      <div className="card sign-form">
+        <div className="card-content">
+        <SignInForm />
+        <SignUpLink />
+        </div>
+      </div>
+    </section>
   </div>
 );
 
@@ -31,7 +36,7 @@ class SignInFormBase extends Component {
     .doSignInWithEmailAndPassword(email, password)
     .then(() => {
       this.setState({...INITIAL_STATE});
-      this.props.history.push(ROUTES.HOME);
+      this.props.history.push(ROUTES.LANDING);
       console.log("logged in");
     })
     .catch(error => {this.setState({error})})
@@ -56,21 +61,37 @@ class SignInFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Enter Password"
-        />
-        <button disabled={isInvalid} type="submit">Sign In</button>
+        <div className="field">
+            <label className="label">Email</label>
+            <div className="control">
+              <input 
+              className="input"
+              name="email"
+              value={email}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Email Address"/>
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control">
+              <input 
+              className="input"
+              name="password"
+              value={password}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Enter Password"/>
+            </div>
+          </div>
+          
+          <div className="field is-grouped">
+            <div className="control">
+              <button className="button is-link" disabled={isInvalid} type="submit">Sign In</button>
+            </div>
+          </div>
  
         {error && <p>{error.message}</p>}
       </form>

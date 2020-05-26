@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { withFirebase } from "../Firebase"
+import { withFirebase } from "../Firebase";
+// import axios from 'axios';
  
 import * as ROUTES from '../../constants/routes';
- 
+
 const SignUpPage = () => (
   <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
+    <section className="section is-gray">
+      <div className="card sign-form">
+        <div className="card-content">
+        <SignUpForm />
+        </div>
+      </div>
+    </section>
   </div>
+  
 );
 
 const INITIAL_STATE = {
@@ -26,12 +33,12 @@ class SignUpFormBase extends Component {
   }
  
   onSubmit = event => {
-    const {username, email, passwordOne} = this.state;
+    const {email, passwordOne} = this.state;
     this.props.firebase
     .doCreateUserWithEmailAndPassword(email, passwordOne)
     .then(authUser => {
       this.setState({...INITIAL_STATE});
-      this.props.history.push(ROUTES.HOME);
+      this.props.history.push(ROUTES.LANDING);
       console.log("success");
     })
     .catch(error => {this.setState({error})})
@@ -60,35 +67,63 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <button disabled={isInvalid} type="submit">Sign Up</button>
+          <div className="field">
+            <label className="label">Username</label>
+            <div className="control">
+              <input 
+              className="input"
+              name="username"
+              value={username}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Full Name"/>
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Email</label>
+            <div className="control">
+              <input 
+              className="input"
+              name="email"
+              value={email}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Email Address"/>
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control">
+              <input 
+              className="input"
+              name="passwordOne"
+              value={passwordOne}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Password"/>
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Confirm Password</label>
+            <div className="control">
+              <input 
+              className="input"
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Confirm Password"/>
+            </div>
+          </div>
+          
+          <div className="field is-grouped">
+            <div className="control">
+              <button className="button is-link" disabled={isInvalid} type="submit">Sign Up</button>
+            </div>
+          </div>
  
         {error && <p>{error.message}</p>}
       </form>
@@ -99,11 +134,12 @@ class SignUpFormBase extends Component {
 const SignUpForm = withRouter(withFirebase(SignUpFormBase))
  
 const SignUpLink = () => (
-  <p>
+  <div style={{textAlign: 'center'}}>
+    <br/>
     Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-  </p>
+  </div>
 );
- 
+
 export default SignUpPage;
  
 export { SignUpForm, SignUpLink };

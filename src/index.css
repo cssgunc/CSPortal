@@ -11,3 +11,71 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html {
+  background-color: hsl(0, 0%, 96%)!important;
+}
+
+.is-white{
+  background-color: white!important;
+}
+
+.is-gray{
+  background-color:  hsl(0, 0%, 96%)!important;
+}
+
+.sign-form {
+  width: 50%;
+  margin: auto;
+  min-width: 300px;
+}
+
+.App {
+  text-align: left;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.airtable {
+  background: transparent; 
+  border: 1px solid #ccc;
+}
+
+@media screen and (min-width: 1024px) {
+  .navbar-menu {
+    box-shadow: 0 8px 16px rgba(10,10,10,.1);
+  }
+}
