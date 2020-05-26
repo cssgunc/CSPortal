@@ -51,7 +51,7 @@ class Landing extends Component {
         <h4 className="title is-4">Embeds Airtable as a view <span role="img" aria-label="check">✅</span></h4>
         <hr/>
         <div className="card">
-        <iframe title="RTCTestingAirtableView" class="airtable-embed airtable" src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on" frameborder="0" width="100%" height="533"></iframe>
+        <iframe title="RTCTestingAirtableView" className="airtable-embed airtable" src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on" frameBorder="0" width="100%" height="533"></iframe>
         </div>
       </div>
       </section>
@@ -73,17 +73,13 @@ class Landing extends Component {
         <h4 className="title is-4">Authenticated through Firebase <span role="img" aria-label="check">✅</span></h4>
         <hr/>
         <div className="card">
-          <header className="card-header">
-            <p className="card-content">
-              <ul className="list">
-              <li className="list-item">Right now, I have configured a simple Email-Password authentication system through Firebase. Anyone can sign up and see the site.</li>
-              <li className="list-item">For the RTC site, I'm thinking that we link the sign-up process through the member database in Airtable. So a person cannot sign up unless the email they are using is in the existing member database.</li>
-              <li className="list-item">For the admins, we can either save each users data and permissions in the Firestore or make another spreadsheet on Airtable that only has the emails of the people allowed to be admins so we can crosscheck it there. The second one is like a hacky workaround for this but it might work lol.
-              </li>
-              <li className="list-item">This thing with Airtable is that to have complete security, we can only implement a read-only API because the authorization tokens are visible in the headers on the network section of the browser development tools, which is why I don't want to post user data from our website to Airtable.</li>
-              </ul>
-            </p>
-          </header>
+          <ul className="list">
+            <li className="list-item">Right now, I have configured a simple Email-Password authentication system through Firebase. Anyone can sign up and see the site.</li>
+            <li className="list-item">For the RTC site, I'm thinking that we link the sign-up process through the member database in Airtable. So a person cannot sign up unless the email they are using is in the existing member database.</li>
+            <li className="list-item">For the admins, we can either save each users data and permissions in the Firestore or make another spreadsheet on Airtable that only has the emails of the people allowed to be admins so we can crosscheck it there. The second one is like a hacky workaround for this but it might work lol.
+            </li>
+            <li className="list-item">The thing with Airtable is that for security purposes, we can only implement a read-only API because the authorization tokens are visible in the headers on the network section of the browser development tools, which is why I don't want to post user data from our website to Airtable.</li>
+          </ul>
         </div>
       </div>
       </section>
