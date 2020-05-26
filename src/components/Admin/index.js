@@ -2,7 +2,6 @@ import React from 'react';
 import {withAuthorization} from '../Session'
  
 function Admin (props) {
-  console.log(this.props)
   return (
     <div>
       <section className="section is-white">
