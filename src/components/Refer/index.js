@@ -1,12 +1,11 @@
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { withAuthorization } from '../Session';
 
-function Account(props) {
+function Refer() {
   return (
     <div>
       <section className="section is-white">
-        <h1>Account: {props.authUser.email}</h1>
+        <h1>Referral Portal</h1>
       </section>
     </div>
   );
@@ -14,4 +13,4 @@ function Account(props) {
 
 const condition = (authUser) => authUser != null;
 
-export default withAuthorization(condition)(Account);
+export default withAuthorization(condition)(Refer);

@@ -5,6 +5,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --black: #000000;
+  --darkBlue: #4B8DCB;
+  --gray: #58595B;
+  --green: #6EC38C;
+  --grey: #58595B;
+  --lightBlue: #00AEEF;
+  --limeGreen: #BED742;
+  --white: #FFFFFF;
+  --yellow: #FFF200;
 }
 
 code {
@@ -45,21 +54,6 @@ html {
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -78,4 +72,13 @@ html {
   .navbar-menu {
     box-shadow: 0 8px 16px rgba(10,10,10,.1);
   }
+}
+
+.navbar-item {
+  color: var(--white)!important;
+}
+
+.navbar-item:hover {
+  background-color: var(--lightBlue)!important;
+  border-radius: 5px;
 }

@@ -1,3 +1,3 @@
-# CS+SG: Rewriting the Code Test App
+# CS+SG: Rewriting the Code Portal
 
-This is a test app to figure out how the different elements in the tech stack for the RTC website work together/if they work well together.
+This is the member and fellow portal for Rewriting the Code. It contains resources, opportunities, webinars, referrals, contact information, etc.

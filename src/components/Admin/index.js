@@ -1,7 +1,7 @@
 import React from 'react';
-import {withAuthorization} from '../Session'
- 
-function Admin (props) {
+import { withAuthorization } from '../Session';
+
+function Admin() {
   return (
     <div>
       <section className="section is-white">
@@ -11,6 +11,6 @@ function Admin (props) {
   );
 }
 
-const condition = authUser => authUser != null;
+const condition = (authUser) => authUser != null;
 
 export default withAuthorization(condition)(Admin);

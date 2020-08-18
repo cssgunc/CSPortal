@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
@@ -7,61 +7,45 @@ import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import Directory from '../Directory';
+import Refer from '../Refer';
+import Resources from '../Resources';
 import * as ROUTES from '../../constants/routes';
 
-import { withFirebase } from '../Firebase'
+import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      authUser: null,
-    };
-  }
+function App(props) {
+  const [authUser, setAuthUser] = useState(null);
 
-  componentDidMount() {
-    this.listener = this.props.firebase.auth.onAuthStateChanged(
-      authUser => 
-      authUser 
-      ? this.setState({authUser: authUser}) 
-      : this.setState({authUser: null})
+  useEffect(() => {
+    const handle = props.firebase.auth.onAuthStateChanged((auth) =>
+      auth ? setAuthUser(auth) : setAuthUser(null),
     );
-  }
 
-  componentWillUnmount() {
-    this.listener();
-  }
+    return function cleanup() {
+      handle();
+    };
+  });
 
-  render() {
-    return (
-      <AuthUserContext.Provider value={this.state.authUser}>
+  return (
+    <AuthUserContext.Provider value={authUser}>
       <Router>
-      <section className="hero is-medium is-primary is-bold">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
-              CS+SG: Rewriting the Code
-            </h1>
-            <h2 className="subtitle">
-              Testing the Tech Stack
-            </h2>
-          </div>
-        </div>
-      </section>
-        <Navigation/>
+        <Navigation />
         <div className="App">
-        <Route exact path={ROUTES.LANDING} component={LandingPage} />
-        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-        <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-        <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-        <Route path={ROUTES.ADMIN} component={AdminPage} />
+          <Route exact path={ROUTES.LANDING} component={LandingPage} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />
+          <Route path={ROUTES.DIRECTORY} component={Directory} />
+          <Route path={ROUTES.RESOURCES} component={Resources} />
+          <Route path={ROUTES.REFER} component={Refer} />
         </div>
       </Router>
-      </AuthUserContext.Provider>
-    )
-  }
-};
- 
+    </AuthUserContext.Provider>
+  );
+}
+
 export default withFirebase(App);

@@ -4,3 +4,6 @@ export const SIGN_IN = '/signin';
 export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
+export const RESOURCES = '/resources';
+export const DIRECTORY = '/directory';
+export const REFER = '/refer';
