@@ -1,48 +1,39 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import 'bulma/css/bulma.css';
+import Heading from '../General/Heading';
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
+import colors from '../../constants/RTCColors';
 
 function Landing() {
   return (
     <div>
       <section className="section is-white">
         <div className="container">
-          <h4 className="title is-4">
-            Deployed through Firebase{' '}
-            <span role="img" aria-label="check">
-              ✅
-            </span>
-          </h4>
-          <hr />
-          <div className="card">
-            <header className="card-header">
-              <p className="card-content">
-                This test project is being hosted on Firebase right now at{' '}
-                <a href="https://rtctesting-2637c.web.app/">this link.</a> If we
-                want to stick with Firebase, we can add RTC's{' '}
-                <a href="https://firebase.google.com/docs/hosting/custom-domain">
-                  custom domain later
-                </a>{' '}
-                and they will provide a SSL certification as well. Although, I
-                have read that since Firebase has not been around that long,
-                there may be some long term issues that we may not know about
-                and it can get expensive. So I will also look into other hosting
-                platforms.
-              </p>
-            </header>
-          </div>
+          <ViewWithTopBorder>
+            <Heading>Deployed through Firebase</Heading>
+            <p>
+              This test project is being hosted on Firebase right now at{' '}
+              <a href="https://rtctesting-2637c.web.app/">this link.</a> If we
+              want to stick with Firebase, we can add RTC's{' '}
+              <a href="https://firebase.google.com/docs/hosting/custom-domain">
+                custom domain later
+              </a>{' '}
+              and they will provide a SSL certification as well. Although, I
+              have read that since Firebase has not been around that long, there
+              may be some long term issues that we may not know about and it can
+              get expensive. So I will also look into other hosting platforms.
+            </p>
+          </ViewWithTopBorder>
         </div>
       </section>
       <section className="section is-white">
         <div className="container">
-          <h4 className="title is-4">
-            Authenticated through Firebase{' '}
-            <span role="img" aria-label="check">
-              ✅
-            </span>
-          </h4>
-          <hr />
-          <div className="card">
+          <ViewWithTopBorder
+            color={colors.darkBlue}
+            styles={{ padding: '25px' }}
+          >
+            <Heading>Authenticated through Firebase</Heading>
             <ul className="list">
               <li className="list-item">
                 Right now, I have configured a simple Email-Password
@@ -70,7 +61,7 @@ function Landing() {
                 from our website to Airtable.
               </li>
             </ul>
-          </div>
+          </ViewWithTopBorder>
         </div>
       </section>
     </div>

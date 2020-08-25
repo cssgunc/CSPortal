@@ -1,8 +1,5 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --black: #000000;
@@ -81,4 +78,22 @@ html {
 .navbar-item:hover {
   background-color: var(--lightBlue)!important;
   border-radius: 5px;
+}
+
+.view-with-top-bar {
+  border-top: 17px solid;
+  border-radius: 17px;
+  padding: 19px;
+}
+
+* {  
+  font-family: 'Roboto';
+}
+
+.heading1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25.2px;
+  line-height: 30px;
+  padding-bottom: 15px;
 }
