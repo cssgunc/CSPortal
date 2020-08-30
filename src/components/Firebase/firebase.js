@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,6 +17,7 @@ class Firebase {
   constructor() {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
+    this.functions = app.functions();
   }
 
   doCreateUserWithEmailAndPassword = (email, password) =>
@@ -30,6 +32,18 @@ class Firebase {
 
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
+
+  addMessage = () => {
+    const callableReturnMessage = this.functions.httpsCallable('returnMessage');
+
+    callableReturnMessage()
+      .then((result) => {
+        console.log(result.data.output);
+      })
+      .catch((error) => {
+        console.log(`error: ${JSON.stringify(error)}`);
+      });
+  };
 }
 
 export default Firebase;

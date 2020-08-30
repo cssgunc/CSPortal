@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withAuthorization } from '../Session';
+import { withFirebase } from '../Firebase';
 
-function Resources() {
+function Resources(props) {
+  const { firebase } = props;
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   const googleKey = process.env.REACT_APP_GOOGLE_API_KEY;
   const playlistId = 'PL8zglt-LDl-iywBxcoGUoG-Sh0_1IaoQJ';
@@ -32,6 +34,8 @@ function Resources() {
         console.log(error);
       });
   }, [airtableKey, googleKey, playlistId]);
+
+  const callFirebaseFunction = firebase.addMessage;
 
   return (
     <div>
@@ -97,10 +101,17 @@ function Resources() {
           ))}
         </div>
       </section>
+      <section className="section is-white">
+        <div className="container" />
+        hi
+        <button type="button" onClick={() => callFirebaseFunction()}>
+          call function button
+        </button>
+      </section>
     </div>
   );
 }
 
 const condition = (authUser) => authUser != null;
 
-export default withAuthorization(condition)(Resources);
+export default withFirebase(withAuthorization(condition)(Resources));
