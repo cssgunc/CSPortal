@@ -11,10 +11,9 @@ function Resources() {
 
   useEffect(() => {
     axios
-      .get(
-        `https://api.airtable.com/v0/app4bBP7ysJFDeHQk/MarriedatFirstSightStats`,
-        { headers: { Authorization: `Bearer ${airtableKey}` } },
-      )
+      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
+        headers: { Authorization: `Bearer ${airtableKey}` },
+      })
       .then((result) => {
         setData(result.data.records);
       })
@@ -49,8 +48,9 @@ function Resources() {
             <div className="card" key={user.id}>
               <header className="card-header">
                 <p className="card-content">
-                  {user.fields.Name} | Season: {user.fields.Season} | Location:{' '}
-                  {user.fields.Location} | Status: {user.fields.Status}
+                  <strong>{user.fields.Title}</strong>
+                  <br />
+                  {user.fields.Content}
                 </p>
               </header>
             </div>
