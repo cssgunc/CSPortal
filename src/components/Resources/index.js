@@ -23,16 +23,29 @@ function Resources(props) {
         console.log(error);
       });
 
+    // CLOUD FUNCTIONS:
+    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(
-        `https://www.googleapis.com/youtube/v3/playlistItems?key=${googleKey}&part=snippet&playlistId=${playlistId}&maxResults=50`,
-      )
+      .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getWebinars`)
       .then((result) => {
-        setWebinars(result.data.items);
+        setWebinars(result.data.message.items);
+        console.log(result);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    // NORMAL WAY:
+    // axios
+    //   .get(
+    //     `https://www.googleapis.com/youtube/v3/playlistItems?key=${googleKey}&part=snippet&playlistId=${playlistId}&maxResults=50`,
+    //   )
+    //   .then((result) => {
+    //     setWebinars(result.data.items);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }, [airtableKey, googleKey, playlistId]);
 
   const callFirebaseFunction = firebase.addMessage;
