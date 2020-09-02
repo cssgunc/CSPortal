@@ -12,24 +12,37 @@ function Resources(props) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    // CLOUD FUNCTIONS WAY:
+    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
+      .get(
+        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getAnnouncements`,
+      )
       .then((result) => {
-        setData(result.data.records);
+        setData(result.data.message.records);
       })
       .catch((error) => {
         console.log(error);
       });
 
-    // CLOUD FUNCTIONS:
+    // NORMAL WAY:
+    // axios
+    //   .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
+    //     headers: { Authorization: `Bearer ${airtableKey}` },
+    //   })
+    //   .then((result) => {
+    //     setData(result.data.records);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    // CLOUD FUNCTIONS WAY:
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
       .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getWebinars`)
       .then((result) => {
         setWebinars(result.data.message.items);
-        console.log(result);
       })
       .catch((error) => {
         console.log(error);
@@ -113,13 +126,6 @@ function Resources(props) {
             </div>
           ))}
         </div>
-      </section>
-      <section className="section is-white">
-        <div className="container" />
-        hi
-        <button type="button" onClick={() => callFirebaseFunction()}>
-          call function button
-        </button>
       </section>
     </div>
   );
