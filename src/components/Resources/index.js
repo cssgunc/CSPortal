@@ -3,8 +3,7 @@ import axios from 'axios';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
-function Resources(props) {
-  const { firebase } = props;
+function Resources() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   const googleKey = process.env.REACT_APP_GOOGLE_API_KEY;
   const playlistId = 'PL8zglt-LDl-iywBxcoGUoG-Sh0_1IaoQJ';
@@ -60,8 +59,6 @@ function Resources(props) {
     //     console.log(error);
     //   });
   }, [airtableKey, googleKey, playlistId]);
-
-  const callFirebaseFunction = firebase.addMessage;
 
   return (
     <div>

@@ -32,18 +32,6 @@ class Firebase {
 
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
-
-  addMessage = () => {
-    const callableReturnMessage = this.functions.httpsCallable('returnMessage');
-
-    callableReturnMessage()
-      .then((result) => {
-        console.log(result.data.output);
-      })
-      .catch((error) => {
-        console.log(`error: ${JSON.stringify(error)}`);
-      });
-  };
 }
 
 export default Firebase;
