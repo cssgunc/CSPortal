@@ -80,6 +80,10 @@ html {
   border-radius: 5px;
 }
 
+.navbar-dropdown {
+  border-top: none!important;
+}
+
 .view-with-top-bar {
   border-top: 17px solid;
   border-radius: 17px;

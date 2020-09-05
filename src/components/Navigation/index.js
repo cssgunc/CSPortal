@@ -34,9 +34,54 @@ const NavigationAuthYes = () => (
           >
             Home
           </Link>
-          <Link className="navbar-item" to={ROUTES.RESOURCES}>
-            Resources
-          </Link>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <Link className="navbar-item" to={ROUTES.LANDING}>
+              About Us
+            </Link>
+            <div
+              className="navbar-dropdown"
+              style={{ backgroundColor: colors.black }}
+            >
+              <Link className="navbar-item" to={ROUTES.MEETTHETEAM}>
+                Meet the Team
+              </Link>
+              <Link className="navbar-item" to={ROUTES.COMPANYPARTNERS}>
+                Company Partners
+              </Link>
+              <Link className="navbar-item" to={ROUTES.FELLOWSHIPGUIDE}>
+                Fellowship
+              </Link>
+            </div>
+          </div>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <Link className="navbar-item" to={ROUTES.RESOURCES}>
+              Resources
+            </Link>
+            <div
+              className="navbar-dropdown"
+              style={{ backgroundColor: colors.black }}
+            >
+              <Link className="navbar-item" to={ROUTES.OPPORTUNITIES}>
+                Opportunities
+              </Link>
+              <Link className="navbar-item" to={ROUTES.WEBINARS}>
+                Webinars
+              </Link>
+              <Link className="navbar-item" to={ROUTES.EVENTS}>
+                Events
+              </Link>
+              <Link className="navbar-item" to={ROUTES.COMMUNITIES}>
+                Communities
+              </Link>
+              <Link className="navbar-item" to={ROUTES.MENTORSHIP}>
+                Mentorship
+              </Link>
+              <hr className="navbar-divider" />
+              <Link className="navbar-item" to={ROUTES.CONTACTUS}>
+                Contact Us
+              </Link>
+            </div>
+          </div>
           <Link className="navbar-item" to={ROUTES.DIRECTORY}>
             Directory
           </Link>
