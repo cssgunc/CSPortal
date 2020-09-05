@@ -22,6 +22,7 @@ function Landing() {
         console.log(error);
       });
   }, [airtableKey]);
+
   return (
     <div>
       <section className="section is-white">
