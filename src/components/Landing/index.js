@@ -1,13 +1,47 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'bulma/css/bulma.css';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
 
 function Landing() {
+  const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+  const [announcements, setAnnouncements] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
+        headers: { Authorization: `Bearer ${airtableKey}` },
+      })
+      .then((result) => {
+        setAnnouncements(result.data.records);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [airtableKey]);
   return (
     <div>
+      <section className="section is-white">
+        <div className="container">
+          <ViewWithTopBorder>
+            <Heading>Announcements:</Heading>
+            {announcements.slice(0, 10).map((user) => (
+              <div className="card" key={user.id}>
+                <header className="card-header">
+                  <p className="card-content">
+                    <strong>{user.fields.Title}</strong>
+                    <br />
+                    {user.fields.Content}
+                  </p>
+                </header>
+              </div>
+            ))}
+          </ViewWithTopBorder>
+        </div>
+      </section>
       <section className="section is-white">
         <div className="container">
           <ViewWithTopBorder>
