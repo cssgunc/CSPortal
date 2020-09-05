@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
+import { withFirebase } from '../Firebase';
+import { AuthUserContext } from '../Session';
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
@@ -10,10 +13,15 @@ import AdminPage from '../Admin';
 import Directory from '../Directory';
 import Refer from '../Refer';
 import Resources from '../Resources';
-import * as ROUTES from '../../constants/routes';
-
-import { withFirebase } from '../Firebase';
-import { AuthUserContext } from '../Session';
+import Opportunities from '../Opportunities';
+import Webinars from '../Webinars';
+import Events from '../Events';
+import CompanyPartners from '../CompanyPartners';
+import ContactUs from '../ContactUs';
+import Communities from '../Communities';
+import MeetTheTeam from '../MeetTheTeam';
+import Mentorship from '../Mentorship';
+import FellowshipGuide from '../FellowshipGuide';
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
@@ -42,6 +50,15 @@ function App(props) {
           <Route path={ROUTES.DIRECTORY} component={Directory} />
           <Route path={ROUTES.RESOURCES} component={Resources} />
           <Route path={ROUTES.REFER} component={Refer} />
+          <Route path={ROUTES.OPPORTUNITIES} component={Opportunities} />
+          <Route path={ROUTES.WEBINARS} component={Webinars} />
+          <Route path={ROUTES.EVENTS} component={Events} />
+          <Route path={ROUTES.COMPANYPARTNERS} component={CompanyPartners} />
+          <Route path={ROUTES.CONTACTUS} component={ContactUs} />
+          <Route path={ROUTES.COMMUNITIES} component={Communities} />
+          <Route path={ROUTES.MEETTHETEAM} component={MeetTheTeam} />
+          <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
+          <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
         </div>
       </Router>
     </AuthUserContext.Provider>
