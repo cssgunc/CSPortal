@@ -6,18 +6,28 @@ import { SignUpLink } from '../SignUp';
 
 import * as ROUTES from '../../constants/routes';
 
-const SignInPage = () => (
-  <div>
-    <section className="section is-gray">
-      <div className="card sign-form">
-        <div className="card-content">
-          <SignInForm />
-          <SignUpLink />
+const SignInPage = () => {
+  const styles = {
+    form: {
+      width: '50%',
+      margin: 'auto',
+      minWidth: '300px',
+    },
+  };
+
+  return (
+    <div>
+      <section className="section is-gray">
+        <div className="card" style={styles.form}>
+          <div className="card-content">
+            <SignInForm />
+            <SignUpLink />
+          </div>
         </div>
-      </div>
-    </section>
-  </div>
-);
+      </section>
+    </div>
+  );
+};
 
 function SignInFormBase(props) {
   const [email, setEmail] = useState('');

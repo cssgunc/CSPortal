@@ -24,6 +24,12 @@ function Landing() {
       });
   }, [airtableKey]);
 
+  const styles = {
+    view: {
+      padding: '25px',
+    },
+  };
+
   // PLEASE READ:
   // to access the data for all the announcements, use the 'announcements' variable initialized above.
   // check out the structure of the data in your browser's console (in the developer tools).
@@ -75,10 +81,7 @@ function Landing() {
       </section>
       <section className="section is-white">
         <div className="container">
-          <ViewWithTopBorder
-            color={colors.darkBlue}
-            styles={{ padding: '25px' }}
-          >
+          <ViewWithTopBorder color={colors.darkBlue} style={styles.view}>
             <Heading>Authenticated through Firebase</Heading>
             <ul className="list">
               <li className="list-item">
