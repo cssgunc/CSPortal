@@ -18,6 +18,15 @@ class Firebase {
     this.auth = app.auth();
   }
 
+  // PLEASE READ:
+  // add conditions so only user already in Directory can sign up below
+  // the list of allowed emails can be accessed in the Airtable database:
+  // https://airtable.com/invite/l?inviteId=invUlo8HaLCbPq2ZC&inviteToken=1be33a9d46def5811f63b756c370cbdec080b3d799521b6bc1ac99abb63d37a6
+  // checkout Landing > index.js for an example on how you can fetch the emails or you can use cloud functions (checkout the "cloudfunctions" branch)
+  // here's how you can access the different fields in the database
+  // (you need click the above link first and log into/create an account with Airtable before you can access this link):
+  // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:directory
+
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
 
