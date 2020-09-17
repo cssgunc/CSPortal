@@ -7,10 +7,9 @@ function Events() {
   return (
     <div>
       <ViewWithTopBorder>
-      <section className="section is-white">
+      <section>
         <Heading>Calendar</Heading>
       </section>
-      
       <div>
       <iframe
               title="RTCDirectoryAirtableView"
