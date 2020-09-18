@@ -6,6 +6,7 @@ import axios from 'axios';
 import {Calendar, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { format } from 'prettier';
 
 function Events() {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -27,6 +28,16 @@ function Events() {
       });
   }, [apiKey, calendarId]);
 
+  // Formats events to suit React BigCalendar event objects
+  const formattedEvents = events.map(obj => {
+    return {
+    title: obj.summary,
+    start: new Date(obj.start.dateTime.slice(0, 19)),
+    end: new Date(obj.end.dateTime.slice(0, 19)),
+    allDay: false,
+    resource: null,
+  }});
+
   return (
     <div>
       <ViewWithTopBorder>
@@ -36,9 +47,10 @@ function Events() {
       <div>
         <Calendar
           localizer = {localizer}
-          // TODO: FORMAT events for BigCalendar
-          // TODO: Use another Calendar framework that includes description + time too
-          events={events}
+          // TODO: Use another Calendar framework that includes description too
+          // or sift through BigCalendar docs/look deeper into resource attribute
+          // to see if description can be put there
+          events={formattedEvents}
           style={{height: 500}}
         />
       </div>
