@@ -31,29 +31,28 @@ class Firebase {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:directory
 
   //Gets array of emails from airtable
-  getEmails() {
-    return axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      }).then((response) => {
-        return response.data.records.map((x) => x.fields.Email);
-      }).catch((error) => {
-        console.log(error);
-      });
+  async getEmails() {
+    try {
+      const response = await axios
+        .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`, {
+          headers: { Authorization: `Bearer ${airtableKey}` },
+        });
+      return response.data.records.map((x) => x.fields.Email);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   //only signs user up if provided email is in rtc directory
-  //SURELY there must be a less disgusting way to do this. please lmk.
-  doCreateUserWithEmailAndPassword = (email, password) => {
-    return this.getEmails().then((val) => {
-      if (val.includes(email)) {
-        return this.auth.createUserWithEmailAndPassword(email, password).catch(error => {
-          return Promise.reject(new Error(error.message));
-        });
-      } else {
-        return Promise.reject(new Error("The provided email is not in the RTC directory."));
-      }
-    });
+  doCreateUserWithEmailAndPassword = async (email, password) => {
+    const val = await this.getEmails();
+    if (val.includes(email)) {
+      return this.auth.createUserWithEmailAndPassword(email, password);
+    }
+    else {
+      return Promise.reject(new Error("The provided email is not in the RTC directory."));
+    }
   }
 
   doSignInWithEmailAndPassword = (email, password) =>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
-import { SignUpLink } from '../SignUp';
+import { SignUpPasswordResetLink } from '../SignUp';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -21,7 +21,7 @@ const SignInPage = () => {
         <div className="card" style={styles.form}>
           <div className="card-content">
             <SignInForm />
-            <SignUpLink />
+            <SignUpPasswordResetLink />
           </div>
         </div>
       </section>
