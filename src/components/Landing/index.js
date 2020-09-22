@@ -44,6 +44,14 @@ function Landing() {
     <div>
       <section className="section is-white">
         <div className="container">
+          <ViewWithTopBorder color={colors.green}>
+            <Heading>Calendar</Heading>
+            
+          </ViewWithTopBorder>
+        </div>
+      </section>
+      <section className="section is-white">
+        <div className="container">
           <ViewWithTopBorder>
             <Heading>Announcements:</Heading>
             {announcements.slice(0, 10).map((user) => (
