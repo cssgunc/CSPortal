@@ -5,8 +5,8 @@ import 'bulma/css/bulma.css';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import BigCalendar from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 function Landing() {
@@ -17,8 +17,16 @@ function Landing() {
   // all the announcements data is stored here
   const [announcements, setAnnouncements] = useState([]);
   const [events, setEvents] = useState([]);
+  const calLocalizer = momentLocalizer(moment);
+  const formattedEvents = events.map(obj => {
+    return {
+    title: obj.summary,
+    start: new Date(obj.start.dateTime.slice(0, 19)),
+    end: new Date(obj.end.dateTime.slice(0, 19)),
+    allDay: false,
+    resource: null,
+  }});
 
-  BigCalendar.momentLocalizer(moment);
 
   useEffect(() => {
     axios
@@ -70,7 +78,13 @@ function Landing() {
         <div className="container">
           <ViewWithTopBorder color={colors.green}>
             <Heading>Calendar</Heading>
-              <BigCalendar />
+              <Calendar 
+              calLocalizer = {calLocalizer}
+              events = {events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{height: 500}} />
+              
           </ViewWithTopBorder>
         </div>
       </section>
