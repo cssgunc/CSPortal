@@ -5,7 +5,7 @@ import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import axios from 'axios';
 import {Calendar, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { format } from 'prettier';
 
 function Events() {
