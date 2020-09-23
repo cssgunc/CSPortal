@@ -5,11 +5,20 @@ import 'bulma/css/bulma.css';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
+import moment from 'moment';
+import BigCalendar from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 function Landing() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+  const calendarId = "rewritingthecode.org_kfhaeluivti168r0cbn5hj40qs@group.calendar.google.com";
+  
   // all the announcements data is stored here
   const [announcements, setAnnouncements] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  BigCalendar.momentLocalizer(moment);
 
   useEffect(() => {
     axios
@@ -23,6 +32,21 @@ function Landing() {
         console.log(error);
       });
   }, [airtableKey]);
+
+  useEffect(() => {
+    axios 
+      .get(
+        `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`,
+      )
+      .then((result) => {
+        setEvents(result.data.items);
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [apiKey, calendarId]);
+
 
   const styles = {
     view: {
@@ -46,7 +70,7 @@ function Landing() {
         <div className="container">
           <ViewWithTopBorder color={colors.green}>
             <Heading>Calendar</Heading>
-            
+              <BigCalendar />
           </ViewWithTopBorder>
         </div>
       </section>
