@@ -18,14 +18,6 @@ function Landing() {
   const [announcements, setAnnouncements] = useState([]);
   const [events, setEvents] = useState([]);
   const calLocalizer = momentLocalizer(moment);
-  const formattedEvents = events.map(obj => {
-    return {
-    title: obj.summary,
-    start: new Date(obj.start.dateTime.slice(0, 19)),
-    end: new Date(obj.end.dateTime.slice(0, 19)),
-    allDay: false,
-    resource: null,
-  }});
 
 
   useEffect(() => {
