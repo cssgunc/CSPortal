@@ -6,7 +6,8 @@ import axios from 'axios';
 import {Calendar, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { format } from 'prettier';
+import colors from '../../constants/RTCColors';
+
 
 function Events() {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -38,20 +39,32 @@ function Events() {
     resource: null,
   }});
 
+  // Edit styling for events in Calendar
+  function eventStyleCreator (event, start, end, isSelected) {
+    var style = {
+        backgroundColor: '#CADDD1', // Light green from Figma calendar
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        display: 'block'
+    };
+    return {
+        style: style
+    };
+}
+
   return (
     <div>
-      <ViewWithTopBorder>
+      <ViewWithTopBorder color = {colors.green}>
       <section>
         <Heading>Calendar</Heading>
       </section>
       <div>
         <Calendar
           localizer = {localizer}
-          // TODO: Use another Calendar framework that includes description too
-          // or sift through BigCalendar docs/look deeper into resource attribute
-          // to see if description can be put there
           events={formattedEvents}
-          style={{height: 500}}
+          style={{height: 650}}
+          eventPropGetter={eventStyleCreator}
         />
       </div>
       </ViewWithTopBorder>
