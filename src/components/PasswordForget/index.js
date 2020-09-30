@@ -14,6 +14,9 @@ const styles = {
   link: {
     textAlign: 'center',
   },
+  button: {
+    margin: '0 0 0 10px',
+  },
 };
 
 const PasswordForgetPage = () => {
@@ -33,13 +36,15 @@ const PasswordForgetPage = () => {
 function PasswordForgetFormBase(props) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
+  const [sent, setSent] = useState(false);
 
   const onSubmit = (event) => {
     props.firebase
       .doPasswordReset(email)
       .then(() => {
+        setEmail('');
         setError('');
-        // props.history.push(ROUTES.SIGN_IN);
+        setSent(true);
       })
       .catch((e) => {
         setError(e);
@@ -77,10 +82,16 @@ function PasswordForgetFormBase(props) {
           <button className="button is-link" disabled={isInvalid} type="submit">
             Send Reset Email
           </button>
+          { sent ? <button className="button is-link" style={styles.button} onClick={() => props.history.push(ROUTES.SIGN_IN)}>
+            Sign In
+          </button> : null }
+          
         </div>
       </div>
 
       {error && <p>{error.message}</p>}
+
+      {sent ? <p>Please check your email!</p> : null}
     </form>
   );
 }
@@ -88,5 +99,3 @@ function PasswordForgetFormBase(props) {
 const PasswordForgetForm = withRouter(withFirebase(PasswordForgetFormBase));
 
 export default PasswordForgetPage;
-
-export { PasswordForgetForm };
