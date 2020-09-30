@@ -48,9 +48,12 @@ class Firebase {
   doCreateUserWithEmailAndPassword = async (email, password) => {
     const val = await this.getEmails();
     if (val.includes(email)) {
-      return this.auth.createUserWithEmailAndPassword(email, password);
-    }
-    else {
+      return this.auth.createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        this.auth.currentUser.sendEmailVerification();
+        this.auth.signOut();
+      });
+    } else {
       return Promise.reject(new Error("The provided email is not in the RTC directory."));
     }
   }

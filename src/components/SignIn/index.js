@@ -41,7 +41,12 @@ function SignInFormBase(props) {
         setEmail('');
         setPassword('');
         setError(null);
-        props.history.push(ROUTES.LANDING);
+        if (props.firebase.auth.currentUser.emailVerified) {
+          props.history.push(ROUTES.LANDING);
+        } else {
+          props.firebase.doSignOut();
+          props.history.push(ROUTES.VERIFY);
+        }
       })
       .catch((e) => {
         setError(e);

@@ -22,6 +22,7 @@ import Communities from '../Communities';
 import MeetTheTeam from '../MeetTheTeam';
 import Mentorship from '../Mentorship';
 import FellowshipGuide from '../FellowshipGuide';
+import VerifyPage from '../Verify';
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
@@ -43,6 +44,7 @@ function App(props) {
         <div className="App">
           <Route exact path={ROUTES.LANDING} component={LandingPage} />
           <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.VERIFY} component={VerifyPage} />
           <Route path={ROUTES.SIGN_IN} component={SignInPage} />
           <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
