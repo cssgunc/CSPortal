@@ -9,7 +9,6 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'font-awesome/css/font-awesome.min.css';
-import './index.css';
 
 function Landing() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -39,8 +38,28 @@ function Landing() {
     view: {
       padding: "25px",
     },
+
+    oppsSize: {
+      height: "365px",
+    },
+
+    oppsHeader: {
+      display: "flex",
+      justifyContent: "space-between", 
+      fontSize: "30px"
+    },
+
+    oppsLineHeight: {
+      lineHeight: "30px"
+    },
+
+    oppsNav: {
+      fontSize: "20px", 
+      paddingRight: "20px"
+    },
   };
 
+  //To implement calendar 
   useEffect(() => {
     axios
       .get(
@@ -98,17 +117,17 @@ function Landing() {
             <ViewWithTopBorder color={colors.green}>
               <Heading>Calendar</Heading>
               <Calendar
-                localizer={localizer}
-                events={formattedEvents}
+                localizer={ localizer }
+                events={ formattedEvents }
                 style={{ height: 650 }}
-                eventPropGetter={eventStyleCreator}
+                eventPropGetter={ eventStyleCreator }
               />
             </ViewWithTopBorder>
           </div>
           <div className="column is-6">
             <div className="columns is-variable is-6">
               <div className="column">
-                <ViewWithTopBorder color={colors.darkBlue}>
+                <ViewWithTopBorder style={styles.oppsSize} color={colors.darkBlue}>
                   <Heading>Announcements</Heading>
                   {announcements.slice(0, 10).map((user) => (
                     <div className="card" key={user.id}>
@@ -126,10 +145,10 @@ function Landing() {
             </div>
             <div className="columns is-variable is-6">
               <div className="column">
-                <ViewWithTopBorder color={colors.limeGreen}>
-                <div style={{display: "flex", justifyContent: "space-between", fontSize: "30px"}}><div><Heading>Opportunities</Heading></div>
-                <div style={{lineHeight: "30px"}}>
-                <a style={{fontSize: "20px", paddingRight: "20px"}}>See All</a>
+                <ViewWithTopBorder style={styles.oppsSize} color={colors.limeGreen}>
+                <div style={styles.oppsHeader}><div><Heading>Opportunities</Heading></div>
+                <div style={styles.oppsLineHeight}>
+                <a style={styles.oppsNav}>See All</a>
                 <a><span className="icon"><i className="fa fa-angle-left" aria-hidden="true"></i></span></a>
                 <a><span className="icon"><i className="fa fa-angle-right" aria-hidden="true"></i></span></a></div>
                 </div>
