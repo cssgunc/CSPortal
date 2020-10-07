@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withAuthorization } from "../Session";
 import Heading from "../General/Heading";
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
+
 
 function CompanyPartners() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -34,7 +36,6 @@ function CompanyPartners() {
 
   const formattedCompanies = companies.map((company) => {
     return {
-      // Logo -> Name -> Description -> Opportunities
       logo: company.fields.Logo[0].thumbnails.full.url,
       name: company.fields.Name,
       description: company.fields.Description,
@@ -42,40 +43,35 @@ function CompanyPartners() {
   });
   console.log(formattedCompanies);
 
+  const boxStyle = {
+    width: "200px",
+    height: "200px"
+  }
+
   return (
     <div>
       <section className="section is-white">
         <Heading>Company Partners</Heading>
       </section>
       <section className="section">
-        {/* <body>
-            {formattedCompanies.map(obj => (
-              <li>
-                {obj.name} - {obj.description}
-              </li>
-            ))}
-          </body> */}
-          
-        {formattedCompanies.map((obj) => (
-          <div className="box">
-            <article className="media">
-              <div className="media-left is-vcentered">
-                <figure className="image is-128x128">
-                <img src={obj.logo} alt={obj.name + " Logo"}></img>
-                </figure>
-              </div>
-              <div className="media-content">
-                <div className="content">
-                    <div className="title">
-                      <strong>{obj.name}</strong>
-                    </div>
-                    <br></br>
-                    {obj.description}
+      <ViewWithTopBorder>
+        <div class="container">
+          <div class="content">
+            <div class="columns is-multiline">
+              {formattedCompanies.map((company) => (
+                <div class="column">
+                  <div class="box" style={boxStyle}>
+                    <figure class="is-128x128">
+                      <img src={company.logo} alt={company.name} Logo></img>
+                    </figure>
+                    <div class="subtitle">{company.name}</div>
+                  </div>
                 </div>
-              </div>
-            </article>
+              ))}
+            </div>
           </div>
-        ))}
+        </div>
+      </ViewWithTopBorder>
       </section>
     </div>
   );
