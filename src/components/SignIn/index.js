@@ -41,12 +41,15 @@ function SignInFormBase(props) {
         setEmail('');
         setPassword('');
         setError(null);
-        if (props.firebase.auth.currentUser.emailVerified) {
-          props.history.push(ROUTES.LANDING);
-        } else {
-          props.firebase.doSignOut();
-          props.history.push(ROUTES.VERIFY);
-        }
+
+        props.history.push(ROUTES.LANDING);
+        // TODO: delete line above and uncomment these to force email verification
+        // if (props.firebase.auth.currentUser.emailVerified) {
+        //   props.history.push(ROUTES.LANDING);
+        // } else {
+        //   props.firebase.doSignOut();
+        //   props.history.push(ROUTES.VERIFY);
+        // }
       })
       .catch((e) => {
         setError(e);
