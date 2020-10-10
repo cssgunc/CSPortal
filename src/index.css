@@ -29,10 +29,8 @@ html {
   text-align: left;
 }
 
-@media screen and (min-width: 1024px) {
-  .navbar-menu {
-    box-shadow: 0 8px 16px rgba(10,10,10,.1);
-  }
+.navbar-menu {
+  box-shadow: 0 8px 16px rgba(10,10,10,.1);
 }
 
 .navbar-item {
@@ -40,12 +38,16 @@ html {
 }
 
 .navbar-item:hover {
-  background-color: var(--lightBlue)!important;
-  border-radius: 5px;
+  color: var(--lightBlue)!important;
+  background-color: var(--black)!important;
 }
 
 .navbar-dropdown {
   border-top: none!important;
+}
+
+.navbar-burger:hover {
+  color: var(--lightBlue)!important;
 }
 
 * {
