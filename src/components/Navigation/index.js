@@ -61,6 +61,9 @@ const styles = {
 const NavigationAuthYes = () => {
   const [openMenu, setOpenMenu] = useState(false);
 
+  const closeMenu = () => setOpenMenu(false);
+  const toggleMenu = () => setOpenMenu(!openMenu);
+
   return (
     <div>
       <nav
@@ -77,7 +80,7 @@ const NavigationAuthYes = () => {
             className={`navbar-burger ${openMenu ? 'is-active' : ''}`}
             type="button"
             style={styles.burger}
-            onClick={() => setOpenMenu(!openMenu)}
+            onClick={toggleMenu}
             tabIndex={0}
           >
             <span aria-hidden="true" style={styles.burgerLine} />
@@ -91,64 +94,124 @@ const NavigationAuthYes = () => {
           style={styles.menu}
         >
           <div className="navbar-start" style={styles.start}>
-            <Link className="navbar-item" to={ROUTES.LANDING}>
+            <Link
+              className="navbar-item"
+              to={ROUTES.LANDING}
+              onClick={closeMenu}
+            >
               Home
             </Link>
             <div className="navbar-item has-dropdown is-hoverable">
-              <Link className="navbar-item" to={ROUTES.LANDING}>
+              <Link
+                className="navbar-item"
+                to={ROUTES.LANDING}
+                onClick={closeMenu}
+              >
                 About Us
               </Link>
               <div className="navbar-dropdown" style={styles.dropdown}>
-                <Link className="navbar-item" to={ROUTES.MEETTHETEAM}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.MEETTHETEAM}
+                  onClick={closeMenu}
+                >
                   Meet the Team
                 </Link>
-                <Link className="navbar-item" to={ROUTES.COMPANYPARTNERS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.COMPANYPARTNERS}
+                  onClick={closeMenu}
+                >
                   Company Partners
                 </Link>
-                <Link className="navbar-item" to={ROUTES.FELLOWSHIPGUIDE}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.FELLOWSHIPGUIDE}
+                  onClick={closeMenu}
+                >
                   Fellowship
                 </Link>
               </div>
             </div>
             <div className="navbar-item has-dropdown is-hoverable">
-              <Link className="navbar-item" to={ROUTES.RESOURCES}>
+              <Link
+                className="navbar-item"
+                to={ROUTES.RESOURCES}
+                onClick={closeMenu}
+              >
                 Resources
               </Link>
               <div className="navbar-dropdown" style={styles.dropdown}>
-                <Link className="navbar-item" to={ROUTES.OPPORTUNITIES}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.OPPORTUNITIES}
+                  onClick={closeMenu}
+                >
                   Opportunities
                 </Link>
-                <Link className="navbar-item" to={ROUTES.WEBINARS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.WEBINARS}
+                  onClick={closeMenu}
+                >
                   Webinars
                 </Link>
-                <Link className="navbar-item" to={ROUTES.EVENTS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.EVENTS}
+                  onClick={closeMenu}
+                >
                   Events
                 </Link>
-                <Link className="navbar-item" to={ROUTES.COMMUNITIES}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.COMMUNITIES}
+                  onClick={closeMenu}
+                >
                   Communities
                 </Link>
-                <Link className="navbar-item" to={ROUTES.MENTORSHIP}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.MENTORSHIP}
+                  onClick={closeMenu}
+                >
                   Mentorship
                 </Link>
                 <hr className="navbar-divider" />
-                <Link className="navbar-item" to={ROUTES.CONTACTUS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.CONTACTUS}
+                  onClick={closeMenu}
+                >
                   Contact Us
                 </Link>
               </div>
             </div>
-            <Link className="navbar-item" to={ROUTES.DIRECTORY}>
+            <Link
+              className="navbar-item"
+              to={ROUTES.DIRECTORY}
+              onClick={closeMenu}
+            >
               Directory
             </Link>
-            <Link className="navbar-item" to={ROUTES.ACCOUNT}>
+            <Link
+              className="navbar-item"
+              to={ROUTES.ACCOUNT}
+              onClick={closeMenu}
+            >
               Account
             </Link>
-            {/* <Link className="navbar-item" to={ROUTES.ADMIN}>
+            {/* <Link className="navbar-item" to={ROUTES.ADMIN} onClick={closeMenu}>
               Admin
             </Link> */}
           </div>
           <div className="navbar-end is-active">
             <div className="buttons">
-              <Link className="navbar-item" to={ROUTES.REFER}>
+              <Link
+                className="navbar-item"
+                to={ROUTES.REFER}
+                onClick={closeMenu}
+              >
                 <button
                   className="button is-light"
                   style={styles.lightButton}
