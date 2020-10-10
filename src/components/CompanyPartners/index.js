@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withAuthorization } from "../Session";
 import Heading from "../General/Heading";
-import ViewWithTopBorder from '../General/ViewWithTopBorder';
-
+import ViewWithTopBorder from "../General/ViewWithTopBorder";
 
 function CompanyPartners() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -43,35 +42,56 @@ function CompanyPartners() {
   });
   console.log(formattedCompanies);
 
-  const boxStyle = {
-    width: "200px",
-    height: "200px"
-  }
+  const styles = {
+    // Centers images of different aspect ratios within a portion of the box
+    imageStyle: {
+      position: "relative",
+      top: "50%",
+      transform: "translateY(-50%)",
+    },
+
+    boxStyle: {
+      width: "200px",
+      height: "200px",
+    },
+
+    figureStyle: {
+      width: "100px",
+      height: "100px",
+    },
+
+    rowStyle: {
+      height: "80%",
+    },
+  };
 
   return (
     <div>
-      <section className="section is-white">
-        <Heading>Company Partners</Heading>
-      </section>
-      <section className="section">
-      <ViewWithTopBorder>
-        <div class="container">
-          <div class="content">
-            <div class="columns is-multiline">
-              {formattedCompanies.map((company) => (
-                <div class="column">
-                  <div class="box" style={boxStyle}>
-                    <figure class="is-128x128">
-                      <img src={company.logo} alt={company.name} Logo></img>
+      <section className="column">
+        <ViewWithTopBorder>
+          <Heading>Company Partners</Heading>
+          <div class="columns is-mobile is-multiline">
+            {formattedCompanies.map((company) => (
+              <div class="column">
+                <div class="box has-text-centered" style={styles.boxStyle}>
+                  <div class="row" style={styles.rowStyle}>
+                    <figure class="is-128x128 is-inline-block" style={styles.figureStyle}>
+                      <img
+                        src={company.logo}
+                        alt={company.name}
+                        Logo
+                        style={styles.imageStyle}
+                      ></img>
                     </figure>
+                  </div>
+                  <div class="row">
                     <div class="subtitle">{company.name}</div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </div>
-      </ViewWithTopBorder>
+        </ViewWithTopBorder>
       </section>
     </div>
   );
