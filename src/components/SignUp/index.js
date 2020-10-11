@@ -41,7 +41,7 @@ function SignUpFormBase(props) {
 
   const onSubmit = (event) => {
     props.firebase
-      .doCreateUserWithEmailAndPassword(username, email, passwordOne)
+      .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(() => {
         setUsername('');
         setEmail('');
@@ -79,7 +79,7 @@ function SignUpFormBase(props) {
   return (
     <form onSubmit={onSubmit}>
       <div className="field">
-        <label className="label">Name</label>
+        <label className="label">Username</label>
         <div className="control">
           <input
             className="input"

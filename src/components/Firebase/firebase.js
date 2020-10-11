@@ -33,42 +33,32 @@ class Firebase {
   // Gets array of emails from airtable
   getEmails = async () => {
     try {
-      const response = await axios.get(
-        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`,
-        {
+      const response = await axios
+        .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`, {
           headers: { Authorization: `Bearer ${airtableKey}` },
-        },
-      );
+        });
       return response.data.records.map((x) => x.fields.Email);
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error);
     }
 
     return [];
   };
 
-  // only signs user up if provided email is in rtc directory
-  doCreateUserWithEmailAndPassword = async (username, email, password) => {
+  //only signs user up if provided email is in rtc directory
+  doCreateUserWithEmailAndPassword = async (email, password) => {
     const val = await this.getEmails();
     if (val.includes(email)) {
-      return this.auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          const user = this.auth.currentUser;
-          if (user) {
-            user
-              .updateProfile({
-                displayName: username,
-              })
-              .catch((e) => console.log(e));
-          }
-          this.auth.currentUser.sendEmailVerification();
-        });
+      return this.auth.createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        this.auth.currentUser.sendEmailVerification();
+        this.auth.signOut();
+      });
+    } else {
+      return Promise.reject(new Error("The provided email is not in the RTC directory."));
     }
-    return Promise.reject(
-      new Error('The provided email is not in the RTC directory.'),
-    );
-  };
+  }
 
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
