@@ -23,6 +23,7 @@ import MeetTheTeam from '../MeetTheTeam';
 import Mentorship from '../Mentorship';
 import FellowshipGuide from '../FellowshipGuide';
 import VerifyPage from '../Verify';
+import Footer from '../Footer';
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
@@ -37,11 +38,18 @@ function App(props) {
     };
   });
 
+  const styles = {
+    app: {
+      textAlign: 'left',
+      paddingBottom: '75px',
+    },
+  };
+
   return (
     <AuthUserContext.Provider value={authUser}>
       <Router>
         <Navigation />
-        <div className="App">
+        <div className="App" style={styles.app}>
           <Route exact path={ROUTES.LANDING} component={LandingPage} />
           <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
           <Route path={ROUTES.VERIFY} component={VerifyPage} />
@@ -62,6 +70,7 @@ function App(props) {
           <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
           <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
         </div>
+        <Footer />
       </Router>
     </AuthUserContext.Provider>
   );
