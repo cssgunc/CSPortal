@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
+import ProfileIcon from '../ProfileIcon';
 import colors from '../../constants/RTCColors';
 import logo from '../../constants/RTC_Color_Logo.png';
 
@@ -23,21 +24,23 @@ const styles = {
   burger: {
     height: '100%',
     color: colors.white,
-    marginRight: '12px',
     backgroundColor: colors.black,
     border: 'none',
   },
   burgerLine: {
     width: '20px',
   },
+  button: {
+    marginBottom: 0,
+  },
   dropdown: {
     backgroundColor: colors.black,
   },
   menu: {
-    padding: '0px 0px 0px 13px',
+    padding: '0px 13px 0px 13px',
     backgroundColor: colors.black,
   },
-  start: {
+  center: {
     alignItems: 'center',
   },
   lightButton: {
@@ -52,7 +55,6 @@ const styles = {
     height: '100%',
   },
   signInButton: {
-    marginBottom: '0',
     backgroundColor: colors.green,
     color: colors.white,
   },
@@ -93,7 +95,7 @@ const NavigationAuthYes = () => {
           className={`navbar-menu ${openMenu ? 'is-active' : ''}`}
           style={styles.menu}
         >
-          <div className="navbar-start" style={styles.start}>
+          <div className="navbar-start" style={styles.center}>
             <Link
               className="navbar-item"
               to={ROUTES.LANDING}
@@ -195,7 +197,7 @@ const NavigationAuthYes = () => {
               Directory
             </Link>
             <Link
-              className="navbar-item"
+              className="navbar-item is-hidden-desktop"
               to={ROUTES.ACCOUNT}
               onClick={closeMenu}
             >
@@ -205,8 +207,8 @@ const NavigationAuthYes = () => {
               Admin
             </Link> */}
           </div>
-          <div className="navbar-end is-active">
-            <div className="buttons">
+          <div className="navbar-end is-active" style={styles.center}>
+            <div className="buttons" style={styles.button}>
               <Link
                 className="navbar-item"
                 to={ROUTES.REFER}
@@ -214,16 +216,38 @@ const NavigationAuthYes = () => {
               >
                 <button
                   className="button is-light"
-                  style={styles.lightButton}
+                  style={{ ...styles.lightButton, ...styles.button }}
                   type="button"
                 >
                   Refer
                 </button>
               </Link>
-              <div className="navbar-item">
+              <div className="navbar-item is-hidden-desktop">
                 <SignOutButton />
               </div>
             </div>
+            <button
+              className="navbar-item has-dropdown is-hoverable"
+              style={styles.burger}
+              type="button"
+            >
+              <ProfileIcon />
+              <div
+                className="navbar-dropdown is-right is-hidden-touch"
+                style={styles.dropdown}
+              >
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.ACCOUNT}
+                  onClick={closeMenu}
+                >
+                  Account
+                </Link>
+                <div className="navbar-item">
+                  <SignOutButton />
+                </div>
+              </div>
+            </button>
           </div>
         </div>
       </nav>
@@ -252,7 +276,7 @@ const NavigationAuthNo = () => {
               <Link
                 className="button is-light"
                 to={ROUTES.SIGN_IN}
-                style={styles.signInButton}
+                style={{ ...styles.signInButton, ...styles.button }}
               >
                 Sign In
               </Link>
