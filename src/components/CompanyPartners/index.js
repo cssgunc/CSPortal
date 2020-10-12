@@ -65,8 +65,8 @@ function CompanyPartners() {
 
   return (
     <div>
-      <section className="column">
-        <ViewWithTopBorder>
+      <section className="column" style={{height:"100vh"}}>
+        <ViewWithTopBorder style={{minHeight:"100%"}}>
           <Heading>Company Partners</Heading>
           <div className="columns is-mobile is-multiline">
             {formattedCompanies.map((company) => (
