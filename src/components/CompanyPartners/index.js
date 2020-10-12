@@ -16,7 +16,6 @@ function CompanyPartners() {
       })
       .then((result) => {
         setCompanies(result.data.records);
-        console.log(result.data.records);
       })
       .catch((error) => {
         console.log(error);
@@ -40,7 +39,6 @@ function CompanyPartners() {
       description: company.fields.Description,
     };
   });
-  console.log(formattedCompanies);
 
   const styles = {
     // Centers images of different aspect ratios within a portion of the box
@@ -70,22 +68,21 @@ function CompanyPartners() {
       <section className="column">
         <ViewWithTopBorder>
           <Heading>Company Partners</Heading>
-          <div class="columns is-mobile is-multiline">
+          <div className="columns is-mobile is-multiline">
             {formattedCompanies.map((company) => (
-              <div class="column">
-                <div class="box has-text-centered" style={styles.boxStyle}>
-                  <div class="row" style={styles.rowStyle}>
-                    <figure class="is-128x128 is-inline-block" style={styles.figureStyle}>
+              <div className="column" key={company.name}>
+                <div className="box has-text-centered" style={styles.boxStyle}>
+                  <div className="row" style={styles.rowStyle}>
+                    <figure className="is-128x128 is-inline-block" style={styles.figureStyle}>
                       <img
                         src={company.logo}
-                        alt={company.name}
-                        Logo
+                        alt={company.name  + " Logo"}
                         style={styles.imageStyle}
                       ></img>
                     </figure>
                   </div>
-                  <div class="row">
-                    <div class="subtitle">{company.name}</div>
+                  <div className="row">
+                    <div className="subtitle">{company.name}</div>
                   </div>
                 </div>
               </div>
