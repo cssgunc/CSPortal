@@ -5,12 +5,12 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const styles = {
-    form: {
-      width: '50%',
-      margin: 'auto',
-      minWidth: '300px',
-    },
-  };
+  form: {
+    width: '50%',
+    margin: 'auto',
+    minWidth: '300px',
+  },
+};
 
 const VerifyPage = () => {
   return (
@@ -28,14 +28,19 @@ const VerifyPage = () => {
 
 function VerifyPageForm(props) {
   return (
+    <div>
+      <p>Please verify your email!</p>
+      <br />
       <div>
-          <p>Please verify your email!</p>
-          <br />
-            <div>
-                <button className="button is-link" onClick={() => props.history.push(ROUTES.SIGN_IN)}>Sign In</button>
-            </div>
+        <button
+          className="button is-link"
+          onClick={() => props.history.push(ROUTES.SIGN_IN)}
+          type="button"
+        >
+          Sign In
+        </button>
       </div>
-
+    </div>
   );
 }
 

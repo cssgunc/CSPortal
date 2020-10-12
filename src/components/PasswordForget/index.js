@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
@@ -53,13 +54,11 @@ function PasswordForgetFormBase(props) {
     event.preventDefault();
   };
 
-
   const onChangeEmail = (event) => {
     setEmail(event.target.value);
   };
 
-  const isInvalid =
-    email === ''
+  const isInvalid = email === '';
 
   return (
     <form onSubmit={onSubmit}>
@@ -82,10 +81,16 @@ function PasswordForgetFormBase(props) {
           <button className="button is-link" disabled={isInvalid} type="submit">
             Send Reset Email
           </button>
-          { sent ? <button className="button is-link" style={styles.button} onClick={() => props.history.push(ROUTES.SIGN_IN)}>
-            Sign In
-          </button> : null }
-          
+          {sent ? (
+            <button
+              className="button is-link"
+              style={styles.button}
+              onClick={() => props.history.push(ROUTES.SIGN_IN)}
+              type="button"
+            >
+              Sign In
+            </button>
+          ) : null}
         </div>
       </div>
 
