@@ -51,6 +51,8 @@ function CompanyPartners() {
     boxStyle: {
       width: "200px",
       height: "200px",
+      marginLeft: "auto", 
+      marginRight: "auto",
     },
 
     figureStyle: {
