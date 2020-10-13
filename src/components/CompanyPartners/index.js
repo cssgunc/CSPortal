@@ -61,12 +61,20 @@ function CompanyPartners() {
     rowStyle: {
       height: "80%",
     },
+
+    columnStyle: {
+      height: "100vh",
+    },
+
+    topBorderStyle: {
+      minHeight: "100%",
+    }
   };
 
   return (
     <div>
-      <section className="column" style={{height:"100vh"}}>
-        <ViewWithTopBorder style={{minHeight:"100%"}}>
+      <section className="column" style={styles.columnStyle}>
+        <ViewWithTopBorder style={styles.topBorderStyle}>
           <Heading>Company Partners</Heading>
           <div className="columns is-mobile is-multiline">
             {formattedCompanies.map((company) => (
