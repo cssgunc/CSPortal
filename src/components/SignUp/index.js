@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
-// import axios from 'axios';
+import colors from '../../constants/RTCColors';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -13,8 +13,14 @@ const styles = {
     margin: 'auto',
     minWidth: '300px',
   },
-  link: {
+  linkContainer: {
     textAlign: 'center',
+    color: colors.mediumGray,
+    marginTop: '40px',
+  },
+  link: {
+    color: colors.gray,
+    textDecoration: 'underline',
   },
 };
 
@@ -149,14 +155,15 @@ function SignUpFormBase(props) {
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
-const SignUpPasswordResetLink = () => (
-  <div style={styles.link}>
-    <Link to={ROUTES.PASSWORD_FORGET}>Forgot password?</Link>
-    <br />
-    Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+const SignUpLink = () => (
+  <div style={styles.linkContainer}>
+    Don't have an account?{' '}
+    <Link to={ROUTES.SIGN_UP} style={styles.link}>
+      Sign Up
+    </Link>
   </div>
 );
 
 export default SignUpPage;
 
-export { SignUpForm, SignUpPasswordResetLink };
+export { SignUpForm, SignUpLink };
