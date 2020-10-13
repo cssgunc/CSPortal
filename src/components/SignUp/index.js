@@ -8,10 +8,21 @@ import colors from '../../constants/RTCColors';
 import * as ROUTES from '../../constants/routes';
 
 const styles = {
-  form: {
+  formContainer: {
     width: '50%',
     margin: 'auto',
     minWidth: '300px',
+    boxShadow: 'none',
+  },
+  formSection: {
+    backgroundColor: colors.white,
+    position: 'absolute',
+    top: '0',
+    bottom: '0',
+    width: '100%',
+    display: 'flex',
+    paddingTop: '100px',
+    overflow: 'auto',
   },
   linkContainer: {
     textAlign: 'center',
@@ -22,19 +33,42 @@ const styles = {
     color: colors.gray,
     textDecoration: 'underline',
   },
+  signUpButton: {
+    backgroundColor: colors.lightBlue,
+    color: colors.white,
+    marginBottom: '10px',
+  },
+  input: {
+    borderRadius: '0px',
+    border: 'none',
+    boxShadow: 'none',
+    borderBottom: `2px solid ${colors.mediumGray}`,
+    paddingLeft: '0px',
+    marginBottom: '40px',
+    marginTop: '0px',
+  },
+  signInButton: {
+    backgroundColor: colors.lightBlue,
+    color: colors.white,
+    marginBottom: '10px',
+  },
+  form: {
+    maxWidth: '350px',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    textAlign: 'center',
+  },
 };
 
 const SignUpPage = () => {
   return (
-    <div>
-      <section className="section is-gray">
-        <div className="card" style={styles.form}>
-          <div className="card-content">
-            <SignUpForm />
-          </div>
+    <section className="section" style={styles.formSection}>
+      <div className="card" style={styles.formContainer}>
+        <div className="card-content">
+          <SignUpForm />
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
@@ -83,9 +117,8 @@ function SignUpFormBase(props) {
     username === '';
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} style={styles.form}>
       <div className="field">
-        <label className="label">Username</label>
         <div className="control">
           <input
             className="input"
@@ -94,12 +127,12 @@ function SignUpFormBase(props) {
             onChange={onChangeUsername}
             type="text"
             placeholder="Full Name"
+            style={styles.input}
           />
         </div>
       </div>
 
       <div className="field">
-        <label className="label">Email</label>
         <div className="control">
           <input
             className="input"
@@ -108,12 +141,12 @@ function SignUpFormBase(props) {
             onChange={onChangeEmail}
             type="text"
             placeholder="Email Address"
+            style={styles.input}
           />
         </div>
       </div>
 
       <div className="field">
-        <label className="label">Password</label>
         <div className="control">
           <input
             className="input"
@@ -122,12 +155,12 @@ function SignUpFormBase(props) {
             onChange={onChangePasswordOne}
             type="password"
             placeholder="Password"
+            style={styles.input}
           />
         </div>
       </div>
 
       <div className="field">
-        <label className="label">Confirm Password</label>
         <div className="control">
           <input
             className="input"
@@ -136,18 +169,23 @@ function SignUpFormBase(props) {
             onChange={onChangePasswordTwo}
             type="password"
             placeholder="Confirm Password"
+            style={styles.input}
           />
         </div>
       </div>
 
-      <div className="field is-grouped">
+      <div className="field">
         <div className="control">
-          <button className="button is-link" disabled={isInvalid} type="submit">
+          <button
+            className="button is-link is-fullwidth"
+            disabled={isInvalid}
+            type="submit"
+            style={styles.signUpButton}
+          >
             Sign Up
           </button>
         </div>
       </div>
-
       {error && <p>{error.message}</p>}
     </form>
   );

@@ -22,6 +22,8 @@ const SignInPage = () => {
       bottom: '0',
       width: '100%',
       display: 'flex',
+      paddingTop: '120px',
+      overflow: 'auto',
     },
   };
 
