@@ -27,6 +27,16 @@ import Footer from '../Footer';
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
+  const [small, setSmall] = useState(window.innerWidth < 500);
+
+  useEffect(() => {
+    const updateWindowDimensions = () => {
+      setSmall(window.innerWidth < 500);
+    };
+
+    window.addEventListener('resize', updateWindowDimensions);
+    return () => window.removeEventListener('resize', updateWindowDimensions);
+  });
 
   useEffect(() => {
     const handle = props.firebase.auth.onAuthStateChanged((auth) =>
@@ -41,7 +51,7 @@ function App(props) {
   const styles = {
     app: {
       textAlign: 'left',
-      paddingBottom: '75px',
+      paddingBottom: small ? '125px' : '75px',
     },
   };
 
