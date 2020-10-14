@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
 
 function Webinars() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -39,6 +40,7 @@ function Webinars() {
   return (
     <div>
       <section className="section is-white">
+        <ViewWithTopBorder>
         <Heading>Webinars</Heading>
         {webinars.length === 0 ? (
           <div className="box">
@@ -71,8 +73,10 @@ function Webinars() {
             </div>
           ))
         )}
+      </ViewWithTopBorder>
       </section>
     </div>
+    
   );
 }
 
