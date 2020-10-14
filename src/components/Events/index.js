@@ -6,8 +6,8 @@ import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
 import GoogleCalendar from '../General/GoogleCalendar';
 
-
 function Events() {
+<<<<<<< HEAD
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   // stores Google Calendar ID 
   const [calendarId, setCalendarId] = useState([]);
@@ -33,6 +33,21 @@ function Events() {
         <Heading>Calendar</Heading>
       </section>
       <GoogleCalendar eventsColor = {colors.lightGreen} calendarId = {calendarId}></GoogleCalendar>
+=======
+  const calendarId =
+    'rewritingthecode.org_kfhaeluivti168r0cbn5hj40qs@group.calendar.google.com'; // RTC general calendar
+
+  return (
+    <div>
+      <ViewWithTopBorder color={colors.green}>
+        <section>
+          <Heading>Calendar</Heading>
+        </section>
+        <GoogleCalendar
+          eventsColor={colors.lightGreen}
+          calendarId={calendarId}
+        />
+>>>>>>> 765ec34fedd51d6edf5674242ebcb4334dfb3893
       </ViewWithTopBorder>
     </div>
   );
