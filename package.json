@@ -16,11 +16,7 @@
     "firebase-functions": "^3.6.2",
     "firebase-tools": "^8.9.2",
     "font-awesome": "^4.7.0",
-<<<<<<< HEAD
-    "react-horizontal-scrolling-menu": "^0.7.8",
-=======
     "react": "^16.13.1",
->>>>>>> 765ec34fedd51d6edf5674242ebcb4334dfb3893
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "react-big-calendar": "^0.28.0",
