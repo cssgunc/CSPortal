@@ -35,6 +35,7 @@ html {
 
 .navbar-item {
   color: var(--white)!important;
+  background-color: var(--black)!important;
 }
 
 .navbar-item:hover {
