@@ -5,12 +5,46 @@ import 'bulma/css/bulma.css';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
+import { send } from 'q';
+const path = require('path');
+const nodemailer = require('nodemailer');
+
+function sendMail(){
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+
+    auth: {
+        user: 'testnodemailercssg@gmail.com', // generated ethereal user
+        pass: 'Test123!'  // generated ethereal password
+    },
+    tls:{
+      rejectUnauthorized:false
+    }
+  });
+
+  // setup email data with unicode symbols
+  let mailOptions = {
+      from: '"Nodemailer Contact" <testnodemailercssg@gmail.com>', // sender address
+      to: 'calciumphosphate0@gmail.com', // list of receivers
+      subject: 'Node Contact Request', // Subject line
+      text: 'Hello world?', // plain text body
+  };
+
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);   
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+  });
+}
 
 function Landing() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   // all the announcements data is stored here
   const [announcements, setAnnouncements] = useState([]);
-
   useEffect(() => {
     axios
       .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
@@ -39,8 +73,33 @@ function Landing() {
   // here's how you can access the different fields in the database:
   // (you need click the above link first and log into/create an account with Airtable before you can access this link):
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:announcements
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
 
-  return (
+    auth: {
+        user: 'testnodemailercssg@gmail.com', // generated ethereal user
+        pass: 'Test123!'  // generated ethereal password
+    },
+
+  });
+
+  // setup email data with unicode symbols
+  let mailOptions = {
+      from: '"Nodemailer Contact" <testnodemailercssg@gmail.com>', // sender address
+      to: 'calciumphosphate0@gmail.com', // list of receivers
+      subject: 'Node Contact Request', // Subject line
+      text: 'Hello world?', // plain text body
+
+  };
+
+  // send mail with defined transport object
+   transporter.sendMail(mailOptions).then(function(response){
+     console.log("email sent");
+   })
+   .catch(function(error){
+     console.log("Error: ",error);
+   });
+    return (
     <div>
       <section className="section is-white">
         <div className="container">
@@ -64,9 +123,10 @@ function Landing() {
         <div className="container">
           <ViewWithTopBorder>
             <Heading>Deployed through Firebase</Heading>
+          
             <p>
               This test project is being hosted on Firebase right now at{' '}
-              <a href="https://rtctesting-2637c.web.app/">this link.</a> If we
+              <a href='./ContactUs/index.js'>this link.</a> If we
               want to stick with Firebase, we can add RTC's{' '}
               <a href="https://firebase.google.com/docs/hosting/custom-domain">
                 custom domain later

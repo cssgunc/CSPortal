@@ -152,7 +152,7 @@ const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 const SignUpLink = () => (
   <div style={styles.link}>
     <br />
-    Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+    Don't have an account? <Link to={ROUTES.CONTACTUS}>Sign Up</Link>
   </div>
 );
 
