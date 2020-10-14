@@ -47,6 +47,10 @@ const styles = {
     backgroundColor: colors.lightBlue,
     color: colors.white,
   },
+  profileIcon: {
+    alignItems: 'center',
+    border: 'none',
+  },
   signInBar: {
     width: '100%',
   },
@@ -228,7 +232,7 @@ const NavigationAuthYes = () => {
             </div>
             <button
               className="navbar-item has-dropdown is-hoverable"
-              style={styles.burger}
+              style={styles.profileIcon}
               type="button"
             >
               <ProfileIcon />
