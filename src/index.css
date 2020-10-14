@@ -25,16 +25,13 @@ html {
   background-color:  hsl(0, 0%, 96%)!important;
 }
 
-.App {
-  text-align: left;
-}
-
 .navbar-menu {
   box-shadow: 0 8px 16px rgba(10,10,10,.1);
 }
 
 .navbar-item {
   color: var(--white)!important;
+  background-color: var(--black)!important;
 }
 
 .navbar-item:hover {
@@ -52,4 +49,9 @@ html {
 
 * {
   font-family: 'Roboto';
+}
+
+#root {
+  position: relative;
+  min-height: 100vh;
 }

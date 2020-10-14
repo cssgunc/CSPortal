@@ -31,7 +31,7 @@ class Firebase {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:directory
 
   // Gets array of emails from airtable
-  async getEmails() {
+  getEmails = async () => {
     try {
       const response = await axios.get(
         `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`,
@@ -61,6 +61,7 @@ class Firebase {
               .catch((e) => console.log(e));
           }
           this.auth.currentUser.sendEmailVerification();
+          this.auth.signOut();
         });
     }
     return Promise.reject(
