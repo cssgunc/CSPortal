@@ -10,6 +10,7 @@ export default function ViewWithTopBorder(props) {
       padding: '19px',
       borderColor: color ?? colors.limeGreen,
       backgroundColor: colors.lightGray,
+      overflow: 'auto',
       ...style,
     },
   };
