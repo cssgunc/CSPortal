@@ -5,21 +5,16 @@ import "bulma/css/bulma.css";
 import Heading from "../General/Heading";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import colors from "../../constants/RTCColors";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'font-awesome/css/font-awesome.min.css';
+import GoogleCalendar from '../General/GoogleCalendar';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 function Landing() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-  const calendarKey = process.env.REACT_APP_GOOGLE_API_KEY;
-  const calendarId =
-    "rewritingthecode.org_kfhaeluivti168r0cbn5hj40qs@group.calendar.google.com";
+  const calendarId = "rewritingthecode.org_kfhaeluivti168r0cbn5hj40qs@group.calendar.google.com";
 
   // all the announcements data is stored here
   const [announcements, setAnnouncements] = useState([]);
-  const [events, setEvents] = useState([]);
-  const localizer = momentLocalizer(moment);
 
   useEffect(() => {
     axios
@@ -59,45 +54,21 @@ function Landing() {
     },
   };
 
-  //To implement calendar 
+  const [opportunities, setOpportunities] = useState([]);
+
   useEffect(() => {
     axios
-      .get(
-        `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${calendarKey}`
-      )
+      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Opportunities`, {
+        headers: { Authorization: `Bearer ${airtableKey}` },
+      })
       .then((result) => {
-        setEvents(result.data.items);
-        console.log(result);
+        setOpportunities(result.data.records);
+        console.log(result.data.records);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [calendarKey, calendarId]);
-
-  // Formats events to suit React BigCalendar event objects
-  const formattedEvents = events.map((obj) => {
-    return {
-      title: obj.summary,
-      start: new Date(obj.start.dateTime.slice(0, 19)),
-      end: new Date(obj.end.dateTime.slice(0, 19)),
-      allDay: false,
-      resource: null,
-    };
-  });
-
-  // Edit styling for events in Calendar
-  function eventStyleCreator(event, start, end, isSelected) {
-    var style = {
-      backgroundColor: "#CADDD1", // Light green from Figma calendar
-      borderRadius: "0px",
-      opacity: 0.8,
-      color: "black",
-      display: "block",
-    };
-    return {
-      style: style,
-    };
-  }
+  }, [airtableKey]);
 
   // PLEASE READ:
   // to access the data for all the announcements, use the 'announcements' variable initialized above.
@@ -116,12 +87,7 @@ function Landing() {
           <div className="column is-6">
             <ViewWithTopBorder color={colors.green}>
               <Heading>Calendar</Heading>
-              <Calendar
-                localizer={ localizer }
-                events={ formattedEvents }
-                style={{ height: 650 }}
-                eventPropGetter={ eventStyleCreator }
-              />
+              <GoogleCalendar eventsColor = {colors.lightGreen} calendarId = {calendarId}></GoogleCalendar>
             </ViewWithTopBorder>
           </div>
           <div className="column is-6">
@@ -143,7 +109,7 @@ function Landing() {
                 </ViewWithTopBorder>
               </div>
             </div>
-            <div className="columns is-variable is-6">
+            <div className="columns is-variable is-2">
               <div className="column">
                 <ViewWithTopBorder style={styles.oppsSize} color={colors.limeGreen}>
                 <div style={styles.oppsHeader}><div><Heading>Opportunities</Heading></div>
@@ -152,32 +118,65 @@ function Landing() {
                 <a><span className="icon"><i className="fa fa-angle-left" aria-hidden="true"></i></span></a>
                 <a><span className="icon"><i className="fa fa-angle-right" aria-hidden="true"></i></span></a></div>
                 </div>
-                <div className="tile is-ancestor">
-                  <div className="tile is-parent">
-                    <div class="tile is-child box">
-                      <p class="title is-4">Opportunity</p>
-                      <p class="subtitle is-6">image & info here</p>
-                      <figure class="image is-4by3">
-                      </figure>
-                    </div>
-                  </div>
-                  <div className="tile is-parent">
-                    <div class="tile is-child box">
-                      <p class="title is-4">Opportunity</p>
-                      <p class="subtitle is-6">image & info here</p>
-                      <figure class="image is-4by3">
-                      </figure>
-                    </div>
-                  </div>
-                  <div className="tile is-parent">
-                    <div class="tile is-child box">
-                      <p class="title is-4">Opportunity</p>
-                      <p class="subtitle is-6">image & info here</p>
-                      <figure class="image is-4by3">
-                      </figure>
+                <div className="columns is-multiline">
+            {opportunities.length === 0 ? (
+              <div className="box">
+                <div className="content">
+                  <p>
+                    <strong>No Opportunities yet! Check back later! </strong>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              opportunities.filter((role)=> role.fields.Featured).map((role) => (
+                <div className="column is-one-quarter">
+                  <div className="box" key={role.id}>
+                    <img src={role.fields.CompanyLogo[0].thumbnails.small.url}alt="Logo"></img>
+                    <div className="content">
+                      <p>
+                        <a id={role.id} href={'/opportunities/' + role.id}>
+                          <strong>{role.fields.Title}</strong>
+                        </a>
+                        <br />
+                        {role.fields.CompanyName}
+                        <br />
+                        {role.fields.Location}
+                        <br />
+                        {role.fields.Start}
+                      </p>
                     </div>
                   </div>
                 </div>
+              ))
+              
+            )}
+          </div>
+                {/* <div className="tile is-ancestor">
+                  <div className="tile is-parent">
+                    <div class="tile is-child box">
+                      <p class="title is-4">Opportunity</p>
+                      <p class="subtitle is-6">image & info here</p>
+                      <figure class="image is-4by3">
+                      </figure>
+                    </div>
+                  </div>
+                  <div className="tile is-parent">
+                    <div class="tile is-child box">
+                      <p class="title is-4">Opportunity</p>
+                      <p class="subtitle is-6">image & info here</p>
+                      <figure class="image is-4by3">
+                      </figure>
+                    </div>
+                  </div>
+                  <div className="tile is-parent">
+                    <div class="tile is-child box">
+                      <p class="title is-4">Opportunity</p>
+                      <p class="subtitle is-6">image & info here</p>
+                      <figure class="image is-4by3">
+                      </figure>
+                    </div>
+                  </div>
+                </div> */}
                 </ViewWithTopBorder>
               </div>
             </div>
