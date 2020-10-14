@@ -43,7 +43,9 @@ class Firebase {
     } catch (error) {
       console.log(error);
     }
-  }
+
+    return [];
+  };
 
   // only signs user up if provided email is in rtc directory
   doCreateUserWithEmailAndPassword = async (username, email, password) => {
