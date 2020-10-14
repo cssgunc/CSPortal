@@ -42,6 +42,7 @@ function Webinars() {
       <section className="section is-white">
         <ViewWithTopBorder>
         <Heading>Webinars</Heading>
+        <div className="columns is-multiline">
         {webinars.length === 0 ? (
           <div className="box">
             <div className="content">
@@ -52,9 +53,10 @@ function Webinars() {
           </div>
         ) : (
           webinars.map((vid) => (
-            <div className="box" key={vid.id}>
+            <div className="column is-half" >
+            <div className="box" key={vid.id} style = {{height: `550px`}}>
               <div className="content">
-                <p>
+                <p >
                   <a href={vid.fields.VideoLink}>
                     <strong>{vid.fields.Title}</strong>
                   </a>
@@ -71,13 +73,24 @@ function Webinars() {
                 </iframe>
               </div>
             </div>
+            </div>
           ))
         )}
+        </div>
       </ViewWithTopBorder>
       </section>
     </div>
     
+    
   );
+}
+
+function truncateText(selected, maxLength) {
+  var truncated = selected.innerText;
+  if (truncated.length > maxLength) {
+      truncated = truncated.substr(0,maxLength) + '...';
+  }
+  return truncated;
 }
 
 const condition = (authUser) => authUser != null;
