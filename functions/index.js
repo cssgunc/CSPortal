@@ -28,10 +28,10 @@ exports.getWebinars = functions.https.onRequest((req, res) => {
   });
 });
 
-exports.getAnnouncements = functions.https.onRequest((req, res) => {
+exports.getData = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
+      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/${req.query.urlType}`, {
         headers: { Authorization: `Bearer ${airtableKey}` },
       })
       .then((response) => {

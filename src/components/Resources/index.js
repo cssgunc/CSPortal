@@ -15,8 +15,9 @@ function Resources() {
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
       .get(
-        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getAnnouncements`,
-      )
+        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getData`,{
+        params: {urlType: 'Announcements'}
+        })
       .then((result) => {
         setData(result.data.message.records);
       })
