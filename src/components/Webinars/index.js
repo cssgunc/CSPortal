@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 
@@ -33,11 +34,15 @@ function Webinars() {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:videos
 
   return (
-    <div>
-      <section className="section is-white">
-        <Heading>Webinars</Heading>
-      </section>
-    </div>
+    <Router>
+      <div>
+        <section className="section is-white">
+          <Link to={`/webinars/${webinars.id}`}>
+            <Heading>Webinars</Heading>
+          </Link>
+        </section>
+      </div>
+    </Router>
   );
 }
 
