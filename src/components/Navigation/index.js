@@ -211,50 +211,67 @@ const NavigationAuthYes = () => {
               Admin
             </Link> */}
           </div>
+
           <div className="navbar-end is-active" style={styles.center}>
-            <div className="buttons" style={styles.button}>
-              <Link
-                className="navbar-item"
-                to={ROUTES.REFER}
-                onClick={closeMenu}
-              >
-                <button
-                  className="button is-light"
-                  style={{ ...styles.lightButton, ...styles.button }}
-                  type="button"
-                >
-                  Refer
-                </button>
-              </Link>
-              <div className="navbar-item is-hidden-desktop">
-                <SignOutButton />
-              </div>
-            </div>
-            <button
-              className="navbar-item has-dropdown is-hoverable"
-              style={styles.profileIcon}
-              type="button"
-            >
-              <ProfileIcon />
-              <div
-                className="navbar-dropdown is-right is-hidden-touch"
-                style={styles.dropdown}
-              >
-                <Link
-                  className="navbar-item"
-                  to={ROUTES.ACCOUNT}
-                  onClick={closeMenu}
-                >
-                  Account
-                </Link>
-                <div className="navbar-item">
-                  <SignOutButton />
-                </div>
-              </div>
-            </button>
+            <NavEndMobile onClick={closeMenu} />
+            <NavEndDesktop onClick={closeMenu} />
           </div>
         </div>
       </nav>
+    </div>
+  );
+};
+
+const NavEndDesktop = (props) => {
+  const { onClick } = props;
+
+  return (
+    <div className="buttons is-hidden-touch" style={styles.button}>
+      <Link className="navbar-item" to={ROUTES.REFER} onClick={onClick}>
+        <button
+          className="button is-light"
+          style={{ ...styles.lightButton, ...styles.button }}
+          type="button"
+        >
+          Refer
+        </button>
+      </Link>
+      <button
+        className="navbar-item has-dropdown is-hoverable"
+        style={styles.profileIcon}
+        type="button"
+      >
+        <ProfileIcon />
+        <div className="navbar-dropdown is-right" style={styles.dropdown}>
+          <Link className="navbar-item" to={ROUTES.ACCOUNT} onClick={onClick}>
+            Account
+          </Link>
+          <div className="navbar-item">
+            <SignOutButton style={styles.button} />
+          </div>
+        </div>
+      </button>
+    </div>
+  );
+};
+
+const NavEndMobile = (props) => {
+  const { onClick } = props;
+
+  return (
+    <div className="buttons is-hidden-desktop">
+      <Link className="navbar-item" to={ROUTES.REFER} onClick={onClick}>
+        <button
+          className="button is-light"
+          style={styles.lightButton}
+          type="button"
+        >
+          Refer
+        </button>
+      </Link>
+      <div className="navbar-item">
+        <SignOutButton />
+      </div>
     </div>
   );
 };
