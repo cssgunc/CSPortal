@@ -17,12 +17,10 @@ const SignInPage = () => {
     },
     formSection: {
       backgroundColor: colors.white,
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
       width: '100%',
       display: 'flex',
       paddingTop: '120px',
+      paddingBottom: '120px',
       overflow: 'auto',
     },
   };
@@ -102,6 +100,9 @@ function SignInFormBase(props) {
       color: colors.mediumGray,
       textDecoration: 'underline',
     },
+    error: {
+      marginTop: '20px',
+    },
   };
 
   return (
@@ -147,11 +148,15 @@ function SignInFormBase(props) {
         </div>
       </div>
 
+      {error && (
+        <article className="message is-warning" style={styles.error}>
+          <div className="message-body">{error.message}</div>
+        </article>
+      )}
+
       <Link to={ROUTES.PASSWORD_FORGET} style={styles.link}>
         Forgot password?
       </Link>
-
-      {error && <p>{error.message}</p>}
     </form>
   );
 }

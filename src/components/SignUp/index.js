@@ -16,12 +16,10 @@ const styles = {
   },
   formSection: {
     backgroundColor: colors.white,
-    position: 'absolute',
-    top: '0',
-    bottom: '0',
     width: '100%',
     display: 'flex',
     paddingTop: '100px',
+    paddingBottom: '100px',
     overflow: 'auto',
   },
   linkContainer: {
@@ -57,6 +55,9 @@ const styles = {
     marginRight: 'auto',
     marginLeft: 'auto',
     textAlign: 'center',
+  },
+  error: {
+    marginTop: '20px',
   },
 };
 
@@ -131,7 +132,6 @@ function SignUpFormBase(props) {
           />
         </div>
       </div>
-
       <div className="field">
         <div className="control">
           <input
@@ -145,7 +145,6 @@ function SignUpFormBase(props) {
           />
         </div>
       </div>
-
       <div className="field">
         <div className="control">
           <input
@@ -159,7 +158,6 @@ function SignUpFormBase(props) {
           />
         </div>
       </div>
-
       <div className="field">
         <div className="control">
           <input
@@ -173,7 +171,6 @@ function SignUpFormBase(props) {
           />
         </div>
       </div>
-
       <div className="field">
         <div className="control">
           <button
@@ -186,7 +183,11 @@ function SignUpFormBase(props) {
           </button>
         </div>
       </div>
-      {error && <p>{error.message}</p>}
+      {error && (
+        <article className="message is-warning" style={styles.error}>
+          <div className="message-body">{error.message}</div>
+        </article>
+      )}
     </form>
   );
 }
