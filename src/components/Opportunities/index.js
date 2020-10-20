@@ -52,11 +52,12 @@ function Opportunities() {
               opportunities
                 .filter((role) => role.fields.Featured)
                 .map((role) => (
-                  <div className="column is-one-quarter">
-                    <div className="box" key={role.id}>
+                  <div className="column is-one-quarter is-narrow" >
+                    <div className="box"  key={role.id} style={{height: `300px` }}>
                       <img
-                        src={role.fields.CompanyLogo[0].thumbnails.small.url}
-                        alt="Logo"
+                        src={role.fields.CompanyLogo[0].thumbnails.full.url}
+                        alt="Logo" 
+                        style={{width: `150px`, height: `150px` }}
                       />
                       <div className="content">
                         <p>
