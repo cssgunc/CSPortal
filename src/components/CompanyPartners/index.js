@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { withAuthorization } from '../Session';
-import Heading from '../General/Heading';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { withAuthorization } from "../Session";
+import Heading from "../General/Heading";
+import ViewWithTopBorder from "../General/ViewWithTopBorder";
 
 function CompanyPartners() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -15,7 +16,6 @@ function CompanyPartners() {
       })
       .then((result) => {
         setCompanies(result.data.records);
-        console.log(result.data.records);
       })
       .catch((error) => {
         console.log(error);
@@ -32,10 +32,73 @@ function CompanyPartners() {
   // (you need click the above link first and log into/create an account with Airtable before you can access this link):
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:companies
 
+  const formattedCompanies = companies.map((company) => {
+    return {
+      logo: company.fields.Logo[0].thumbnails.full.url,
+      name: company.fields.Name,
+      description: company.fields.Description,
+    };
+  });
+
+  const styles = {
+    // Centers images of different aspect ratios within a portion of the box
+    imageStyle: {
+      position: "relative",
+      top: "50%",
+      transform: "translateY(-50%)",
+    },
+
+    boxStyle: {
+      width: "200px",
+      height: "200px",
+      marginLeft: "auto", 
+      marginRight: "auto",
+    },
+
+    figureStyle: {
+      width: "100px",
+      height: "100px",
+    },
+
+    rowStyle: {
+      height: "80%",
+    },
+
+    columnStyle: {
+      height: "100vh",
+    },
+
+    topBorderStyle: {
+      minHeight: "100%",
+    }
+  };
+
   return (
     <div>
-      <section className="section is-white">
-        <Heading>Company Partners</Heading>
+      <section className="column" style={styles.columnStyle}>
+        <ViewWithTopBorder style={styles.topBorderStyle}>
+          <Heading>Company Partners</Heading>
+          <div className="columns is-mobile is-multiline">
+            {formattedCompanies.map((company) => (
+              <div className="column" key={company.name}>
+                <div className="box has-text-centered" style={styles.boxStyle}>
+                  <div className="row" style={styles.rowStyle}>
+                    <figure className="is-128x128 is-inline-block" style={styles.figureStyle}>
+                      <img
+                        src={company.logo}
+                        alt={company.name  + " Logo"}
+                        style={styles.imageStyle}
+                      ></img>
+                    </figure>
+                  </div>
+                  <div className="row">
+                    <div className="subtitle">{company.name}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </ViewWithTopBorder>
       </section>
     </div>
   );

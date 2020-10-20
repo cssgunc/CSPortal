@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
+// import CompanyPartners from '../CompanyPartners/index.js';
 
 function Opportunities() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -34,18 +35,53 @@ function Opportunities() {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:opportunities
 
   return (
-    <Router>
-      <div>
-        <section className="section is-white">
-          <Link to={`/opportunities/${opportunities.id}`}>
-            <Heading>Opportunities</Heading>
-          </Link>
-        </section>
-      </div>
-    </Router>
+    <div>
+      <section className="section is-white">
+        <ViewWithTopBorder>
+          <Heading>Featured Opportunities</Heading>
+          <div className="columns is-multiline">
+            {opportunities.length === 0 ? (
+              <div className="box">
+                <div className="content">
+                  <p>
+                    <strong>No Opportunities yet! Check back later! </strong>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              opportunities
+                .filter((role) => role.fields.Featured)
+                .map((role) => (
+                  <div className="column is-one-quarter">
+                    <div className="box" key={role.id}>
+                      <img
+                        src={role.fields.CompanyLogo[0].thumbnails.small.url}
+                        alt="Logo"
+                      />
+                      <div className="content">
+                        <p>
+                          <a id={role.id} href={`/opportunities/${role.id}`}>
+                            <strong>{role.fields.Title}</strong>
+                          </a>
+                          <br />
+                          {role.fields.CompanyName}
+                          <br />
+                          {role.fields.Location}
+                          <br />
+                          {role.fields.Start}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+            )}
+          </div>
+        </ViewWithTopBorder>
+      </section>
+    </div>
   );
 }
-
+// {role.fields.CompanyLogo[0].url}
 const condition = (authUser) => authUser != null;
 
 export default withAuthorization(condition)(Opportunities);

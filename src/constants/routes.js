@@ -1,5 +1,6 @@
 export const LANDING = '/';
 export const SIGN_UP = '/signup';
+export const VERIFY = '/verify';
 export const SIGN_IN = '/signin';
 export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
@@ -16,3 +17,5 @@ export const COMMUNITIES = '/communities';
 export const MENTORSHIP = '/mentorship';
 export const FELLOWSHIPGUIDE = '/fellowship';
 export const MEETTHETEAM = '/meettheteam';
+export const WEBINARSAMPLE = '/webinar/sample';
+export const OPPORTUNITYSAMPLE = '/opportunity/sample';

@@ -22,9 +22,23 @@ import Communities from '../Communities';
 import MeetTheTeam from '../MeetTheTeam';
 import Mentorship from '../Mentorship';
 import FellowshipGuide from '../FellowshipGuide';
+import OpportunitiesSubPage from '../OpportunitiesSubPage';
+import WebinarsSubPage from '../WebinarsSubPage';
+import VerifyPage from '../Verify';
+import Footer from '../Footer';
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
+  const [small, setSmall] = useState(window.innerWidth < 500);
+
+  useEffect(() => {
+    const updateWindowDimensions = () => {
+      setSmall(window.innerWidth < 500);
+    };
+
+    window.addEventListener('resize', updateWindowDimensions);
+    return () => window.removeEventListener('resize', updateWindowDimensions);
+  });
 
   useEffect(() => {
     const handle = props.firebase.auth.onAuthStateChanged((auth) =>
@@ -36,13 +50,21 @@ function App(props) {
     };
   });
 
+  const styles = {
+    app: {
+      textAlign: 'left',
+      paddingBottom: small ? '125px' : '75px',
+    },
+  };
+
   return (
     <AuthUserContext.Provider value={authUser}>
       <Router>
         <Navigation />
-        <div className="App">
+        <div className="App" style={styles.app}>
           <Route exact path={ROUTES.LANDING} component={LandingPage} />
           <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.VERIFY} component={VerifyPage} />
           <Route path={ROUTES.SIGN_IN} component={SignInPage} />
           <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
@@ -59,13 +81,13 @@ function App(props) {
           <Route path={ROUTES.MEETTHETEAM} component={MeetTheTeam} />
           <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
           <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
-
+          <Route path={ROUTES.WEBINARSAMPLE} component={WebinarsSubPage} />
           <Route
-            path={`${ROUTES.OPPORTUNITIES}/:id`}
-            component={Opportunities}
+            path={ROUTES.OPPORTUNITYSAMPLE}
+            component={OpportunitiesSubPage}
           />
-          <Route path={`${ROUTES.WEBINARS}/:id`} component={Webinars} />
         </div>
+        <Footer />
       </Router>
     </AuthUserContext.Provider>
   );

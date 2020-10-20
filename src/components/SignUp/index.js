@@ -48,7 +48,7 @@ function SignUpFormBase(props) {
         setPasswordOne('');
         setPasswordTwo('');
         setError('');
-        props.history.push(ROUTES.LANDING);
+        props.history.push(ROUTES.VERIFY);
       })
       .catch((e) => {
         setError(e);
@@ -149,8 +149,9 @@ function SignUpFormBase(props) {
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
-const SignUpLink = () => (
+const SignUpPasswordResetLink = () => (
   <div style={styles.link}>
+    <Link to={ROUTES.PASSWORD_FORGET}>Forgot password?</Link>
     <br />
     Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
   </div>
@@ -158,4 +159,4 @@ const SignUpLink = () => (
 
 export default SignUpPage;
 
-export { SignUpForm, SignUpLink };
+export { SignUpForm, SignUpPasswordResetLink };

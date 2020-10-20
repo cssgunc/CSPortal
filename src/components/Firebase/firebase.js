@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import axios from 'axios';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,6 +12,8 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
+
+const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
 
 class Firebase {
   constructor() {
@@ -27,8 +30,38 @@ class Firebase {
   // (you need click the above link first and log into/create an account with Airtable before you can access this link):
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:directory
 
-  doCreateUserWithEmailAndPassword = (email, password) =>
-    this.auth.createUserWithEmailAndPassword(email, password);
+  // Gets array of emails from airtable
+  getEmails = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`,
+        {
+          headers: { Authorization: `Bearer ${airtableKey}` },
+        },
+      );
+      return response.data.records.map((x) => x.fields.Email);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return [];
+  };
+
+  // only signs user up if provided email is in rtc directory
+  doCreateUserWithEmailAndPassword = async (email, password) => {
+    const val = await this.getEmails();
+    if (val.includes(email)) {
+      return this.auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          this.auth.currentUser.sendEmailVerification();
+          this.auth.signOut();
+        });
+    }
+    return Promise.reject(
+      new Error('The provided email is not in the RTC directory.'),
+    );
+  };
 
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
