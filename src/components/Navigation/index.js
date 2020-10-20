@@ -151,10 +151,24 @@ const NavigationAuthYes = () => {
                 </Link>
                 <Link
                   className="navbar-item"
+                  to={ROUTES.OPPORTUNITYSAMPLE}
+                  onClick={closeMenu}
+                >
+                  Sample Opportunities Sub-Page
+                </Link>
+                <Link
+                  className="navbar-item"
                   to={ROUTES.WEBINARS}
                   onClick={closeMenu}
                 >
                   Webinars
+                </Link>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.WEBINARSAMPLE}
+                  onClick={closeMenu}
+                >
+                  Sample Webinars Sub-Page
                 </Link>
                 <Link
                   className="navbar-item"
