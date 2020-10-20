@@ -22,6 +22,8 @@ import Communities from '../Communities';
 import MeetTheTeam from '../MeetTheTeam';
 import Mentorship from '../Mentorship';
 import FellowshipGuide from '../FellowshipGuide';
+import OpportunitiesSubPage from '../OpportunitiesSubPage';
+import WebinarsSubPage from '../WebinarsSubPage';
 import VerifyPage from '../Verify';
 import Footer from '../Footer';
 
@@ -79,6 +81,11 @@ function App(props) {
           <Route path={ROUTES.MEETTHETEAM} component={MeetTheTeam} />
           <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
           <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
+          <Route path={ROUTES.WEBINARSAMPLE} component={WebinarsSubPage} />
+          <Route
+            path={ROUTES.OPPORTUNITYSAMPLE}
+            component={OpportunitiesSubPage}
+          />
         </div>
         <Footer />
       </Router>

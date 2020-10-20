@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
 import colors from '../../constants/RTCColors';
+import logo from '../../constants/RTC_Color_Logo.png';
 
 function Navigation() {
   const authUser = useContext(AuthUserContext);
@@ -13,24 +14,56 @@ function Navigation() {
 const styles = {
   bar: {
     backgroundColor: colors.black,
+    height: '75px',
+    paddingLeft: '20px',
+  },
+  barMobile: {
+    height: '100%',
+  },
+  burger: {
+    height: '100%',
+    color: colors.white,
+    marginRight: '12px',
+    backgroundColor: colors.black,
+    border: 'none',
+  },
+  burgerLine: {
+    width: '20px',
+  },
+  dropdown: {
+    backgroundColor: colors.black,
   },
   menu: {
-    padding: '0',
+    padding: '0px 0px 0px 13px',
+    backgroundColor: colors.black,
   },
   start: {
-    display: 'flex',
     alignItems: 'center',
-  },
-  first: {
-    marginLeft: '10px',
   },
   lightButton: {
     backgroundColor: colors.lightBlue,
     color: colors.white,
   },
+  signInBar: {
+    width: '100%',
+  },
+  signInContainer: {
+    marginLeft: 'auto',
+    height: '100%',
+  },
+  signInButton: {
+    marginBottom: '0',
+    backgroundColor: colors.green,
+    color: colors.white,
+  },
 };
 
 const NavigationAuthYes = () => {
+  const [openMenu, setOpenMenu] = useState(false);
+
+  const closeMenu = () => setOpenMenu(false);
+  const toggleMenu = () => setOpenMenu(!openMenu);
+
   return (
     <div>
       <nav
@@ -39,70 +72,160 @@ const NavigationAuthYes = () => {
         aria-label="main navigation"
         style={styles.bar}
       >
-        <div id="navbar" className="navbar-menu is-active" style={styles.menu}>
+        <div className="navbar-brand" style={styles.barMobile}>
+          <Link className="navbar-item" to={ROUTES.LANDING}>
+            <img src={logo} alt="Rewriting the Code Portal Home" />
+          </Link>
+          <button
+            className={`navbar-burger ${openMenu ? 'is-active' : ''}`}
+            type="button"
+            style={styles.burger}
+            onClick={toggleMenu}
+            tabIndex={0}
+          >
+            <span aria-hidden="true" style={styles.burgerLine} />
+            <span aria-hidden="true" style={styles.burgerLine} />
+            <span aria-hidden="true" style={styles.burgerLine} />
+          </button>
+        </div>
+        <div
+          id="navbarMenu"
+          className={`navbar-menu ${openMenu ? 'is-active' : ''}`}
+          style={styles.menu}
+        >
           <div className="navbar-start" style={styles.start}>
             <Link
               className="navbar-item"
               to={ROUTES.LANDING}
-              style={styles.first}
+              onClick={closeMenu}
             >
               Home
             </Link>
             <div className="navbar-item has-dropdown is-hoverable">
-              <Link className="navbar-item" to={ROUTES.LANDING}>
+              <Link
+                className="navbar-item"
+                to={ROUTES.LANDING}
+                onClick={closeMenu}
+              >
                 About Us
               </Link>
-              <div className="navbar-dropdown" style={styles.bar}>
-                <Link className="navbar-item" to={ROUTES.MEETTHETEAM}>
+              <div className="navbar-dropdown" style={styles.dropdown}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.MEETTHETEAM}
+                  onClick={closeMenu}
+                >
                   Meet the Team
                 </Link>
-                <Link className="navbar-item" to={ROUTES.COMPANYPARTNERS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.COMPANYPARTNERS}
+                  onClick={closeMenu}
+                >
                   Company Partners
                 </Link>
-                <Link className="navbar-item" to={ROUTES.FELLOWSHIPGUIDE}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.FELLOWSHIPGUIDE}
+                  onClick={closeMenu}
+                >
                   Fellowship
                 </Link>
               </div>
             </div>
             <div className="navbar-item has-dropdown is-hoverable">
-              <Link className="navbar-item" to={ROUTES.RESOURCES}>
+              <Link
+                className="navbar-item"
+                to={ROUTES.RESOURCES}
+                onClick={closeMenu}
+              >
                 Resources
               </Link>
-              <div className="navbar-dropdown" style={styles.bar}>
-                <Link className="navbar-item" to={ROUTES.OPPORTUNITIES}>
+              <div className="navbar-dropdown" style={styles.dropdown}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.OPPORTUNITIES}
+                  onClick={closeMenu}
+                >
                   Opportunities
                 </Link>
-                <Link className="navbar-item" to={ROUTES.WEBINARS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.OPPORTUNITYSAMPLE}
+                  onClick={closeMenu}
+                >
+                  Sample Opportunities Sub-Page
+                </Link>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.WEBINARS}
+                  onClick={closeMenu}
+                >
                   Webinars
                 </Link>
-                <Link className="navbar-item" to={ROUTES.EVENTS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.WEBINARSAMPLE}
+                  onClick={closeMenu}
+                >
+                  Sample Webinars Sub-Page
+                </Link>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.EVENTS}
+                  onClick={closeMenu}
+                >
                   Events
                 </Link>
-                <Link className="navbar-item" to={ROUTES.COMMUNITIES}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.COMMUNITIES}
+                  onClick={closeMenu}
+                >
                   Communities
                 </Link>
-                <Link className="navbar-item" to={ROUTES.MENTORSHIP}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.MENTORSHIP}
+                  onClick={closeMenu}
+                >
                   Mentorship
                 </Link>
                 <hr className="navbar-divider" />
-                <Link className="navbar-item" to={ROUTES.CONTACTUS}>
+                <Link
+                  className="navbar-item"
+                  to={ROUTES.CONTACTUS}
+                  onClick={closeMenu}
+                >
                   Contact Us
                 </Link>
               </div>
             </div>
-            <Link className="navbar-item" to={ROUTES.DIRECTORY}>
+            <Link
+              className="navbar-item"
+              to={ROUTES.DIRECTORY}
+              onClick={closeMenu}
+            >
               Directory
             </Link>
-            <Link className="navbar-item" to={ROUTES.ACCOUNT}>
+            <Link
+              className="navbar-item"
+              to={ROUTES.ACCOUNT}
+              onClick={closeMenu}
+            >
               Account
             </Link>
-            <Link className="navbar-item" to={ROUTES.ADMIN}>
+            {/* <Link className="navbar-item" to={ROUTES.ADMIN} onClick={closeMenu}>
               Admin
-            </Link>
+            </Link> */}
           </div>
-          <div className="navbar-end">
-            <Link className="navbar-item" to={ROUTES.REFER}>
-              <div className="buttons">
+          <div className="navbar-end is-active">
+            <div className="buttons">
+              <Link
+                className="navbar-item"
+                to={ROUTES.REFER}
+                onClick={closeMenu}
+              >
                 <button
                   className="button is-light"
                   style={styles.lightButton}
@@ -110,10 +233,10 @@ const NavigationAuthYes = () => {
                 >
                   Refer
                 </button>
+              </Link>
+              <div className="navbar-item">
+                <SignOutButton />
               </div>
-            </Link>
-            <div className="navbar-item">
-              <SignOutButton />
             </div>
           </div>
         </div>
@@ -132,26 +255,21 @@ const NavigationAuthNo = () => {
         style={styles.bar}
       >
         <div
-          id="navbarBasicExample"
-          className="navbar-menu is-active"
-          style={styles.menu}
+          className="navbar-brand"
+          style={{ ...styles.barMobile, ...styles.signInBar }}
         >
-          <div className="navbar-start" style={styles.start}>
-            <Link
-              className="navbar-item"
-              to={ROUTES.LANDING}
-              style={styles.first}
-            >
-              Home
-            </Link>
-          </div>
-          <div className="navbar-end">
-            <div className="navbar-item">
-              <div className="buttons">
-                <Link className="button is-light" to={ROUTES.SIGN_IN}>
-                  Sign In
-                </Link>
-              </div>
+          <Link className="navbar-item" to={ROUTES.LANDING}>
+            <img src={logo} alt="Rewriting the Code Portal Home" />
+          </Link>
+          <div className="navbar-end" style={styles.signInContainer}>
+            <div className="navbar-item" style={styles.signInContainer}>
+              <Link
+                className="button is-light"
+                to={ROUTES.SIGN_IN}
+                style={styles.signInButton}
+              >
+                Sign In
+              </Link>
             </div>
           </div>
         </div>
