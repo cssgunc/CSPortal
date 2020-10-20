@@ -35,6 +35,7 @@ function Opportunities() {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:opportunities
 
   return (
+    <Router>
     <div>
       <section className="section is-white">
         <ViewWithTopBorder>
@@ -60,9 +61,9 @@ function Opportunities() {
                       />
                       <div className="content">
                         <p>
-                          <a id={role.id} href={`/opportunities/${role.id}`}>
+                          <Link to={`/opportunities/${role.id}`}>
                             <strong>{role.fields.Title}</strong>
-                          </a>
+                          </Link>
                           <br />
                           {role.fields.CompanyName}
                           <br />
@@ -79,6 +80,7 @@ function Opportunities() {
         </ViewWithTopBorder>
       </section>
     </div>
+    </Router>
   );
 }
 // {role.fields.CompanyLogo[0].url}

@@ -39,6 +39,7 @@ function Webinars() {
   }
 
   return (
+    <Router>
     <div>
       <section className="section is-white">
         <ViewWithTopBorder>
@@ -56,9 +57,11 @@ function Webinars() {
             <div className="box" key={vid.id}>
               <div className="content">
                 <p>
+                  <Link to={`/webinars/${vid.id}`}>
                   <a href={vid.fields.VideoLink}>
                     <strong>{vid.fields.Title}</strong>
                   </a>
+                  </Link>
                   <br />
                   {vid.fields.Description}
                 </p>
@@ -77,7 +80,7 @@ function Webinars() {
       </ViewWithTopBorder>
       </section>
     </div>
-    
+    </Router>
   );
 }
 
