@@ -1,5 +1,8 @@
 import React from 'react';
 import { withAuthorization } from '../Session';
+import Heading from "../General/Heading";
+import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import colors from '../../constants/RTCColors';
 
 function Directory() {
   const styles = {
@@ -13,16 +16,17 @@ function Directory() {
     <div>
       <section className="section is-white">
         <div className="container">
-          <h4 className="title is-4">RTC Member Directory:</h4>
-          <h5 className="title is-5">
-            (No this is actually a Married at First Sight participant list{' '}
-            <span role="img" aria-label=":P">
-              😛
-            </span>
-            )
-          </h5>
-          <hr />
-          <div className="card">
+          <div className="column">
+            <ViewWithTopBorder color = {colors.lightBlue}>
+            <section>
+            <Heading>RTC Member Directory:</Heading>
+            </section>
+            <section>
+            <h5 className="title is-5">
+              (Still waiting for the real member directory)  
+            </h5>
+            </section>
+            <div className="card">
             <iframe
               title="RTCDirectoryAirtableView"
               className="airtable-embed"
@@ -30,9 +34,12 @@ function Directory() {
               src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on"
               frameBorder="0"
               width="100%"
-              height="533"
+              height="650"
             />
           </div>
+            </ViewWithTopBorder>
+          </div>
+          <hr />
         </div>
       </section>
     </div>
