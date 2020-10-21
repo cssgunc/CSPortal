@@ -10,6 +10,7 @@
     "axios": "^0.19.2",
     "blocks-cli": "0.0.1",
     "bulma": "^0.8.2",
+    "cors": "^2.8.5",
     "create-react-app": "^3.4.1",
     "firebase": "^7.19.1",
     "firebase-admin": "^8.12.1",
