@@ -88,6 +88,8 @@ function CompanyPartners() {
                 <div className="column" key={company.name}>
                   <div
                     className="box has-text-centered"
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 5px #888888"}
+                    onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
                     style={styles.boxStyle}
                   >
                     <div className="row" style={styles.rowStyle}>
