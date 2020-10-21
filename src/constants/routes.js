@@ -19,5 +19,5 @@ export const FELLOWSHIPGUIDE = '/fellowship';
 export const MEETTHETEAM = '/meettheteam';
 export const WEBINARSAMPLE = '/webinars/sample';
 export const OPPORTUNITYSAMPLE = '/opportunities/sample';
-export const SINGLEOPPORTUNITY = '/opportunity/:id';
-export const SINGLEWEBINAR = '/webinar/:id';
+export const SINGLEOPPORTUNITY = '/opportunities/:id';
+export const SINGLEWEBINAR = '/webinars/:id';
