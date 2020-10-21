@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
 const styles = {
@@ -82,6 +82,7 @@ function UpdateEmailFormBase(props) {
   );
 }
 
-const UpdateEmailForm = withRouter(withFirebase(UpdateEmailFormBase));
+const UpdateEmailForm = withFirebase(UpdateEmailFormBase);
 
-export default UpdateEmailPage;
+const condition = (authUser) => authUser != null;
+export default withAuthorization(condition)(withFirebase(UpdateEmailPage));

@@ -67,9 +67,9 @@ class Firebase {
     this.auth.signInWithEmailAndPassword(email, password);
 
   doUpdateEmail = async (email) => {
-    if (this.auth.currentUser == null) {
+    if (!this.auth.currentUser.emailVerified) {
       return Promise.reject(
-        new Error("Please sign in before attempting to update your email."),
+        new Error('Please verify your current email before attempting to change it.'),
       );
     }
     const val = await this.getEmails();
