@@ -50,12 +50,20 @@ class Firebase {
   };
 
   // only signs user up if provided email is in rtc directory
-  doCreateUserWithEmailAndPassword = async (email, password) => {
+  doCreateUserWithEmailAndPassword = async (username, email, password) => {
     const val = await this.getEmails();
     if (val.includes(email)) {
       return this.auth
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
+          const user = this.auth.currentUser;
+          if (user) {
+            user
+              .updateProfile({
+                displayName: username,
+              })
+              .catch((e) => console.log(e));
+          }
           this.auth.currentUser.sendEmailVerification();
           this.auth.signOut();
         });
