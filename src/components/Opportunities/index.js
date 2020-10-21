@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
+import * as ROUTES from '../../constants/routes';
+
 // import CompanyPartners from '../CompanyPartners/index.js';
 
 function Opportunities() {
@@ -35,7 +38,6 @@ function Opportunities() {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:opportunities
 
   return (
-    <Router>
     <div>
       <section className="section is-white">
         <ViewWithTopBorder>
@@ -61,7 +63,7 @@ function Opportunities() {
                       />
                       <div className="content">
                         <p>
-                          <Link to={`/opportunities/${role.id}`}>
+                          <Link to={`${ROUTES.OPPORTUNITIES}/${role.id}`}>
                             <strong>{role.fields.Title}</strong>
                           </Link>
                           <br />
@@ -80,7 +82,6 @@ function Opportunities() {
         </ViewWithTopBorder>
       </section>
     </div>
-    </Router>
   );
 }
 // {role.fields.CompanyLogo[0].url}
