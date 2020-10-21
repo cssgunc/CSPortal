@@ -2,22 +2,32 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
-import { SignUpLink } from '../SignUp';
+import { SignUpPasswordResetLink } from '../SignUp';
 
 import * as ROUTES from '../../constants/routes';
 
-const SignInPage = () => (
-  <div>
-    <section className="section is-gray">
-      <div className="card sign-form">
-        <div className="card-content">
-          <SignInForm />
-          <SignUpLink />
+const SignInPage = () => {
+  const styles = {
+    form: {
+      width: '50%',
+      margin: 'auto',
+      minWidth: '300px',
+    },
+  };
+
+  return (
+    <div>
+      <section className="section is-gray">
+        <div className="card" style={styles.form}>
+          <div className="card-content">
+            <SignInForm />
+            <SignUpPasswordResetLink />
+          </div>
         </div>
-      </div>
-    </section>
-  </div>
-);
+      </section>
+    </div>
+  );
+};
 
 function SignInFormBase(props) {
   const [email, setEmail] = useState('');
@@ -31,7 +41,15 @@ function SignInFormBase(props) {
         setEmail('');
         setPassword('');
         setError(null);
+
         props.history.push(ROUTES.LANDING);
+        // TODO: delete line above and uncomment these to force email verification
+        // if (props.firebase.auth.currentUser.emailVerified) {
+        //   props.history.push(ROUTES.LANDING);
+        // } else {
+        //   props.firebase.doSignOut();
+        //   props.history.push(ROUTES.VERIFY);
+        // }
       })
       .catch((e) => {
         setError(e);

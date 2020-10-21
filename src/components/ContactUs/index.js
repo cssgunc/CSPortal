@@ -1,12 +1,12 @@
 import React from 'react';
 import { withAuthorization } from '../Session';
+import Heading from '../General/Heading';
 
-function Account(props) {
-  const { authUser } = props;
+function ContactUs() {
   return (
     <div>
       <section className="section is-white">
-        <h1>Account: {authUser.email}</h1>
+        <Heading>Contact Us</Heading>
       </section>
     </div>
   );
@@ -14,4 +14,4 @@ function Account(props) {
 
 const condition = (authUser) => authUser != null;
 
-export default withAuthorization(condition)(Account);
+export default withAuthorization(condition)(ContactUs);

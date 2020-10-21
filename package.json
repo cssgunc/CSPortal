@@ -11,13 +11,18 @@
     "blocks-cli": "0.0.1",
     "bulma": "^0.8.2",
     "cors": "^2.8.5",
-    "firebase": "^7.14.4",
+    "create-react-app": "^3.4.1",
+    "firebase": "^7.19.1",
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.6.2",
+    "firebase-tools": "^8.9.2",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
+    "react-big-calendar": "^0.28.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "^3.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,13 +46,20 @@
     ]
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^4.3.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.42.0"
   }
 }

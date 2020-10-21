@@ -5,11 +5,6 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './components/Firebase';
 
-// const functions = require('firebase-functions');
-// exports.helloWorld = functions.https.onRequest((req, res) => {
-//     res.send("Hello from Firebase!");
-// });
-
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseContext.Provider value={new Firebase()}>

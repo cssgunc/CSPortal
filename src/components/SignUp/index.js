@@ -7,17 +7,30 @@ import { withFirebase } from '../Firebase';
 
 import * as ROUTES from '../../constants/routes';
 
-const SignUpPage = () => (
-  <div>
-    <section className="section is-gray">
-      <div className="card sign-form">
-        <div className="card-content">
-          <SignUpForm />
+const styles = {
+  form: {
+    width: '50%',
+    margin: 'auto',
+    minWidth: '300px',
+  },
+  link: {
+    textAlign: 'center',
+  },
+};
+
+const SignUpPage = () => {
+  return (
+    <div>
+      <section className="section is-gray">
+        <div className="card" style={styles.form}>
+          <div className="card-content">
+            <SignUpForm />
+          </div>
         </div>
-      </div>
-    </section>
-  </div>
-);
+      </section>
+    </div>
+  );
+};
 
 function SignUpFormBase(props) {
   const [username, setUsername] = useState('');
@@ -35,7 +48,7 @@ function SignUpFormBase(props) {
         setPasswordOne('');
         setPasswordTwo('');
         setError('');
-        props.history.push(ROUTES.LANDING);
+        props.history.push(ROUTES.VERIFY);
       })
       .catch((e) => {
         setError(e);
@@ -136,8 +149,9 @@ function SignUpFormBase(props) {
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
-const SignUpLink = () => (
-  <div style={{ textAlign: 'center' }}>
+const SignUpPasswordResetLink = () => (
+  <div style={styles.link}>
+    <Link to={ROUTES.PASSWORD_FORGET}>Forgot password?</Link>
     <br />
     Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
   </div>
@@ -145,4 +159,4 @@ const SignUpLink = () => (
 
 export default SignUpPage;
 
-export { SignUpForm, SignUpLink };
+export { SignUpForm, SignUpPasswordResetLink };

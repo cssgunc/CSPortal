@@ -2,6 +2,13 @@ import React from 'react';
 import { withAuthorization } from '../Session';
 
 function Directory() {
+  const styles = {
+    airtable: {
+      background: 'transparent',
+      border: '1px solid #ccc',
+    },
+  };
+
   return (
     <div>
       <section className="section is-white">
@@ -18,7 +25,8 @@ function Directory() {
           <div className="card">
             <iframe
               title="RTCDirectoryAirtableView"
-              className="airtable-embed airtable"
+              className="airtable-embed"
+              style={styles.airtable}
               src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on"
               frameBorder="0"
               width="100%"

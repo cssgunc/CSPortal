@@ -30,3 +30,7 @@ yarn-error.log*
 .prettierrc.js
 .eslintrc.js
 .vscode
+
+# functions
+/functions/node_modules
+/functions/firebase-debug.log
