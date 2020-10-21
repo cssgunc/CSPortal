@@ -81,11 +81,6 @@ function App(props) {
           <Route path={ROUTES.MEETTHETEAM} component={MeetTheTeam} />
           <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
           <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
-          <Route path={ROUTES.WEBINARSAMPLE} component={WebinarsSubPage} />
-          <Route
-            path={ROUTES.OPPORTUNITYSAMPLE}
-            component={OpportunitiesSubPage}
-          />
           <Route
             path={ROUTES.SINGLEOPPORTUNITY}
             component={OpportunitiesSubPage}

@@ -3,13 +3,13 @@ import axios from 'axios';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 
-function WebinarsSubPage() {
+function WebinarsSubPage(props) {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   // all the data for the particular webinar is stored here
   const [webinar, setWebinar] = useState([]);
 
-  // change to different IDs from the airtable here. right now, it fetches one I chose at random.
-  const currentWebinarID = 'reczyNRsb4jOYuMVb';
+  const { match } = props;
+  const currentWebinarID = match.params.id;
 
   useEffect(() => {
     axios
