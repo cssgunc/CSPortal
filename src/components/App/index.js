@@ -86,6 +86,11 @@ function App(props) {
             path={ROUTES.OPPORTUNITYSAMPLE}
             component={OpportunitiesSubPage}
           />
+          <Route
+            path={ROUTES.SINGLEOPPORTUNITY}
+            component={OpportunitiesSubPage}
+          />
+          <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
         </div>
         <Footer />
       </Router>
