@@ -3,6 +3,7 @@ import axios from "axios";
 import { withAuthorization } from "../Session";
 import Heading from "../General/Heading";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import colors from '../../constants/RTCColors';
 
 function CompanyPartners() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -51,7 +52,7 @@ function CompanyPartners() {
     boxStyle: {
       width: "200px",
       height: "200px",
-      marginLeft: "auto", 
+      marginLeft: "auto",
       marginRight: "auto",
     },
 
@@ -64,39 +65,53 @@ function CompanyPartners() {
       height: "80%",
     },
 
-    columnStyle: {
-      height: "100vh",
-    },
-
     topBorderStyle: {
-      minHeight: "100%",
-    }
+      minHeight: "100vh",
+    },
   };
 
   return (
     <div>
-      <section className="column" style={styles.columnStyle}>
+      <section className="column">
         <ViewWithTopBorder style={styles.topBorderStyle}>
           <Heading>Company Partners</Heading>
           <div className="columns is-mobile is-multiline">
-            {formattedCompanies.map((company) => (
-              <div className="column" key={company.name}>
-                <div className="box has-text-centered" style={styles.boxStyle}>
-                  <div className="row" style={styles.rowStyle}>
-                    <figure className="is-128x128 is-inline-block" style={styles.figureStyle}>
-                      <img
-                        src={company.logo}
-                        alt={company.name  + " Logo"}
-                        style={styles.imageStyle}
-                      ></img>
-                    </figure>
-                  </div>
-                  <div className="row">
-                    <div className="subtitle">{company.name}</div>
+            {formattedCompanies.length === 0 ? (
+              <div className="column">
+                <div className="row">
+                  <div className="subtitle">
+                    Company Partners to be added soon! Check back later!
                   </div>
                 </div>
               </div>
-            ))}
+            ) : (
+              formattedCompanies.map((company) => (
+                <div className="column" key={company.name}>
+                  <div
+                    className="box has-text-centered"
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`}
+                    onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
+                    style={styles.boxStyle}
+                  >
+                    <div className="row" style={styles.rowStyle}>
+                      <figure
+                        className="is-128x128 is-inline-block"
+                        style={styles.figureStyle}
+                      >
+                        <img
+                          src={company.logo}
+                          alt={company.name + " Logo"}
+                          style={styles.imageStyle}
+                        ></img>
+                      </figure>
+                    </div>
+                    <div className="row">
+                      <div className="subtitle">{company.name}</div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </ViewWithTopBorder>
       </section>
