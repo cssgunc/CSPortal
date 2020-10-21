@@ -3,6 +3,7 @@ import axios from "axios";
 import { withAuthorization } from "../Session";
 import Heading from "../General/Heading";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import colors from '../../constants/RTCColors';
 
 function CompanyPartners() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -88,7 +89,7 @@ function CompanyPartners() {
                 <div className="column" key={company.name}>
                   <div
                     className="box has-text-centered"
-                    onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 5px #888888"}
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`}
                     onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
                     style={styles.boxStyle}
                   >
