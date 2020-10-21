@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withAuthorization } from '../Session';
 import Loading from '../General/Loading';
+import { withFirebase } from '../Firebase';
 
 function Resources() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -11,27 +12,54 @@ function Resources() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    // CLOUD FUNCTIONS WAY:
+    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
+      .get(
+        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getData`,{
+        params: {urlType: 'Announcements'}
+        })
       .then((result) => {
-        setData(result.data.records);
+        setData(result.data.message.records);
       })
       .catch((error) => {
         console.log(error);
       });
 
+    // NORMAL WAY:
+    // axios
+    //   .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
+    //     headers: { Authorization: `Bearer ${airtableKey}` },
+    //   })
+    //   .then((result) => {
+    //     setData(result.data.records);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    // CLOUD FUNCTIONS WAY:
+    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(
-        `https://www.googleapis.com/youtube/v3/playlistItems?key=${googleKey}&part=snippet&playlistId=${playlistId}&maxResults=50`,
-      )
+      .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getWebinars`)
       .then((result) => {
-        setWebinars(result.data.items);
+        setWebinars(result.data.message.items);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    // NORMAL WAY:
+    // axios
+    //   .get(
+    //     `https://www.googleapis.com/youtube/v3/playlistItems?key=${googleKey}&part=snippet&playlistId=${playlistId}&maxResults=50`,
+    //   )
+    //   .then((result) => {
+    //     setWebinars(result.data.items);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }, [airtableKey, googleKey, playlistId]);
 
   const styles = {
@@ -129,4 +157,4 @@ function Resources() {
 
 const condition = (authUser) => authUser != null;
 
-export default withAuthorization(condition)(Resources);
+export default withFirebase(withAuthorization(condition)(Resources));
