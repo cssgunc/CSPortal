@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
+import * as ROUTES from '../../constants/routes';
+
 // import CompanyPartners from '../CompanyPartners/index.js';
 
 function Opportunities() {
@@ -60,9 +63,9 @@ function Opportunities() {
                       />
                       <div className="content">
                         <p>
-                          <a id={role.id} href={`/opportunities/${role.id}`}>
+                          <Link to={`${ROUTES.OPPORTUNITIES}/${role.id}`}>
                             <strong>{role.fields.Title}</strong>
-                          </a>
+                          </Link>
                           <br />
                           {role.fields.CompanyName}
                           <br />

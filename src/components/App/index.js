@@ -72,8 +72,8 @@ function App(props) {
           <Route path={ROUTES.DIRECTORY} component={Directory} />
           <Route path={ROUTES.RESOURCES} component={Resources} />
           <Route path={ROUTES.REFER} component={Refer} />
-          <Route path={ROUTES.OPPORTUNITIES} component={Opportunities} />
-          <Route path={ROUTES.WEBINARS} component={Webinars} />
+          <Route path={ROUTES.OPPORTUNITIES} exact component={Opportunities} />
+          <Route path={ROUTES.WEBINARS} exact component={Webinars} />
           <Route path={ROUTES.EVENTS} component={Events} />
           <Route path={ROUTES.COMPANYPARTNERS} component={CompanyPartners} />
           <Route path={ROUTES.CONTACTUS} component={ContactUs} />
@@ -86,6 +86,11 @@ function App(props) {
             path={ROUTES.OPPORTUNITYSAMPLE}
             component={OpportunitiesSubPage}
           />
+          <Route
+            path={ROUTES.SINGLEOPPORTUNITY}
+            component={OpportunitiesSubPage}
+          />
+          <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
         </div>
         <Footer />
       </Router>
