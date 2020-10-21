@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
-import { SignUpPasswordResetLink } from '../SignUp';
+import { SignUpLink } from '../SignUp';
+import colors from '../../constants/RTCColors';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -12,20 +13,27 @@ const SignInPage = () => {
       width: '50%',
       margin: 'auto',
       minWidth: '300px',
+      boxShadow: 'none',
+    },
+    formSection: {
+      backgroundColor: colors.white,
+      width: '100%',
+      display: 'flex',
+      paddingTop: '120px',
+      paddingBottom: '120px',
+      overflow: 'auto',
     },
   };
 
   return (
-    <div>
-      <section className="section is-gray">
-        <div className="card" style={styles.form}>
-          <div className="card-content">
-            <SignInForm />
-            <SignUpPasswordResetLink />
-          </div>
+    <section className="section" style={styles.formSection}>
+      <div className="card" style={styles.form}>
+        <div className="card-content">
+          <SignInForm />
+          <SignUpLink />
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
@@ -67,10 +75,39 @@ function SignInFormBase(props) {
 
   const isInvalid = password === '' || email === '';
 
+  const styles = {
+    input: {
+      borderRadius: '0px',
+      border: 'none',
+      boxShadow: 'none',
+      borderBottom: `2px solid ${colors.mediumGray}`,
+      paddingLeft: '0px',
+      marginBottom: '40px',
+      marginTop: '0px',
+    },
+    signInButton: {
+      backgroundColor: colors.lightBlue,
+      color: colors.white,
+      marginBottom: '10px',
+    },
+    form: {
+      maxWidth: '350px',
+      marginRight: 'auto',
+      marginLeft: 'auto',
+      textAlign: 'center',
+    },
+    link: {
+      color: colors.mediumGray,
+      textDecoration: 'underline',
+    },
+    error: {
+      marginTop: '20px',
+    },
+  };
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} style={styles.form}>
       <div className="field">
-        <label className="label">Email</label>
         <div className="control">
           <input
             className="input"
@@ -79,12 +116,12 @@ function SignInFormBase(props) {
             onChange={onChangeEmail}
             type="text"
             placeholder="Email Address"
+            style={styles.input}
           />
         </div>
       </div>
 
       <div className="field">
-        <label className="label">Password</label>
         <div className="control">
           <input
             className="input"
@@ -92,20 +129,34 @@ function SignInFormBase(props) {
             value={password}
             onChange={onChangePassword}
             type="password"
-            placeholder="Enter Password"
+            placeholder="Password"
+            style={styles.input}
           />
         </div>
       </div>
 
-      <div className="field is-grouped">
+      <div className="field">
         <div className="control">
-          <button className="button is-link" disabled={isInvalid} type="submit">
+          <button
+            className="button is-link is-fullwidth"
+            disabled={isInvalid}
+            type="submit"
+            style={styles.signInButton}
+          >
             Sign In
           </button>
         </div>
       </div>
 
-      {error && <p>{error.message}</p>}
+      {error && (
+        <article className="message is-warning" style={styles.error}>
+          <div className="message-body">{error.message}</div>
+        </article>
+      )}
+
+      <Link to={ROUTES.PASSWORD_FORGET} style={styles.link}>
+        Forgot password?
+      </Link>
     </form>
   );
 }
