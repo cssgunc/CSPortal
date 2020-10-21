@@ -66,6 +66,25 @@ class Firebase {
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
+  doUpdateEmail = async (email) => {
+    if (this.auth.currentUser == null) {
+      return Promise.reject(
+        new Error("Please sign in before attempting to update your email."),
+      );
+    }
+    const val = await this.getEmails();
+    if (val.includes(email)) {
+      return this.auth.currentUser
+        .verifyBeforeUpdateEmail(email)
+        .then(() => {
+          this.auth.signOut();
+        });
+    }
+    return Promise.reject(
+      new Error('The provided email is not in the RTC directory.'),
+    );
+  };
+
   doSignOut = () => this.auth.signOut();
 
   doPasswordReset = (email) => this.auth.sendPasswordResetEmail(email);

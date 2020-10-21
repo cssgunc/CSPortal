@@ -6,6 +6,7 @@ import { AuthUserContext } from '../Session';
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
+import UpdateEmailPage from '../UpdateEmail';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
@@ -66,6 +67,7 @@ function App(props) {
           <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
           <Route path={ROUTES.VERIFY} component={VerifyPage} />
           <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.UPDATE_EMAIL} component={UpdateEmailPage} />
           <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
