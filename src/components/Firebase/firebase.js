@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/functions';
 import axios from 'axios';
 
 const firebaseConfig = {
@@ -19,6 +20,7 @@ class Firebase {
   constructor() {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
+    this.functions = app.functions();
   }
 
   // PLEASE READ:
