@@ -63,13 +63,7 @@ function Webinars() {
                   <br />
                   {vid.fields.Description}
                 </p>
-                {/* <p>
-                {vid.fields.VideoLink.replace("http://www.youtube.com/watch?v=", "http://www.youtube.com/embed/")}
-                </p> */}
                 <iframe width="560" height="315" src={vid.fields.VideoLink.replace("watch?v=", "embed/").split("&")[0]} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-{/* // vid.fields.VideoLink.replace("http://www.youtube.com/watch?v=", "http://www.youtube.com/embed/").split("&")[0] */}
-{/* https://www.youtube.com/embed/TWtJvCKKF_M */}
-{/* https://www.youtube.com/watch?v=TWtJvCKKF_M&t=9s */}
                 </iframe>
               </div>
             </div>
