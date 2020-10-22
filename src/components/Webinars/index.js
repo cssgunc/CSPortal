@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
+import * as ROUTES from '../../constants/routes';
 
 function Webinars() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -56,10 +58,12 @@ function Webinars() {
             <div className="column is-half" >
             <div className="box" key={vid.id} style = {{height: `550px`}}>
               <div className="content">
-                <p >
-                  <a href={vid.fields.VideoLink}>
-                    <strong>{vid.fields.Title}</strong>
-                  </a>
+                <p>
+                  <Link to={`${ROUTES.WEBINARS}/${vid.id}`}>
+                    <a href={vid.fields.VideoLink}>
+                      <strong>{vid.fields.Title}</strong>
+                    </a>
+                  </Link>
                   <br />
                   {vid.fields.Description}
                 </p>
@@ -74,8 +78,6 @@ function Webinars() {
       </ViewWithTopBorder>
       </section>
     </div>
-    
-    
   );
 }
 

@@ -4,18 +4,18 @@ import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 
-function WebinarsSubPage() {
+function WebinarsSubPage(props) {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-  // all the data for the particular video is stored here
-  const [webinar, setWebinar] = useState({});
+  // all the data for the particular webinar is stored here
+  const [webinar, setWebinar] = useState([]);
 
-  // change to different IDs from the airtable here. right now, it fetches one I chose at random 'reczyNRsb4jOYuMVb'.
-  const currentVideoID = 'reczyNRsb4jOYuMVb';
+  const { match } = props;
+  const currentWebinarID = match.params.id;
 
   useEffect(() => {
     axios
       .get(
-        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Videos/${currentVideoID}`,
+        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Videos/${currentWebinarID}`,
         {
           headers: { Authorization: `Bearer ${airtableKey}` },
         },

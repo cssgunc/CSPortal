@@ -72,8 +72,8 @@ function App(props) {
           <Route path={ROUTES.DIRECTORY} component={Directory} />
           <Route path={ROUTES.RESOURCES} component={Resources} />
           <Route path={ROUTES.REFER} component={Refer} />
-          <Route path={ROUTES.OPPORTUNITIES} component={Opportunities} />
-          <Route path={ROUTES.WEBINARS} component={Webinars} />
+          <Route path={ROUTES.OPPORTUNITIES} exact component={Opportunities} />
+          <Route path={ROUTES.WEBINARS} exact component={Webinars} />
           <Route path={ROUTES.EVENTS} component={Events} />
           <Route path={ROUTES.COMPANYPARTNERS} component={CompanyPartners} />
           <Route path={ROUTES.CONTACTUS} component={ContactUs} />
@@ -81,11 +81,11 @@ function App(props) {
           <Route path={ROUTES.MEETTHETEAM} component={MeetTheTeam} />
           <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
           <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
-          <Route path={ROUTES.WEBINARSAMPLE} component={WebinarsSubPage} />
           <Route
-            path={ROUTES.OPPORTUNITYSAMPLE}
+            path={ROUTES.SINGLEOPPORTUNITY}
             component={OpportunitiesSubPage}
           />
+          <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
         </div>
         <Footer />
       </Router>

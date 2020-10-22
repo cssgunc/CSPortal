@@ -17,5 +17,5 @@ export const COMMUNITIES = '/communities';
 export const MENTORSHIP = '/mentorship';
 export const FELLOWSHIPGUIDE = '/fellowship';
 export const MEETTHETEAM = '/meettheteam';
-export const WEBINARSAMPLE = '/webinar/sample';
-export const OPPORTUNITYSAMPLE = '/opportunity/sample';
+export const SINGLEOPPORTUNITY = '/opportunities/:id';
+export const SINGLEWEBINAR = '/webinars/:id';
