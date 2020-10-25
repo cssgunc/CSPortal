@@ -7,15 +7,13 @@ function ContactUs() {
   useEffect(() => {
     console.log('function called');
     axios
-      .get(
+      .post(
         `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,
         {
-          params: {
-            name: 'Bob',
-            email: 'calciumphosphate0@gmail.com',
-            phone: '9841234567',
-            message: 'hi',
-          },
+          name: 'Bob',
+          email: 'calciumphosphate0@gmail.com',
+          phone: '9841234567',
+          message: 'hi',
         },
       )
       .then(() => {

@@ -55,7 +55,8 @@ const contactEmail = functions.config().contact.email;
 const contactPassword = functions.config().contact.password;
 
 exports.emailMessage = functions.https.onRequest((req, res) => {
-  const { name, email, phone, message } = req.query;
+  const { name, email, phone, message } = req.body;
+  console.log(req.body);
 
   cors(req, res, () => {
     var text = `<div>
