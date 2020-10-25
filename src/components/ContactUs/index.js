@@ -1,44 +1,100 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
 import { withAuthorization } from '../Session';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import 'bulma/css/bulma.css';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
-import colors from '../../constants/RTCColors';
 
 function ContactUs() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState(null);
+
+  const onSubmit = (event) => {
+    // add call to firebase function to send email here
+    // access details with name, email, and message variables
+    console.log(name, email, message);
+    if (error) {
+      setError(error);
+    }
+    event.preventDefault();
+  };
+
+  const onChangeName = (event) => {
+    setName(event.target.value);
+  };
+  const onChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  const onChangeMessage = (event) => {
+    setMessage(event.target.value);
+  };
+
   return (
     <div>
       <section className="section is-white">
         <div className="container">
           <ViewWithTopBorder>
             <Heading>Contact Us:</Heading>
-            <div class = "field">
-              <label class ="label">Full Name: </label>
-              <div class = "control">
-                <input class = "input is-rounded" type = "text" placeholder= "Full Name"></input>
+            <form onSubmit={onSubmit}>
+              <div className="field">
+                <label className="label">Full Name: </label>
+                <div className="control">
+                  <input
+                    className="input is-rounded"
+                    name="name"
+                    value={name}
+                    onChange={onChangeName}
+                    type="text"
+                    placeholder="Full Name"
+                  />
+                </div>
               </div>
-            </div>
-            <div class = "field">
-              <label class ="label">Email: </label>
-              <div class = "control">
-                <input class = "input is-rounded" type = "text" placeholder ="Email Address"></input>
+              <div className="field">
+                <label className="label">Email: </label>
+                <div className="control">
+                  <input
+                    className="input is-rounded"
+                    name="email id"
+                    value={email}
+                    onChange={onChangeEmail}
+                    type="text"
+                    placeholder="Email Address"
+                  />
+                </div>
               </div>
-            </div>
-            <div class = "field">
-              <label class ="field">Message: </label>
-              <div class = "control">
-                <textarea class = "textarea is-rounded is-large" type = "text" placeholder ="Message Goes Here!"></textarea>
+              <div className="field">
+                <label className="field">Message: </label>
+                <div className="control">
+                  <textarea
+                    className="textarea is-rounded is-large"
+                    name="message"
+                    value={message}
+                    onChange={onChangeMessage}
+                    type="text"
+                    placeholder="Message Goes Here!"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="field is-grouped">
-              <div class="control">
-                <button class="button is-link is-outlined">Submit</button>
+              <div className="field is-grouped">
+                <div className="control">
+                  <button type="submit" className="button is-link is-outlined">
+                    Submit
+                  </button>
+                </div>
+                <div className="control">
+                  <button type="button" className="button is-light">
+                    Cancel
+                  </button>
+                </div>
               </div>
-            <div class="control">
-              <button class="button is-light">Cancel</button>
-            </div>
-            </div>
+            </form>
+
+            {error && (
+              <article className="message is-warning">
+                <div className="message-body">{error.message}</div>
+              </article>
+            )}
           </ViewWithTopBorder>
         </div>
       </section>
