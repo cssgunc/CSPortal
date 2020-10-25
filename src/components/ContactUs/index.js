@@ -1,38 +1,36 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
-import axios from 'axios';
-
-
-
-
 
 function ContactUs() {
   useEffect(() => {
-    console.log("function called");
-    // CLOUD FUNCTIONS WAY:
-    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
+    console.log('function called');
     axios
       .get(
-        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,{
-        params: {name: 'Bob',email:'calciumphosphate0@gmail.com',phone:'9841234567',message:'hi'}
-        })
-      .then((result) => {
-console.log("email sent!")
+        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,
+        {
+          params: {
+            name: 'Bob',
+            email: 'calciumphosphate0@gmail.com',
+            phone: '9841234567',
+            message: 'hi',
+          },
+        },
+      )
+      .then(() => {
+        console.log('email sent!');
       })
       .catch((error) => {
         console.log(error);
       });
-
-  
   }, []);
 
   return (
     <div>
       <section className="section is-white">
         <Heading>Contact Us</Heading>
-
-    </section>
+      </section>
     </div>
   );
 }
