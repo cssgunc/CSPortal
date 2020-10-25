@@ -76,6 +76,7 @@ function Webinars() {
                         '&',
                       )[0]
                     }
+                    title={vid.fields.Title}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen

@@ -250,10 +250,9 @@ const NavEndDesktop = (props) => {
           Refer
         </button>
       </Link>
-      <button
+      <div
         className="navbar-item has-dropdown is-hoverable"
         style={styles.profileIcon}
-        type="button"
       >
         <ProfileIcon />
         <div className="navbar-dropdown is-right" style={styles.dropdown}>
@@ -264,7 +263,7 @@ const NavEndDesktop = (props) => {
             <SignOutButton style={styles.button} />
           </div>
         </div>
-      </button>
+      </div>
     </div>
   );
 };

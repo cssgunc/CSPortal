@@ -26,7 +26,7 @@ function OpportunitiesSubPage(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [airtableKey]);
+  }, [airtableKey, currentOpportunityID]);
 
   return (
     <div>
