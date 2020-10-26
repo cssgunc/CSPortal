@@ -77,21 +77,25 @@ function Footer() {
       label: 'instagram link',
       icon: instaIcon,
       link: 'https://www.instagram.com',
+      key: 'instagram',
     },
     {
       label: 'facebook link',
       icon: fbIcon,
       link: 'https://www.facebook.com',
+      key: 'facebook',
     },
     {
       label: 'twitter link',
       icon: twitterIcon,
       link: 'https://www.twitter.com',
+      key: 'twitter',
     },
     {
       label: 'linkedin link',
       icon: linkedinIcon,
       link: 'https://www.linkedin.com',
+      key: 'linkedin',
     },
   ];
 
@@ -115,7 +119,7 @@ function Footer() {
           style={small ? styles.rightColSmall : styles.rightCol}
         >
           {socialMedia.map((account) => (
-            <a href={account.link}>
+            <a href={account.link} key={account.key}>
               <img alt={account.label} src={account.icon} style={styles.icon} />
             </a>
           ))}
