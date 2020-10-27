@@ -1,36 +1,19 @@
-import React,{useEffect} from 'react';
-import { withAuthorization } from '../Session';
+import React,{useEffect,useState} from 'react';
+//import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import axios from 'axios';
+//import React, { useState } from 'react';
+import { withAuthorization } from '../Session';
+//import Heading from '../General/Heading';
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
 
 
 
 
 
-function ContactUs() {
-  useEffect(() => {
-    console.log("function called");
-    // CLOUD FUNCTIONS WAY:
-    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
-    axios
-      .get(
-        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,{
-        params: {name: 'Bob',email:'calciumphosphate0@gmail.com',phone:'9841234567',message:'hi'}
-        })
-      .then((result) => {
-console.log("email sent!")
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 
   
-  }, []);
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
-import { withAuthorization } from '../Session';
-import Heading from '../General/Heading';
-import ViewWithTopBorder from '../General/ViewWithTopBorder';
 
 function ContactUs() {
   const [name, setName] = useState('');
@@ -42,6 +25,24 @@ function ContactUs() {
     // add call to firebase function to send email here
     // access details with name, email, and message variables
     console.log(name, email, message);
+    useEffect(() => {
+      console.log("function called");
+      // CLOUD FUNCTIONS WAY:
+      // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
+      axios
+        .get(
+          `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,{
+          params: {name: name,email:'calciumphosphate0@gmail.com',phone:email,message:message}
+          })
+        .then((result) => {
+  console.log("email sent!")
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  
+    
+    }, []);
     if (error) {
       setError(error);
     }
