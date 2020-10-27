@@ -18,6 +18,7 @@
     "firebase-tools": "^8.9.2",
     "font-awesome": "^4.7.0",
     "moment": "^2.29.1",
+    "nodemailer-smtp-transport": "^2.7.4",
     "react": "^16.13.1",
     "react-big-calendar": "^0.28.1",
     "react-dom": "^16.13.1",
