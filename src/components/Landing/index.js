@@ -99,14 +99,22 @@ function Landing() {
   }, [airtableKey]);
 
   // corresponds respective button to left/right scrolling movement
-  window.onload = function () {
-    document.getElementById("left-arrow").onclick = function () {
-      scrollLeft(document.getElementById("content"), -300, 1000);
-    };
+  // window.onload = function () {
+  //   document.getElementById("left-arrow").onclick = function () {
+  //     scrollLeft(document.getElementById("content"), -300, 1000);
+  //   };
 
-    document.getElementById("right-arrow").onclick = function () {
-      scrollLeft(document.getElementById("content"), 300, 1000);
-    };
+  //   document.getElementById("right-arrow").onclick = function () {
+  //     scrollLeft(document.getElementById("content"), 300, 1000);
+  //   };
+  // };
+
+  function scrollLeftArrow() {
+    scrollLeft(document.getElementById("content"), -300, 1000);
+  };
+
+  function scrollRightArrow() {
+    scrollLeft(document.getElementById("content"), 300, 1000);
   };
 
   // implements scrolling
@@ -194,15 +202,16 @@ function Landing() {
                       </Link>
                     </div>
                     <div style={styles.oppsLineHeight}>
-                      <a href="/" style={styles.oppsNav}>
-                        See All
-                      </a>
-                      <a id="left-arrow">
+                    <Link style={styles.oppsNav} to={`${ROUTES.OPPORTUNITIES}`}>
+                        {" "}
+                        See All{" "}
+                      </Link>
+                      <a id="left-arrow" onClick={scrollLeftArrow}>
                         <span id="left-arrow" className="icon">
                           <i className="fa fa-angle-left" aria-hidden="true" />
                         </span>
                       </a>
-                      <a id="right-arrow">
+                      <a id="right-arrow" onClick={scrollRightArrow}>
                         <span id="right-arrow" className="icon">
                           <i className="fa fa-angle-right" aria-hidden="true" />
                         </span>
