@@ -1,21 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import 'bulma/css/bulma.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import Heading from '../General/Heading';
-import ViewWithTopBorder from '../General/ViewWithTopBorder';
-import colors from '../../constants/RTCColors';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import 'font-awesome/css/font-awesome.min.css';
-import GoogleCalendar from '../General/GoogleCalendar';
-import ScrollMenu from 'react-horizontal-scrolling-menu';
+import React, { useState, useEffect, Component } from "react";
+import axios from "axios";
+import "bulma/css/bulma.css";
+import Heading from "../General/Heading";
+import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import colors from "../../constants/RTCColors";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "font-awesome/css/font-awesome.min.css";
+import GoogleCalendar from "../General/GoogleCalendar";
+import * as ROUTES from "../../constants/routes";
+import { Link } from "react-router-dom";
 
 function Landing() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   const calendarId =
-    'rewritingthecode.org_kfhaeluivti168r0cbn5hj40qs@group.calendar.google.com';
+    "rewritingthecode.org_kfhaeluivti168r0cbn5hj40qs@group.calendar.google.com";
 
   // all the announcements data is stored here
   const [announcements, setAnnouncements] = useState([]);
@@ -35,26 +34,51 @@ function Landing() {
 
   const styles = {
     view: {
-      padding: '25px',
+      padding: "25px",
     },
 
     oppsSize: {
-      height: '365px',
+      height: "365px",
     },
 
     oppsHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      fontSize: '30px',
+      display: "flex",
+      justifyContent: "space-between",
+      fontSize: "30px",
     },
 
     oppsLineHeight: {
-      lineHeight: '30px',
+      lineHeight: "30px",
     },
 
     oppsNav: {
-      fontSize: '20px',
-      paddingRight: '20px',
+      fontSize: "20px",
+      paddingRight: "20px",
+    },
+
+    internal: {
+      width: "35%",
+      height: "100%",
+      display: "inline-block",
+    },
+
+    center: {
+      overflow: "hidden",
+      height: "250px",
+      whiteSpace: "nowrap",
+    },
+
+    fullWidth: {
+      width: "100%",
+    },
+
+    fullWidthHeight: {
+      width: "100%",
+      height: "100%",
+    },
+
+    wordBreak: {
+      whiteSpace: "pre-line",
     },
   };
 
@@ -74,6 +98,43 @@ function Landing() {
       });
   }, [airtableKey]);
 
+  // corresponds respective button to left/right scrolling movement
+  window.onload = function () {
+    document.getElementById("left-arrow").onclick = function () {
+      scrollLeft(document.getElementById("content"), -300, 1000);
+    };
+
+    document.getElementById("right-arrow").onclick = function () {
+      scrollLeft(document.getElementById("content"), 300, 1000);
+    };
+  };
+
+  // implements scrolling
+  function scrollLeft(element, change, duration) {
+    let start = element.scrollLeft,
+      currentTime = 0,
+      increment = 20;
+
+    let animateScroll = function () {
+      currentTime += increment;
+      let val = Math.easeInOutQuad(currentTime, start, change, duration);
+      element.scrollLeft = val;
+      if (currentTime < duration) {
+        setTimeout(animateScroll, increment);
+      }
+    };
+    animateScroll();
+  }
+
+  // calculates how much the div should scroll when left/right arrow is pressed
+  Math.easeInOutQuad = function (currentTime, startValue, change, duration) {
+    currentTime /= duration / 2;
+    if (currentTime < 1)
+      return (change / 2) * currentTime * currentTime + startValue;
+    currentTime--;
+    return (-change / 2) * (currentTime * (currentTime - 2) - 1) + startValue;
+  };
+
   // PLEASE READ:
   // to access the data for all the announcements, use the 'announcements' variable initialized above.
   // check out the structure of the data in your browser's console (in the developer tools).
@@ -92,9 +153,9 @@ function Landing() {
             <ViewWithTopBorder color={colors.green}>
               <Heading>Calendar</Heading>
               <GoogleCalendar
-          eventsColor={colors.lightGreen}
-          calendarId={calendarId}
-        />
+                eventsColor={colors.lightGreen}
+                calendarId={calendarId}
+              />
             </ViewWithTopBorder>
           </div>
           <div className="column is-6">
@@ -120,68 +181,120 @@ function Landing() {
               </div>
             </div>
             <div className="columns is-variable is-2">
-              <div className="column">
+              <div className="column" style={styles.fullWidth}>
                 <ViewWithTopBorder
                   style={styles.oppsSize}
                   color={colors.limeGreen}
                 >
                   <div style={styles.oppsHeader}>
                     <div>
-                      <Heading>Opportunities</Heading>
+                      <Link to={`${ROUTES.OPPORTUNITIES}`}>
+                        {" "}
+                        <Heading>Opportunities</Heading>{" "}
+                      </Link>
                     </div>
                     <div style={styles.oppsLineHeight}>
                       <a href="/" style={styles.oppsNav}>
                         See All
                       </a>
-                      <a href="/">
-                        <span className="icon">
+                      <a id="left-arrow">
+                        <span id="left-arrow" className="icon">
                           <i className="fa fa-angle-left" aria-hidden="true" />
                         </span>
                       </a>
-                      <a href="/">
-                        <span className="icon">
+                      <a id="right-arrow">
+                        <span id="right-arrow" className="icon">
                           <i className="fa fa-angle-right" aria-hidden="true" />
                         </span>
                       </a>
                     </div>
                   </div>
-                  <div className="columns is-multiline">
-            {opportunities.length === 0 ? (
-              <div className="box">
-                <div className="content">
-                  <p>
-                    <strong>No Opportunities yet! Check back later! </strong>
-                  </p>
-                </div>
-              </div>
-            ) : (
-              opportunities
-                .filter((role) => role.fields.Featured)
-                .map((role) => (
-                  <div className="column is-one-quarter">
-                    <div className="box" key={role.id}>
-                      <img
-                        src={role.fields.CompanyLogo[0].thumbnails.small.url}
-                        alt="Logo"
-                      />
-                      <div className="content">
-                        <p>
-                          <a id={role.id} href={`/opportunities/${role.id}`}>
-                            <strong>{role.fields.Title}</strong>
-                          </a>
-                          <br />
-                          {role.fields.CompanyName}
-                          <br />
-                          {role.fields.Location}
-                          <br />
-                          {role.fields.Start}
-                        </p>
+                  <div id="content" className="columns" style={styles.center}>
+                    {opportunities.length === 0 ? (
+                      <div className="box">
+                        <div className="content">
+                          <p>
+                            <strong>
+                              No Opportunities yet! Check back later!{" "}
+                            </strong>
+                          </p>
+                        </div>
                       </div>
+                    ) : (
+                      opportunities
+                        .filter((role) => role.fields)
+                        .map((role) => (
+                          <div
+                            className="column is-one-third"
+                            style={styles.internal}
+                          >
+                            <div
+                              className="box"
+                              key={role.id}
+                              style={styles.fullWidthHeight}
+                            >
+                              <img
+                                src={
+                                  role.fields.CompanyLogo[0].thumbnails.small
+                                    .url
+                                }
+                                alt="Logo"
+                              />
+                              <div className="content">
+                                <p style={styles.wordBreak}>
+                                  <Link
+                                    to={`${ROUTES.OPPORTUNITIES}/${role.id}`}
+                                  >
+                                    {" "}
+                                    <strong>{role.fields.Title}</strong>{" "}
+                                  </Link>
+                                  <br />
+                                  {role.fields.CompanyName}
+                                  <br />
+                                  {role.fields.Location}
+                                  <br />
+                                  {role.fields.Start}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                    )}
+                  </div>
+                  {/* <div className="left">
+                    left div
+                    <button id="left-button">swipe left</button>
+                  </div>
+                  <div className="center" id="content" style={styles.center}>
+                    <div className="internal" style={styles.internal}>
+                      div 1
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 2
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 3
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 4
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 5
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 6
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 7
+                    </div>
+                    <div className="internal" style={styles.internal}>
+                      div 8
                     </div>
                   </div>
-                ))
-            )}
-          </div>
+                  <div className="right" style={styles.right}>
+                    <button id="right-button">swipe right</button>
+                    right div
+                  </div> */}
                   {/* <div className="tile is-ancestor">
                     <div className="tile is-parent">
                       <div className="tile is-child box">
