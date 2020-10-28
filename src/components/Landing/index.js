@@ -261,63 +261,6 @@ function Landing() {
                         ))
                     )}
                   </div>
-                  {/* <div className="left">
-                    left div
-                    <button id="left-button">swipe left</button>
-                  </div>
-                  <div className="center" id="content" style={styles.center}>
-                    <div className="internal" style={styles.internal}>
-                      div 1
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 2
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 3
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 4
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 5
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 6
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 7
-                    </div>
-                    <div className="internal" style={styles.internal}>
-                      div 8
-                    </div>
-                  </div>
-                  <div className="right" style={styles.right}>
-                    <button id="right-button">swipe right</button>
-                    right div
-                  </div> */}
-                  {/* <div className="tile is-ancestor">
-                    <div className="tile is-parent">
-                      <div className="tile is-child box">
-                        <p className="title is-4">Opportunity</p>
-                        <p className="subtitle is-6">image & info here</p>
-                        <figure className="image is-4by3" />
-                      </div>
-                    </div>
-                    <div className="tile is-parent">
-                      <div className="tile is-child box">
-                        <p className="title is-4">Opportunity</p>
-                        <p className="subtitle is-6">image & info here</p>
-                        <figure className="image is-4by3" />
-                      </div>
-                    </div>
-                    <div className="tile is-parent">
-                      <div className="tile is-child box">
-                        <p className="title is-4">Opportunity</p>
-                        <p className="subtitle is-6">image & info here</p>
-                        <figure className="image is-4by3" />
-                      </div>
-                    </div>
-                  </div> */}
                 </ViewWithTopBorder>
               </div>
             </div>
