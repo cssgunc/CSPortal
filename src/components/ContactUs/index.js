@@ -4,7 +4,6 @@ import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 
-
 function ContactUs() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -99,11 +98,7 @@ function ContactUs() {
           </ViewWithTopBorder>
         </div>
       </section>
-      <body>
-          Here we are.
-      </body>
     </div>
-
   );
 }
 
