@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { withAuthorization } from '../Session';
 import Heading from "../General/Heading";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import colors from '../../constants/RTCColors';
 
 function Directory() {
+  const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+  const [directory, setDirectory] = useState([]);
   const styles = {
     airtable: {
       background: 'transparent',
@@ -13,10 +16,7 @@ function Directory() {
   };
 
   return (
-    <div>
-      <section className="section is-white">
-        <div className="container">
-          <div className="column">
+       <section className="section is-white">
             <ViewWithTopBorder color = {colors.lightBlue}>
             <section>
             <Heading>RTC Member Directory:</Heading>
@@ -26,23 +26,18 @@ function Directory() {
               (Still waiting for the real member directory)  
             </h5>
             </section>
-            <div className="card">
+            { <div className="card">
             <iframe
               title="RTCDirectoryAirtableView"
-              className="airtable-embed"
               style={styles.airtable}
-              src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on"
+                      src="https://airtable.com/embed/shrsmt4gRf73XoguK?backgroundColor=red&viewControls=on"
               frameBorder="0"
               width="100%"
               height="650"
             />
-          </div>
+          </div> }
             </ViewWithTopBorder>
-          </div>
-          <hr />
-        </div>
-      </section>
-    </div>
+       </section>
   );
 }
 
