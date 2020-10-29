@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withAuthorization } from '../Session';
-import Loading from '../General/Loading';
 import { withFirebase } from '../Firebase';
 
 function Resources() {
@@ -10,9 +9,6 @@ function Resources() {
   const playlistId = 'PL8zglt-LDl-iywBxcoGUoG-Sh0_1IaoQJ';
   const [webinars, setWebinars] = useState([]);
   const [data, setData] = useState([]);
-
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [webinarsLoaded, setWebinarsLoaded] = useState(false);
 
   useEffect(() => {
     // CLOUD FUNCTIONS WAY:
@@ -24,11 +20,9 @@ function Resources() {
         })
       .then((result) => {
         setData(result.data.message.records);
-        setDataLoaded(true);
       })
       .catch((error) => {
         console.log(error);
-        setDataLoaded(true);
       });
 
     // NORMAL WAY:
@@ -49,11 +43,9 @@ function Resources() {
       .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getWebinars`)
       .then((result) => {
         setWebinars(result.data.message.items);
-        setWebinarsLoaded(true);
       })
       .catch((error) => {
         console.log(error);
-        setWebinarsLoaded(true);
       });
 
     // NORMAL WAY:
@@ -69,15 +61,6 @@ function Resources() {
     //   });
   }, [airtableKey, googleKey, playlistId]);
 
-  const styles = {
-    loadingContainer: {
-      padding: '20px',
-    },
-    loadingImage: {
-      padding: '10px',
-    },
-  };
-
   return (
     <div>
       <section className="section is-white">
@@ -89,7 +72,7 @@ function Resources() {
             </span>
           </h4>
           <hr />
-          {dataLoaded ? (
+          {
             data.slice(0, 10).map((user) => (
               <div className="card" key={user.id}>
                 <header className="card-header">
@@ -101,13 +84,7 @@ function Resources() {
                 </header>
               </div>
             ))
-          ) : (
-            // you can also add a "width" property that sets how wide it will be
-            // you can set the styles for the container with the "containerStyle" property
-            // and set any other styles for the loading image itself with the "style" property
-            // see dummy example below
-            <Loading />
-          )}
+          }
         </div>
       </section>
       <section className="section is-white">
@@ -119,7 +96,7 @@ function Resources() {
             </span>
           </h4>
           <hr />
-          {webinarsLoaded ? (
+          {
             webinars.slice(0, 4).map((vid) => (
               <div className="box" key={vid.id}>
                 <article className="media">
@@ -149,13 +126,7 @@ function Resources() {
                 </article>
               </div>
             ))
-          ) : (
-            <Loading
-              width="100px"
-              style={styles.loadingImage}
-              containerStyle={styles.loadingContainer}
-            />
-          )}
+          }
         </div>
       </section>
     </div>
