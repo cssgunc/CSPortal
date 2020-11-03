@@ -19,7 +19,7 @@ function Directory() {
        <section className="section is-white">
             <ViewWithTopBorder color = {colors.lightBlue}>
             <section>
-            <Heading>RTC Member Directory:</Heading>
+            <Heading>Member Directory:</Heading>
             </section>
             <section>
             <h5 className="title is-5">

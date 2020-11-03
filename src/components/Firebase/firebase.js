@@ -69,7 +69,7 @@ class Firebase {
         });
     }
     return Promise.reject(
-      new Error('The provided email is not in the RTC directory.'),
+      new Error('The provided email is not in the directory.'),
     );
   };
 
@@ -91,7 +91,7 @@ class Firebase {
         });
     }
     return Promise.reject(
-      new Error('The provided email is not in the RTC directory.'),
+      new Error('The provided email is not in the directory.'),
     );
   };
 
