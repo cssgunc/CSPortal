@@ -89,7 +89,7 @@ function SignUpFormBase(props) {
         setPasswordOne('');
         setPasswordTwo('');
         setError('');
-        props.history.push(ROUTES.VERIFY);
+        props.history.push(ROUTES.LANDING);
       })
       .catch((e) => {
         setError(e);

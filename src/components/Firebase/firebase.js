@@ -51,26 +51,26 @@ class Firebase {
 
   // only signs user up if provided email is in rtc directory
   doCreateUserWithEmailAndPassword = async (username, email, password) => {
-    const val = await this.getEmails();
-    if (val.includes(email)) {
-      return this.auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          const user = this.auth.currentUser;
-          if (user) {
-            user
-              .updateProfile({
-                displayName: username,
-              })
-              .catch((e) => console.log(e));
-          }
-          this.auth.currentUser.sendEmailVerification();
-          this.auth.signOut();
-        });
-    }
-    return Promise.reject(
-      new Error('The provided email is not in the directory.'),
-    );
+    // const val = await this.getEmails();
+    // if (val.includes(email)) {
+    return this.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        const user = this.auth.currentUser;
+        if (user) {
+          user
+            .updateProfile({
+              displayName: username,
+            })
+            .catch((e) => console.log(e));
+        }
+        this.auth.currentUser.sendEmailVerification();
+        // this.auth.signOut();
+      });
+    // }
+    // return Promise.reject(
+    //   new Error('The provided email is not in the directory.'),
+    // );
   };
 
   doSignInWithEmailAndPassword = (email, password) =>
@@ -79,20 +79,20 @@ class Firebase {
   doUpdateEmail = async (email) => {
     if (!this.auth.currentUser.emailVerified) {
       return Promise.reject(
-        new Error('Please verify your current email before attempting to change it.'),
+        new Error(
+          'Please verify your current email before attempting to change it.',
+        ),
       );
     }
-    const val = await this.getEmails();
-    if (val.includes(email)) {
-      return this.auth.currentUser
-        .verifyBeforeUpdateEmail(email)
-        .then(() => {
-          this.auth.signOut();
-        });
-    }
-    return Promise.reject(
-      new Error('The provided email is not in the directory.'),
-    );
+    // const val = await this.getEmails();
+    // if (val.includes(email)) {
+    return this.auth.currentUser.verifyBeforeUpdateEmail(email).then(() => {
+      this.auth.signOut();
+    });
+    // }
+    // return Promise.reject(
+    //   new Error('The provided email is not in the directory.'),
+    // );
   };
 
   doSignOut = () => this.auth.signOut();

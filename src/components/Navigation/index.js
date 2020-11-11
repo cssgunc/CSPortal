@@ -155,13 +155,13 @@ const NavigationAuthYes = () => {
                 >
                   Opportunities
                 </Link>
-                <Link
+                {/* <Link
                   className="navbar-item"
                   to="/opportunities/recPgc9d3om1ioAcx"
                   onClick={closeMenu}
                 >
                   Sample Opportunities Sub-Page
-                </Link>
+                </Link> */}
                 <Link
                   className="navbar-item"
                   to={ROUTES.WEBINARS}
@@ -169,13 +169,13 @@ const NavigationAuthYes = () => {
                 >
                   Webinars
                 </Link>
-                <Link
+                {/* <Link
                   className="navbar-item"
                   to="/webinars/recCKN1aUgHjgHkLr"
                   onClick={closeMenu}
                 >
                   Sample Webinars Sub-Page
-                </Link>
+                </Link> */}
                 <Link
                   className="navbar-item"
                   to={ROUTES.EVENTS}
