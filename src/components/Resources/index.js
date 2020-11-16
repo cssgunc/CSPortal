@@ -11,19 +11,23 @@ function Resources() {
   const [webinars, setWebinars] = useState([]);
   const [data, setData] = useState([]);
 
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [webinarsLoaded, setWebinarsLoaded] = useState(false);
+
   useEffect(() => {
     // CLOUD FUNCTIONS WAY:
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(
-        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getData`,{
-        params: {urlType: 'Announcements'}
-        })
+      .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getData`, {
+        params: { urlType: 'Announcements' },
+      })
       .then((result) => {
         setData(result.data.message.records);
+        setDataLoaded(true);
       })
       .catch((error) => {
         console.log(error);
+        setDataLoaded(true);
       });
 
     // NORMAL WAY:
@@ -44,9 +48,11 @@ function Resources() {
       .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getWebinars`)
       .then((result) => {
         setWebinars(result.data.message.items);
+        setWebinarsLoaded(true);
       })
       .catch((error) => {
         console.log(error);
+        setWebinarsLoaded(true);
       });
 
     // NORMAL WAY:
@@ -82,7 +88,7 @@ function Resources() {
             </span>
           </h4>
           <hr />
-          {data.length > 0 ? (
+          {dataLoaded ? (
             data.slice(0, 10).map((user) => (
               <div className="card" key={user.id}>
                 <header className="card-header">
@@ -112,7 +118,7 @@ function Resources() {
             </span>
           </h4>
           <hr />
-          {webinars.length > 0 ? (
+          {webinarsLoaded ? (
             webinars.slice(0, 4).map((vid) => (
               <div className="box" key={vid.id}>
                 <article className="media">

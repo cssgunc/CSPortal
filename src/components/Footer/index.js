@@ -106,12 +106,12 @@ function Footer() {
           className="column"
           style={small ? styles.leftColSmall : styles.leftCol}
         >
-          <a href="https://www.rewritingthecode.org" style={styles.links}>
-            rewritingthecode.org
+          <a href="/" style={styles.links}>
+            yourwebsite.org
           </a>
           <br />
-          <a href="mailto: contact@rewritingthecode.org" style={styles.links}>
-            contact@rewritingthecode.org
+          <a href="mailto: contact@yourwebsite.org" style={styles.links}>
+            contact@yourwebsite.org
           </a>
         </div>
         <div

@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { withAuthorization } from '../Session';
+import Heading from "../General/Heading";
+import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import colors from '../../constants/RTCColors';
 
 function Directory() {
+  const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+  const [directory, setDirectory] = useState([]);
   const styles = {
     airtable: {
       background: 'transparent',
@@ -10,32 +16,28 @@ function Directory() {
   };
 
   return (
-    <div>
-      <section className="section is-white">
-        <div className="container">
-          <h4 className="title is-4">RTC Member Directory:</h4>
-          <h5 className="title is-5">
-            (No this is actually a Married at First Sight participant list{' '}
-            <span role="img" aria-label=":P">
-              😛
-            </span>
-            )
-          </h5>
-          <hr />
-          <div className="card">
+       <section className="section is-white">
+            <ViewWithTopBorder color = {colors.lightBlue}>
+            <section>
+            <Heading>Member Directory:</Heading>
+            </section>
+            <section>
+            <h5 className="title is-5">
+              (Still waiting for the real member directory)  
+            </h5>
+            </section>
+            { <div className="card">
             <iframe
               title="RTCDirectoryAirtableView"
-              className="airtable-embed"
               style={styles.airtable}
-              src="https://airtable.com/embed/shrJwsY95Lra56HSu?backgroundColor=teal&viewControls=on"
+                      src="https://airtable.com/embed/shrsmt4gRf73XoguK?backgroundColor=red&viewControls=on"
               frameBorder="0"
               width="100%"
-              height="533"
+              height="650"
             />
-          </div>
-        </div>
-      </section>
-    </div>
+          </div> }
+            </ViewWithTopBorder>
+       </section>
   );
 }
 

@@ -5,7 +5,7 @@ import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
 import ProfileIcon from '../ProfileIcon';
 import colors from '../../constants/RTCColors';
-import logo from '../../constants/RTC_Color_Logo.png';
+// import logo from '../../constants/RTC_Color_Logo.png';
 
 function Navigation() {
   const authUser = useContext(AuthUserContext);
@@ -79,9 +79,9 @@ const NavigationAuthYes = () => {
         style={styles.bar}
       >
         <div className="navbar-brand" style={styles.barMobile}>
-          <Link className="navbar-item" to={ROUTES.LANDING}>
-            <img src={logo} alt="Rewriting the Code Portal Home" />
-          </Link>
+          {/* <Link className="navbar-item" to={ROUTES.LANDING}>
+            <img alt="Logo here" />
+          </Link> */}
           <button
             className={`navbar-burger ${openMenu ? 'is-active' : ''}`}
             type="button"
@@ -302,9 +302,9 @@ const NavigationAuthNo = () => {
           className="navbar-brand"
           style={{ ...styles.barMobile, ...styles.signInBar }}
         >
-          <Link className="navbar-item" to={ROUTES.LANDING}>
+          {/* <Link className="navbar-item" to={ROUTES.LANDING}>
             <img src={logo} alt="Rewriting the Code Portal Home" />
-          </Link>
+          </Link> */}
           <div className="navbar-end" style={styles.signInContainer}>
             <div className="navbar-item" style={styles.signInContainer}>
               <Link
