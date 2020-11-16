@@ -34,72 +34,106 @@ function MeetTheTeam() {
   // (you need click the above link first and log into/create an account with Airtable before you can access this link):
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:meettheteam
 
-  // Example Data
-  // Real data to be imported from AirTable
-  const data = [
-    {
-      id: '1',
-      fields: {
-        name: 'George Harrison',
-        bio: 'this is me, george bleh blah hello',
-      },
+  console.log(team);
+
+  const styles = {
+    // Centers images of different aspect ratios within a portion of the box
+    imageStyle: {
+      width: "200px",
+      height: "200px",
+      alignItems: "centered",
+      display: "block",
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop: '10px',
     },
-    {
-      id: '2',
-      fields: {
-        name: 'John Lennon',
-        bio: 'wndklwend lennon weridjerod',
-      },
+    
+
+    personCard: {
+      width: "400px",
+      height: "300px",
+      marginLeft: "auto",
+      marginRight: "auto",
+      backgroundColor: "white",
+      textAlign: "center",
+      alignItems: "center",
+      alignObjects: "center",
+      margin: "20px",
+      padding: "15px",
+      borderRadius: '15px',
     },
-    {
-      id: '3',
-      fields: {
-        name: 'Paul McCartney',
-        bio: 'dkjfnrkfwekldfj',
-      },
+
+    nameText: {
+      color: "grey",
+      fontSize: "25px",
     },
-    {
-      id: '4',
-      fields: {
-        name: 'Ringo',
-        bio: 'dkjfnrkfwekldfj',
-      },
+
+    bioText: {
+      overflow: "scroll",
+      display: "none",
+      height: "400px",
     },
-  ];
+
+  };
+
+  function showBio(id) {
+    let target = document.getElementById(id);
+    let bio = document.getElementById(id.concat("bio"))
+    let img = document.getElementById(id.concat("img"))
+    target.style.height = "500px";
+    bio.style.display = "block";
+    img.style.display = "none";
+  }
+
+  function hideBio(id) {
+    let target = document.getElementById(id);
+    let bio = document.getElementById(id.concat("bio"));
+    let img = document.getElementById(id.concat("img"))
+    target.style.height = "300px";
+    bio.style.display = "none";  
+    img.style.display = "block";}
+
 
   return (
     <div>
       <section className="section is-white">
-        <Heading>Meet The Team</Heading>
-      </section>
-      <section className="section">
-        <div className="columns">
-          {data.slice(0, 10).map((person) => (
-            <div className="column">
-              <div
-                className="container"
-                key={person.id}
-                style={{ textAlign: 'center', alignContent: 'center' }}
-              >
-                <ViewWithTopBorder color={colors.darkBlue}>
-                  <Heading style={{ marginTop: '20px' }}>
-                    {person.fields.name}
-                  </Heading>
-                  <figure className="image" style={{ margin: '10%' }}>
-                    <img
-                      className="is-rounded"
-                      src="https://bulma.io/images/placeholders/128x128.png"
-                    />
+
+      <ViewWithTopBorder color={colors.darkBlue}>
+      <Heading>Meet The Team</Heading>
+        <div className = "columns is-mobile is-multiline">
+          {team.slice(0, 10).map((person) => (
+           // <div className="column" key={person.id} style = {{width: '400px'}}> 
+              <div className="box" id = {person.id} style={styles.personCard} 
+                onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
+                onMouseEnter={e => showBio(person.id)} 
+                onMouseLeave={e => hideBio(person.id)}
+                >
+                  <p style = {styles.nameText}>
+                  {person.fields.Name}
+                  </p>
+                  <figure className="image">
+                  
+                  <img
+                    className="displayed" //add is-rounded class 
+                    src = {person.fields.ProfileImage[0].url}
+                    alt = "img not found"
+                    style = {styles.imageStyle}
+                    id = {person.id.concat("img")}
+                  />
                   </figure>
                   <br />
-                  <p className="card-content">{person.fields.bio}</p>
-                </ViewWithTopBorder>
+                  <p className="card-content" id = {person.id.concat("bio")} style = {styles.bioText}>{person.fields.Bio}</p>
+                
               </div>
-            </div>
+           // </div>
           ))}
         </div>
-      </section>
+        </ViewWithTopBorder>
+        </section>
+
     </div>
+    
   );
 }
 

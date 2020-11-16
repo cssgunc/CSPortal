@@ -196,7 +196,7 @@ function Landing() {
   // (you need click the above link first and log into/create an account with Airtable before you can access this link):
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:announcements
 
-  return (
+    return (
     <div>
       <section className="section is-white">
         <div className="columns is-variable is-6">

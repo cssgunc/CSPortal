@@ -1,8 +1,37 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
-import { withAuthorization } from '../Session';
+import React,{useEffect,useState} from 'react';
+//import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
+import axios from 'axios';
+//import React, { useState } from 'react';
+import { withAuthorization } from '../Session';
+//import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
+
+
+
+/*
+
+function sendMail() {
+  useEffect(() => {
+    console.log("function called");
+    // CLOUD FUNCTIONS WAY:
+    // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
+    axios
+      .get(
+        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,{
+        params: {name: 'Bob',email:'calciumphosphate0@gmail.com',phone:'9841234567',message:'hi'}
+        })
+      .then((result) => {
+console.log("email sent!")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  
+  }, []);
+  
+/* eslint-disable jsx-a11y/label-has-associated-control */
 
 function ContactUs() {
   const [name, setName] = useState('');
@@ -10,14 +39,40 @@ function ContactUs() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
+//async function sendeMail(){
+
+//}
+
   const onSubmit = (event) => {
     // add call to firebase function to send email here
     // access details with name, email, and message variables
     console.log(name, email, message);
+
+    axios
+    .post(
+      `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,
+      {
+        name: name,
+        email: email,
+        phone: '',
+        message: message,
+      },
+    )
+    .then(() => {
+      console.log('email sent!');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
     if (error) {
       setError(error);
     }
+    setName("");
+    setEmail("");
+    setMessage("");
     event.preventDefault();
+
   };
 
   const onChangeName = (event) => {
@@ -29,7 +84,12 @@ function ContactUs() {
   const onChangeMessage = (event) => {
     setMessage(event.target.value);
   };
+/*
+  useEffect(() => {
+    console.log('function called');
 
+  }, [onSubmit]);
+  */
   return (
     <div>
       <section className="section is-white">
