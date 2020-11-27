@@ -58,12 +58,13 @@ function Webinars() {
             <div className="column is-half" >
             <div className="box" key={vid.id} style = {{height: `550px`}}>
               <div className="content">
-                <p>
+                <p style = {{height: `150px`}}>
                   <Link to={`${ROUTES.WEBINARS}/${vid.id}`}>
-                    <a href={vid.fields.VideoLink}>
-                      <strong>{vid.fields.Title}</strong>
+                    <a href={vid.fields.VideoLink} style = {{fontSize: "24px"}}>
+                      <strong >{vid.fields.Title}</strong>
                     </a>
                   </Link>
+                  <br />
                   <br />
                   {vid.fields.Description}
                 </p>
@@ -79,14 +80,6 @@ function Webinars() {
       </section>
     </div>
   );
-}
-
-function truncateText(selected, maxLength) {
-  var truncated = selected.innerText;
-  if (truncated.length > maxLength) {
-      truncated = truncated.substr(0,maxLength) + '...';
-  }
-  return truncated;
 }
 
 const condition = (authUser) => authUser != null;
