@@ -18,7 +18,7 @@ function Resources() {
     // CLOUD FUNCTIONS WAY:
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getData`, {
+      .get(`https://us-central1-csportal-c8c72.cloudfunctions.net/getData`, {
         params: { urlType: 'Announcements' },
       })
       .then((result) => {
@@ -45,7 +45,7 @@ function Resources() {
     // CLOUD FUNCTIONS WAY:
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
-      .get(`https://us-central1-rtcportal-f1b6d.cloudfunctions.net/getWebinars`)
+      .get(`https://us-central1-csportal-c8c72.cloudfunctions.net/getWebinars`)
       .then((result) => {
         setWebinars(result.data.message.items);
         setWebinarsLoaded(true);

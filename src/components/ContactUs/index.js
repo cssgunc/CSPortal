@@ -17,7 +17,7 @@ function sendMail() {
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
       .get(
-        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,{
+        `https://us-central1-csportal-c8c72.cloudfunctions.net/emailMessage`,{
         params: {name: 'Bob',email:'calciumphosphate0@gmail.com',phone:'9841234567',message:'hi'}
         })
       .then((result) => {
@@ -49,7 +49,7 @@ function ContactUs() {
 
     axios
       .post(
-        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,
+        `https://us-central1-csportal-c8c72.cloudfunctions.net/emailMessage`,
         {
           name,
           email,
