@@ -56,15 +56,19 @@ function Landing() {
       paddingRight: "20px",
     },
 
+    oppsLogo: {
+      width: "35%"
+    },
+
     internal: {
-      width: "35%",
+      width: "43%",
       height: "100%",
       display: "inline-block",
     },
 
     center: {
       overflow: "hidden",
-      height: "250px",
+      height: "270px",
       whiteSpace: "nowrap",
     },
 
@@ -80,7 +84,57 @@ function Landing() {
     wordBreak: {
       whiteSpace: "pre-line",
     },
+
+    location: {
+      paddingRight: "6px",
+      fontSize: "20px",
+    },
   };
+
+  // creates start date button graphic/color
+  const StartDate = (startDate) => {
+    let dateDiv = document.createElement("div");
+    let dateButton;
+    dateDiv.className = "start-date"; 
+    dateDiv.style.display = "flex-wrap";
+    // added this just bc our data rn has some areas that aren't filled out, will delete later when data comprehensive
+    if (startDate == undefined) {
+      return;
+    }
+
+    for (let i = 0; i < startDate.length; i++) {
+      if (startDate[i].includes("Fall")) {
+        dateButton = document.createElement('button');
+        dateButton.className = "button is-rounded is-small";
+        dateButton.style.backgroundColor = "#DDAA9A";
+        dateButton.style.color = "white";
+        dateButton.style.margin = "5px";
+        dateButton.style.border = "none";
+        dateButton.innerText = startDate[i];
+        dateDiv.appendChild(dateButton);
+      } else if (startDate[i].includes("Spring")) {
+        dateButton = document.createElement('button');
+        dateButton.className = "button is-rounded is-small";
+        dateButton.style.backgroundColor = "#DDAA9A";
+        dateButton.style.color = "white";
+        dateButton.style.margin = "5px";
+        dateButton.style.border = "none";
+        dateButton.innerText = startDate[i];
+        dateDiv.appendChild(dateButton);
+      } else if (startDate[i].includes("Summer")) {
+        dateButton = document.createElement('button');
+        dateButton.className = "button is-rounded is-small";
+        dateButton.style.backgroundColor = "#9ACBDD";
+        dateButton.style.color = "white";
+        dateButton.style.margin = "5px";
+        dateButton.style.border = "none";
+        dateButton.innerText = startDate[i];
+        dateDiv.appendChild(dateButton);
+      }
+    }
+
+    return {__html: dateDiv.outerHTML};
+  }
 
   const [opportunities, setOpportunities] = useState([]);
 
@@ -91,7 +145,6 @@ function Landing() {
       })
       .then((result) => {
         setOpportunities(result.data.records);
-        console.log(result.data.records);
       })
       .catch((error) => {
         console.log(error);
@@ -99,14 +152,12 @@ function Landing() {
   }, [airtableKey]);
 
   // corresponds respective button to left/right scrolling movement
-  window.onload = function () {
-    document.getElementById("left-arrow").onclick = function () {
-      scrollLeft(document.getElementById("content"), -300, 1000);
-    };
+  function scrollLeftArrow() {
+    scrollLeft(document.getElementById("content"), -300, 1000);
+  };
 
-    document.getElementById("right-arrow").onclick = function () {
-      scrollLeft(document.getElementById("content"), 300, 1000);
-    };
+  function scrollRightArrow() {
+    scrollLeft(document.getElementById("content"), 300, 1000);
   };
 
   // implements scrolling
@@ -145,7 +196,7 @@ function Landing() {
   // (you need click the above link first and log into/create an account with Airtable before you can access this link):
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:announcements
 
-  return (
+    return (
     <div>
       <section className="section is-white">
         <div className="columns is-variable is-6">
@@ -194,15 +245,16 @@ function Landing() {
                       </Link>
                     </div>
                     <div style={styles.oppsLineHeight}>
-                      <a href="/" style={styles.oppsNav}>
-                        See All
-                      </a>
-                      <a id="left-arrow">
+                    <Link style={styles.oppsNav} to={`${ROUTES.OPPORTUNITIES}`}>
+                        {" "}
+                        See All{" "}
+                      </Link>
+                      <a id="left-arrow" onClick={scrollLeftArrow}>
                         <span id="left-arrow" className="icon">
                           <i className="fa fa-angle-left" aria-hidden="true" />
                         </span>
                       </a>
-                      <a id="right-arrow">
+                      <a id="right-arrow" onClick={scrollRightArrow}>
                         <span id="right-arrow" className="icon">
                           <i className="fa fa-angle-right" aria-hidden="true" />
                         </span>
@@ -233,9 +285,9 @@ function Landing() {
                               key={role.id}
                               style={styles.fullWidthHeight}
                             >
-                              <img
+                              <img style={styles.oppsLogo}
                                 src={
-                                  role.fields.CompanyLogo[0].thumbnails.small
+                                  role.fields.CompanyLogo[0].thumbnails.large
                                     .url
                                 }
                                 alt="Logo"
@@ -251,9 +303,9 @@ function Landing() {
                                   <br />
                                   {role.fields.CompanyName}
                                   <br />
-                                  {role.fields.Location}
+                                  <i className="fa fa-map-marker" style={styles.location} />{role.fields.Location}
                                   <br />
-                                  {role.fields.Start}
+                                  <div dangerouslySetInnerHTML={StartDate(role.fields.Start)}/>
                                 </p>
                               </div>
                             </div>

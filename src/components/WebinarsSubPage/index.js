@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
 
 function WebinarsSubPage(props) {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -14,7 +15,7 @@ function WebinarsSubPage(props) {
   useEffect(() => {
     axios
       .get(
-        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Opportunities/${currentWebinarID}`,
+        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Videos/${currentWebinarID}`,
         {
           headers: { Authorization: `Bearer ${airtableKey}` },
         },
@@ -30,9 +31,16 @@ function WebinarsSubPage(props) {
 
   return (
     <div>
-      <section className="section is-white">
-        <Heading>{webinar.Title}</Heading>
-        <p>{webinar.Description}</p>
+      <section className="section is-white" defer>
+        <ViewWithTopBorder style = {{textAlign: "center", paddingLeft:"200px", paddingRight:"200px"}}>
+          <Heading style = {{paddingTop:"20px", lineHeight: "35px"}}>{webinar.Title}</Heading>
+          <p style={{paddingTop: "10px", fontSize: "18px", color: "black"}}>{webinar.Description}</p>
+          <div style={{paddingTop: "45px"}}>
+            <iframe width="840" height="472.5" src={webinar.VideoLink !== undefined ? webinar.VideoLink.replace('watch?v=', 'embed/').split('&')[0]
+              : null}frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+          </div>
+        </ViewWithTopBorder>
       </section>
     </div>
   );
