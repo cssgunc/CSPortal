@@ -8,7 +8,7 @@ const styles = {
     width: '50%',
     margin: 'auto',
     minWidth: '300px',
-  }
+  },
 };
 
 const UpdateEmailPage = () => {
@@ -77,7 +77,12 @@ function UpdateEmailFormBase(props) {
 
       {error && <p>{error.message}</p>}
 
-      {sent ? <p>A verification email has been sent to the provided email address. Please verify your email and sign in with your new email.</p> : null}
+      {sent ? (
+        <p>
+          A verification email has been sent to the provided email address.
+          Please verify your email and sign in with your new email.
+        </p>
+      ) : null}
     </form>
   );
 }

@@ -43,40 +43,55 @@ function Webinars() {
     <div>
       <section className="section is-white">
         <ViewWithTopBorder>
-        <Heading>Webinars</Heading>
-        <div className="columns is-multiline">
-        {webinars.length === 0 ? (
-          <div className="box">
-            <div className="content">
-              <p>
-                <strong>No videos yet! Check back later :)</strong>
-              </p>
-            </div>
-          </div>
-        ) : (
-          webinars.map((vid) => (
-            <div className="column is-half" >
-            <div className="box" key={vid.id} style = {{height: `550px`}}>
-              <div className="content">
-                <p style = {{height: `150px`}}>
-                  <Link to={`${ROUTES.WEBINARS}/${vid.id}`}>
-                    <a href={vid.fields.VideoLink} style = {{fontSize: "24px"}}>
-                      <strong >{vid.fields.Title}</strong>
-                    </a>
-                  </Link>
-                  <br />
-                  <br />
-                  {vid.fields.Description}
-                </p>
-                <iframe width="560" height="315" src={vid.fields.VideoLink.replace("watch?v=", "embed/").split("&")[0]} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                </iframe>
+          <Heading>Webinars</Heading>
+          <div className="columns is-multiline">
+            {webinars.length === 0 ? (
+              <div className="box">
+                <div className="content">
+                  <p>
+                    <strong>No videos yet! Check back later :)</strong>
+                  </p>
+                </div>
               </div>
-            </div>
-            </div>
-          ))
-        )}
-        </div>
-      </ViewWithTopBorder>
+            ) : (
+              webinars.map((vid) => (
+                <div className="column is-half">
+                  <div className="box" key={vid.id} style={{ height: `550px` }}>
+                    <div className="content">
+                      <p style={{ height: `150px` }}>
+                        <Link to={`${ROUTES.WEBINARS}/${vid.id}`}>
+                          <a
+                            href={vid.fields.VideoLink}
+                            style={{ fontSize: '24px' }}
+                          >
+                            <strong>{vid.fields.Title}</strong>
+                          </a>
+                        </Link>
+                        <br />
+                        <br />
+                        {vid.fields.Description}
+                      </p>
+                      <iframe
+                        width="560"
+                        height="315"
+                        src={
+                          vid.fields.VideoLink.replace(
+                            'watch?v=',
+                            'embed/',
+                          ).split('&')[0]
+                        }
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={vid.fields.Title}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </ViewWithTopBorder>
       </section>
     </div>
   );

@@ -1,13 +1,12 @@
-import React,{useEffect,useState} from 'react';
-//import { withAuthorization } from '../Session';
-import Heading from '../General/Heading';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
+// import { withAuthorization } from '../Session';
 import axios from 'axios';
-//import React, { useState } from 'react';
+import Heading from '../General/Heading';
+// import React, { useState } from 'react';
 import { withAuthorization } from '../Session';
-//import Heading from '../General/Heading';
+// import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
-
-
 
 /*
 
@@ -39,9 +38,9 @@ function ContactUs() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
-//async function sendeMail(){
+  // async function sendeMail(){
 
-//}
+  // }
 
   const onSubmit = (event) => {
     // add call to firebase function to send email here
@@ -49,30 +48,29 @@ function ContactUs() {
     console.log(name, email, message);
 
     axios
-    .post(
-      `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,
-      {
-        name: name,
-        email: email,
-        phone: '',
-        message: message,
-      },
-    )
-    .then(() => {
-      console.log('email sent!');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .post(
+        `https://us-central1-rtcportal-f1b6d.cloudfunctions.net/emailMessage`,
+        {
+          name,
+          email,
+          phone: '',
+          message,
+        },
+      )
+      .then(() => {
+        console.log('email sent!');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     if (error) {
       setError(error);
     }
-    setName("");
-    setEmail("");
-    setMessage("");
+    setName('');
+    setEmail('');
+    setMessage('');
     event.preventDefault();
-
   };
 
   const onChangeName = (event) => {
@@ -84,7 +82,7 @@ function ContactUs() {
   const onChangeMessage = (event) => {
     setMessage(event.target.value);
   };
-/*
+  /*
   useEffect(() => {
     console.log('function called');
 

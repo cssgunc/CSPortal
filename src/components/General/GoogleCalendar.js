@@ -15,17 +15,17 @@ export default function GoogleCalendar(props) {
   const localizer = momentLocalizer(moment); // Localizer to account for international number/date format differences
 
   useEffect(() => {
-    if (calendarId !== "") {
-    axios
-      .get(
-        `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`,
-      )
-      .then((result) => {
-        setEvents(result.data.items);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (calendarId !== '') {
+      axios
+        .get(
+          `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`,
+        )
+        .then((result) => {
+          setEvents(result.data.items);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [apiKey, calendarId]);
 

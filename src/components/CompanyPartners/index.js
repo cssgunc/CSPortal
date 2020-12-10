@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { withAuthorization } from "../Session";
-import Heading from "../General/Heading";
-import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { withAuthorization } from '../Session';
+import Heading from '../General/Heading';
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
 
 function CompanyPartners() {
@@ -44,29 +44,29 @@ function CompanyPartners() {
   const styles = {
     // Centers images of different aspect ratios within a portion of the box
     imageStyle: {
-      position: "relative",
-      top: "50%",
-      transform: "translateY(-50%)",
+      position: 'relative',
+      top: '50%',
+      transform: 'translateY(-50%)',
     },
 
     boxStyle: {
-      width: "200px",
-      height: "200px",
-      marginLeft: "auto",
-      marginRight: "auto",
+      width: '200px',
+      height: '200px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
 
     figureStyle: {
-      width: "100px",
-      height: "100px",
+      width: '100px',
+      height: '100px',
     },
 
     rowStyle: {
-      height: "80%",
+      height: '80%',
     },
 
     topBorderStyle: {
-      minHeight: "100vh",
+      minHeight: '100vh',
     },
   };
 
@@ -89,8 +89,10 @@ function CompanyPartners() {
                 <div className="column" key={company.name}>
                   <div
                     className="box has-text-centered"
-                    onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`}
-                    onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`)
+                    }
+                    onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '')}
                     style={styles.boxStyle}
                   >
                     <div className="row" style={styles.rowStyle}>
@@ -100,9 +102,9 @@ function CompanyPartners() {
                       >
                         <img
                           src={company.logo}
-                          alt={company.name + " Logo"}
+                          alt={`${company.name} Logo`}
                           style={styles.imageStyle}
-                        ></img>
+                        />
                       </figure>
                     </div>
                     <div className="row">

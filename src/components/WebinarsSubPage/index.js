@@ -32,13 +32,35 @@ function WebinarsSubPage(props) {
   return (
     <div>
       <section className="section is-white" defer>
-        <ViewWithTopBorder style = {{textAlign: "center", paddingLeft:"200px", paddingRight:"200px"}}>
-          <Heading style = {{paddingTop:"20px", lineHeight: "35px"}}>{webinar.Title}</Heading>
-          <p style={{paddingTop: "10px", fontSize: "18px", color: "black"}}>{webinar.Description}</p>
-          <div style={{paddingTop: "45px"}}>
-            <iframe width="840" height="472.5" src={webinar.VideoLink !== undefined ? webinar.VideoLink.replace('watch?v=', 'embed/').split('&')[0]
-              : null}frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-            </iframe>
+        <ViewWithTopBorder
+          style={{
+            textAlign: 'center',
+            paddingLeft: '200px',
+            paddingRight: '200px',
+          }}
+        >
+          <Heading style={{ paddingTop: '20px', lineHeight: '35px' }}>
+            {webinar.Title}
+          </Heading>
+          <p style={{ paddingTop: '10px', fontSize: '18px', color: 'black' }}>
+            {webinar.Description}
+          </p>
+          <div style={{ paddingTop: '45px' }}>
+            <iframe
+              width="840"
+              height="472.5"
+              src={
+                webinar.VideoLink !== undefined
+                  ? webinar.VideoLink.replace('watch?v=', 'embed/').split(
+                      '&',
+                    )[0]
+                  : null
+              }
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title={webinar.fields.Title}
+            />
           </div>
         </ViewWithTopBorder>
       </section>

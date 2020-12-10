@@ -8,8 +8,8 @@ import GoogleCalendar from '../General/GoogleCalendar';
 
 function Events() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-  // stores Google Calendar ID 
-  const [calendarId, setCalendarId] = useState("");
+  // stores Google Calendar ID
+  const [calendarId, setCalendarId] = useState('');
 
   useEffect(() => {
     axios
@@ -17,7 +17,11 @@ function Events() {
         headers: { Authorization: `Bearer ${airtableKey}` },
       })
       .then((result) => {
-        setCalendarId(result.data.records.filter(obj => obj.fields.Name === "EventsCalendar")[0].fields.Link);
+        setCalendarId(
+          result.data.records.filter(
+            (obj) => obj.fields.Name === 'EventsCalendar',
+          )[0].fields.Link,
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -26,11 +30,14 @@ function Events() {
 
   return (
     <div className="column">
-      <ViewWithTopBorder color = {colors.green}>
-      <section>
-        <Heading>Calendar</Heading>
-      </section>
-      <GoogleCalendar eventsColor = {colors.lightGreen} calendarId = {calendarId}></GoogleCalendar>
+      <ViewWithTopBorder color={colors.green}>
+        <section>
+          <Heading>Calendar</Heading>
+        </section>
+        <GoogleCalendar
+          eventsColor={colors.lightGreen}
+          calendarId={calendarId}
+        />
       </ViewWithTopBorder>
     </div>
   );

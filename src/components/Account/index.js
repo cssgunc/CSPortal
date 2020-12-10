@@ -15,7 +15,7 @@ function Account(props) {
           type="button"
         >
           Change Email
-            </button>
+        </button>
       </section>
     </div>
   );

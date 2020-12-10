@@ -39,101 +39,105 @@ function MeetTheTeam() {
   const styles = {
     // Centers images of different aspect ratios within a portion of the box
     imageStyle: {
-      width: "200px",
-      height: "200px",
-      alignItems: "centered",
-      display: "block",
-      marginLeft: "auto",
-      marginRight: "auto",
+      width: '200px',
+      height: '200px',
+      alignItems: 'centered',
+      display: 'block',
+      marginLeft: 'auto',
+      marginRight: 'auto',
       marginTop: '10px',
     },
-    
 
     personCard: {
-      width: "400px",
-      height: "300px",
-      marginLeft: "auto",
-      marginRight: "auto",
-      backgroundColor: "white",
-      textAlign: "center",
-      alignItems: "center",
-      alignObjects: "center",
-      margin: "20px",
-      padding: "15px",
+      width: '400px',
+      height: '300px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      backgroundColor: 'white',
+      textAlign: 'center',
+      alignItems: 'center',
+      alignObjects: 'center',
+      margin: '20px',
+      padding: '15px',
       borderRadius: '15px',
     },
 
     nameText: {
-      color: "grey",
-      fontSize: "25px",
+      color: 'grey',
+      fontSize: '25px',
     },
 
     bioText: {
-      overflow: "scroll",
-      display: "none",
-      height: "400px",
+      overflow: 'scroll',
+      display: 'none',
+      height: '400px',
     },
-
   };
 
   function showBio(id) {
-    let target = document.getElementById(id);
-    let bio = document.getElementById(id.concat("bio"))
-    let img = document.getElementById(id.concat("img"))
-    target.style.height = "500px";
-    bio.style.display = "block";
-    img.style.display = "none";
+    const target = document.getElementById(id);
+    const bio = document.getElementById(id.concat('bio'));
+    const img = document.getElementById(id.concat('img'));
+    target.style.height = '500px';
+    bio.style.display = 'block';
+    img.style.display = 'none';
   }
 
   function hideBio(id) {
-    let target = document.getElementById(id);
-    let bio = document.getElementById(id.concat("bio"));
-    let img = document.getElementById(id.concat("img"))
-    target.style.height = "300px";
-    bio.style.display = "none";  
-    img.style.display = "block";}
-
+    const target = document.getElementById(id);
+    const bio = document.getElementById(id.concat('bio'));
+    const img = document.getElementById(id.concat('img'));
+    target.style.height = '300px';
+    bio.style.display = 'none';
+    img.style.display = 'block';
+  }
 
   return (
     <div>
       <section className="section is-white">
-
-      <ViewWithTopBorder color={colors.darkBlue}>
-      <Heading>Meet The Team</Heading>
-        <div className = "columns is-mobile is-multiline">
-          {team.slice(0, 10).map((person) => (
-           // <div className="column" key={person.id} style = {{width: '400px'}}> 
-              <div className="box" id = {person.id} style={styles.personCard} 
-                onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
-                onMouseEnter={e => showBio(person.id)} 
-                onMouseLeave={e => hideBio(person.id)}
-                >
-                  <p style = {styles.nameText}>
-                  {person.fields.Name}
-                  </p>
-                  <figure className="image">
-                  
+        <ViewWithTopBorder color={colors.darkBlue}>
+          <Heading>Meet The Team</Heading>
+          <div className="columns is-mobile is-multiline">
+            {team.slice(0, 10).map((person) => (
+              // <div className="column" key={person.id} style = {{width: '400px'}}>
+              <div
+                className="box"
+                id={person.id}
+                style={styles.personCard}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 0 5px ${colors.gray}`;
+                  showBio(person.id);
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '';
+                  hideBio(person.id);
+                }}
+              >
+                <p style={styles.nameText}>{person.fields.Name}</p>
+                <figure className="image">
                   <img
-                    className="displayed" //add is-rounded class 
-                    src = {person.fields.ProfileImage[0].url}
-                    alt = "img not found"
-                    style = {styles.imageStyle}
-                    id = {person.id.concat("img")}
+                    className="displayed" // add is-rounded class
+                    src={person.fields.ProfileImage[0].url}
+                    alt="img not found"
+                    style={styles.imageStyle}
+                    id={person.id.concat('img')}
                   />
-                  </figure>
-                  <br />
-                  <p className="card-content" id = {person.id.concat("bio")} style = {styles.bioText}>{person.fields.Bio}</p>
-                
+                </figure>
+                <br />
+                <p
+                  className="card-content"
+                  id={person.id.concat('bio')}
+                  style={styles.bioText}
+                >
+                  {person.fields.Bio}
+                </p>
               </div>
-           // </div>
-          ))}
-        </div>
+              // </div>
+            ))}
+          </div>
         </ViewWithTopBorder>
-        </section>
-
+      </section>
     </div>
-    
   );
 }
 
