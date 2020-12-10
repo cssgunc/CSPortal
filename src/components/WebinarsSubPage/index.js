@@ -27,7 +27,7 @@ function WebinarsSubPage(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [airtableKey]);
+  }, [airtableKey, currentWebinarID]);
 
   return (
     <div>

@@ -69,12 +69,31 @@ class Firebase {
         });
     }
     return Promise.reject(
-      new Error('The provided email is not in the RTC directory.'),
+      new Error('The provided email is not in the directory.'),
     );
   };
 
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
+
+  doUpdateEmail = async (email) => {
+    if (!this.auth.currentUser.emailVerified) {
+      return Promise.reject(
+        new Error('Please verify your current email before attempting to change it.'),
+      );
+    }
+    const val = await this.getEmails();
+    if (val.includes(email)) {
+      return this.auth.currentUser
+        .verifyBeforeUpdateEmail(email)
+        .then(() => {
+          this.auth.signOut();
+        });
+    }
+    return Promise.reject(
+      new Error('The provided email is not in the directory.'),
+    );
+  };
 
   doSignOut = () => this.auth.signOut();
 
