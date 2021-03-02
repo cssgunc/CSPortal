@@ -93,9 +93,27 @@ function Resources() {
               <div className="card" key={user.id}>
                 <header className="card-header">
                   <p className="card-content">
-                    <strong>{user.fields.Title}</strong>
+                    <strong style={{ paddingTop: '10px', 
+                                    fontSize: '30px', 
+                                    color: 'black' }}>
+                    {user.fields.Title}
+                    </strong>
                     <br />
-                    {user.fields.Content}
+                    <p style={{ paddingTop: '10px', 
+                                    fontSize: '15px', 
+                                    color: 'black' }}>
+                    {user.fields.Date.split("T",1)}</p>
+                    
+                    <br />
+                    <p style={{ fontSize: '20px',
+                                paddingBottom:'20px'}}>
+                    {user.fields.Content}  </p>
+                                      
+                    {/* {user.fields.PostedByImage !== undefined
+                      ? user.fields.PostedByImage.replace('watch?v=', 'embed/').split(
+                        '&',
+                      )[0]
+                    : null} */}
                   </p>
                 </header>
               </div>
