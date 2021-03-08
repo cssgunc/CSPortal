@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { withAuthorization } from '../Session';
-import Loading from '../General/Loading';
-import { withFirebase } from '../Firebase';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { withAuthorization } from "../Session";
+import Loading from "../General/Loading";
+import { withFirebase } from "../Firebase";
 
 function Announcements() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   const googleKey = process.env.REACT_APP_GOOGLE_API_KEY;
-  const playlistId = 'PL8zglt-LDl-iywBxcoGUoG-Sh0_1IaoQJ';
+  const playlistId = "PL8zglt-LDl-iywBxcoGUoG-Sh0_1IaoQJ";
   const [webinars, setWebinars] = useState([]);
   const [data, setData] = useState([]);
 
@@ -19,7 +19,7 @@ function Announcements() {
     // TODO: ADD AUTHENTICATION HEADER TO THIS REQUEST
     axios
       .get(`https://us-central1-csportal-c8c72.cloudfunctions.net/getData`, {
-        params: { urlType: 'Announcements' },
+        params: { urlType: "Announcements" },
       })
       .then((result) => {
         setData(result.data.message.records);
@@ -70,10 +70,10 @@ function Announcements() {
 
   const styles = {
     loadingContainer: {
-      padding: '20px',
+      padding: "20px",
     },
     loadingImage: {
-      padding: '10px',
+      padding: "10px",
     },
   };
 
@@ -82,7 +82,7 @@ function Announcements() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Airtable as a Database:{' '}
+            Using Airtable as a Database:{" "}
             <span role="img" aria-label="check">
               ✅
             </span>
@@ -112,7 +112,7 @@ function Announcements() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Youtube API:{' '}
+            Using Youtube API:{" "}
             <span role="img" aria-label="check">
               ✅
             </span>
