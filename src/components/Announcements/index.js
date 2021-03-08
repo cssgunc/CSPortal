@@ -82,10 +82,7 @@ function Announcements() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Airtable as a Database:{" "}
-            <span role="img" aria-label="check">
-              ✅
-            </span>
+            Announcements:
           </h4>
           <hr />
           {dataLoaded ? (
@@ -93,9 +90,29 @@ function Announcements() {
               <div className="card" key={user.id}>
                 <header className="card-header">
                   <p className="card-content">
-                    <strong>{user.fields.Title}</strong>
+                    <strong style={{ paddingTop: '10px', 
+                                    fontSize: '30px', 
+                                    color: 'black' }}>
+                    {user.fields.Title}
+                    </strong>
                     <br />
-                    {user.fields.Content}
+                    <p style={{ paddingTop: '10px', 
+                                    fontSize: '15px', 
+                                    color: 'black' }}>
+                    {user.fields.Date.split("T",1)}
+                    {/* {user.fields.Date} */}
+                    </p>
+                    
+                    <br />
+                    <p style={{ fontSize: '20px',
+                                paddingBottom:'20px'}}>
+                    {user.fields.Content}  </p>
+                                      
+                    {/* {user.fields.PostedByImage !== undefined
+                      ? user.fields.PostedByImage.replace('watch?v=', 'embed/').split(
+                        '&',
+                      )[0]
+                    : null} */}
                   </p>
                 </header>
               </div>
@@ -106,54 +123,6 @@ function Announcements() {
             // and set any other styles for the loading image itself with the "style" property
             // see dummy example below
             <Loading />
-          )}
-        </div>
-      </section>
-      <section className="section is-white">
-        <div className="container">
-          <h4 className="title is-4">
-            Using Youtube API:{" "}
-            <span role="img" aria-label="check">
-              ✅
-            </span>
-          </h4>
-          <hr />
-          {webinarsLoaded ? (
-            webinars.slice(0, 4).map((vid) => (
-              <div className="box" key={vid.id}>
-                <article className="media">
-                  <div className="media-left">
-                    <figure className="image">
-                      <iframe
-                        title="youtube-embed"
-                        width="340"
-                        height="190"
-                        src={`https://www.youtube.com/embed/${vid.snippet.resourceId.videoId}`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </figure>
-                  </div>
-                  <div className="media-content">
-                    <div className="content">
-                      <p>
-                        <strong>{vid.snippet.title}</strong>
-                        <br />
-                        <br />
-                        {vid.snippet.description.substr(0, 500)}...
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            ))
-          ) : (
-            <Loading
-              width="100px"
-              style={styles.loadingImage}
-              containerStyle={styles.loadingContainer}
-            />
           )}
         </div>
       </section>

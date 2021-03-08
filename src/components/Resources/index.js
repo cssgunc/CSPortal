@@ -82,7 +82,7 @@ function Resources() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Airtable as a Database:{' '}
+            Using Airtable as a Database:{" "}
             <span role="img" aria-label="check">
               ✅
             </span>
@@ -93,27 +93,9 @@ function Resources() {
               <div className="card" key={user.id}>
                 <header className="card-header">
                   <p className="card-content">
-                    <strong style={{ paddingTop: '10px', 
-                                    fontSize: '30px', 
-                                    color: 'black' }}>
-                    {user.fields.Title}
-                    </strong>
+                    <strong>{user.fields.Title}</strong>
                     <br />
-                    <p style={{ paddingTop: '10px', 
-                                    fontSize: '15px', 
-                                    color: 'black' }}>
-                    {user.fields.Date.split("T",1)}</p>
-                    
-                    <br />
-                    <p style={{ fontSize: '20px',
-                                paddingBottom:'20px'}}>
-                    {user.fields.Content}  </p>
-                                      
-                    {/* {user.fields.PostedByImage !== undefined
-                      ? user.fields.PostedByImage.replace('watch?v=', 'embed/').split(
-                        '&',
-                      )[0]
-                    : null} */}
+                    {user.fields.Content}
                   </p>
                 </header>
               </div>
@@ -130,7 +112,7 @@ function Resources() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Youtube API:{' '}
+            Using Youtube API:{" "}
             <span role="img" aria-label="check">
               ✅
             </span>
