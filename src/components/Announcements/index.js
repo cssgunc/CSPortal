@@ -3,6 +3,7 @@ import axios from "axios";
 import { withAuthorization } from "../Session";
 import Loading from "../General/Loading";
 import { withFirebase } from "../Firebase";
+import { parseJSON, format } from 'date-fns'
 
 function Announcements() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -99,8 +100,8 @@ function Announcements() {
                     <p style={{ paddingTop: '10px', 
                                     fontSize: '15px', 
                                     color: 'black' }}>
-                    {user.fields.Date.split("T",1)}
-                    {/* {user.fields.Date} */}
+                    {/* {user.fields.Date.split("T",1)} */}
+                    {format(parseJSON(user.fields.Date), 'PPPP')}
                     </p>
                     
                     <br />
