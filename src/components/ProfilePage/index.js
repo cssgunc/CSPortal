@@ -1,25 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "bulma/css/bulma.css";
 import { withAuthorization } from "../Session";
-import Heading from "../General/Heading";
+import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
+import ProfileIcon from "../ProfileIcon";
 import colors from "../../constants/RTCColors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faLock,
+  faLockOpen,
+} from "@fortawesome/free-solid-svg-icons";
 
-function ProfilePage() {
+function ProfilePage(props) {
+  const authUser = useContext(AuthUserContext);
+
   const styles = {
     topBorderStyle: {
       minHeight: "100vh",
     },
-    headingStyle: {
-      textAlign: "center",
+    columnStyle: {
+      margin: "25px",
     },
-    pictureStyle: {
-      display: "block",
-      marginLeft: "auto",
-      marginRight: "auto",
+    profileColumn: {
+      margin: "25px 0px 25px 25px",
+    },
+    starredColumn: {
+      margin: "25px 25px 25px 0px",
+    },
+    verticalMargin: {
+      margin: "25px 0px",
     },
     editForm: {
       display: "none",
+    },
+    editButtonStyle: {
+      color: colors.white,
+      backgroundColor: colors.lightBlue,
     },
     fileUpload: {
       padding: "10px",
@@ -34,8 +51,6 @@ function ProfilePage() {
     const profileInfo = document.getElementById("profileInfo");
     profileInfo.style.display = "none";
     editForm.style.display = "block";
-
-    // TODO: Change profile to editable form?
   };
 
   let submitMode = function () {
@@ -47,87 +62,51 @@ function ProfilePage() {
   };
 
   return (
-    <div>
-      <section className="column">
+    <div className="columns">
+      <div className="column is-three-quarters" style={styles.profileColumn}>
         <ViewWithTopBorder
           style={styles.topBorderStyle}
-          color={colors.darkBlue}
+          color={colors.limeGreen}
         >
-          <Heading style={styles.headingStyle}>First Last</Heading>
-          <div id="profileInfo">
-            <figure style={styles.pictureStyle} className="image is-128x128">
-              <img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"></img>
-            </figure>
-            <br></br>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
-            <br></br>
-            <button class="button" onClick={editMode}>
-              Edit
-            </button>
+          <button class="button is-pulled-right" style={styles.editButtonStyle}>
+            Edit Profile
+          </button>
+          <div class="profileIcon" style={styles.verticalMargin}>
+            <ProfileIcon></ProfileIcon>
           </div>
-          <div id="editForm" style={styles.editForm}>
-            <div class="file has-name is-boxed" style={styles.fileUpload}>
-              <label class="file-label">
-                <input class="file-input" type="file" name="resume" />
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">Choose a file…</span>
-                </span>
-                <span class="file-name">
-                  Screen Shot 2017-07-29 at 15.54.25.png
-                </span>
-              </label>
-            </div>
-            <div class="field">
-              <label class="label">Name</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="bob bob" />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Username</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="username" />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  placeholder="youremailhere@gmail.com"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">About</label>
-              <div class="control">
-                <textarea
-                  class="textarea"
-                  placeholder="lorem ipsum yada yada"
-                ></textarea>
-              </div>
-            </div>
-            <button class="button" onClick={submitMode}>
-              Submit
-            </button>
+          <p className="title">{authUser.displayName}</p>
+          <p className="subtitle">
+            President - Future Leaders of User Experience (FLUX)
+          </p>
+          <div class="envelope" style={styles.verticalMargin}>
+            <FontAwesomeIcon icon={faEnvelope} size="lg" />
           </div>
+          <u>
+            <b>About</b>
+          </u>
+          <p>
+            About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+            ligula neque, lobortis eget euismod vitae, congue sed nisi. Donec
+            nibh ipsum, faucibus non pharetra et, vehicula id dui. Mauris
+            euismod tellus ornare dolor bibendum, viverra auctor ipsum suscipit.
+            Sed eleifend dui nisi, id elementum eros viverra vitae. Donec vitae
+            augue luctus, mattis leo sed, suscipit eros. Aenean luctus at mi non
+            volutpat. Pellentesque habitant morbi tristique senectus et netus et
+            malesuada fames ac turpis egestas. Quisque quam eros, condimentum
+            eget porttitor vitae, dapibus in nisl. Donec lorem turpis, mollis ac
+            rhoncus eu, pellentesque non arcu. Suspendisse quis dui volutpat,
+            eleifend lectus eget, placerat est.{" "}
+          </p>
         </ViewWithTopBorder>
-      </section>
+      </div>
+      <div className="column" style={styles.starredColumn}>
+        <ViewWithTopBorder
+          style={styles.topBorderStyle}
+          color={colors.green}
+        >
+          <p className="subtitle">Starred</p>
+        </ViewWithTopBorder>
+      </div>
     </div>
   );
 }
