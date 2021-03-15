@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/functions';
+import 'firebase/storage';
 import axios from 'axios';
 
 const firebaseConfig = {
@@ -20,6 +21,7 @@ class Firebase {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
     this.functions = app.functions();
+    this.storage = app.storage();
   }
 
   // PLEASE READ:
@@ -100,6 +102,18 @@ class Firebase {
 
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
+
+  doPfpUpload = (img) => {
+    if (this.auth.currentUser) {
+      return this.storage.ref('/images/' + this.auth.currentUser.uid).put(img);
+    }
+  }
+
+  fetchPfpURL = () => {
+    if (this.auth.currentUser) {
+      return this.storage.ref('/images/' + this.auth.currentUser.uid).getDownloadURL();
+    }
+  }
 }
 
 export default Firebase;
