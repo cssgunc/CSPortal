@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withAuthorization } from "../Session";
+import Popup from "./Popup";
 import Loading from "../General/Loading";
 import { withFirebase } from "../Firebase";
 import { parseJSON, format } from 'date-fns'
@@ -14,6 +15,14 @@ function Announcements() {
 
   const [dataLoaded, setDataLoaded] = useState(false);
   const [webinarsLoaded, setWebinarsLoaded] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  // TODO: Try to set an array of states so not all shows pop-up
+  // const [showPopup, setShowPopup] = useState([false]);
+
+  function togglePopup() {
+    setShowPopup(!showPopup);
+  }
 
   useEffect(() => {
     // CLOUD FUNCTIONS WAY:
@@ -93,9 +102,21 @@ function Announcements() {
                   <p className="card-content">
                     <strong style={{ paddingTop: '10px', 
                                     fontSize: '30px', 
-                                    color: 'black' }}>
-                    {user.fields.Title}
+                                    color: 'black' }}
+                            onClick={togglePopup.bind(this)}
+                            // onClick={setShowPopup(!showPopup[user.id])}
+                            > 
+                            {user.fields.Title} 
                     </strong>
+                    // TODO: implement an array of showPopup states
+                      {showPopup ?
+                        <Popup
+                          text='Click "Close Button" to hide popup'
+                          closePopup={togglePopup.bind(this)}
+                          // closePopup={setShowPopup(!showPopup[user.id])}
+                        />
+                        : null
+                      }
                     <br />
                     <p style={{ paddingTop: '10px', 
                                     fontSize: '15px', 
