@@ -74,10 +74,7 @@ function ClubProfile(props) {
           <div class="profileIcon" style={styles.verticalMargin}>
             <ProfileIcon></ProfileIcon>
           </div>
-          <p className="title">{authUser.displayName}</p>
-          <p className="subtitle">
-            President - Future Leaders of User Experience (FLUX)
-          </p>
+          <p className="title">Future Leaders of User Experience (FLUX)</p>
           <div class="envelope" style={styles.verticalMargin}>
             <FontAwesomeIcon icon={faEnvelope} size="lg" />
           </div>
