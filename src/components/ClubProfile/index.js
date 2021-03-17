@@ -7,10 +7,11 @@ import ProfileIcon from "../ProfileIcon";
 import colors from "../../constants/RTCColors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faEnvelope,
-  faLock,
-  faLockOpen,
-} from "@fortawesome/free-solid-svg-icons";
+  faFacebook,
+  faTwitter,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 function ClubProfile(props) {
   const authUser = useContext(AuthUserContext);
@@ -43,6 +44,10 @@ function ClubProfile(props) {
       display: "flex",
       justifyContent: "center",
     },
+    icon: {
+      color: colors.black,
+      margin: "0px 5px 0px 5px",
+    },
   };
 
   let editMode = function () {
@@ -69,14 +74,17 @@ function ClubProfile(props) {
           color={colors.limeGreen}
         >
           <button class="button is-pulled-right" style={styles.editButtonStyle}>
-            Edit Profile
+            Join
           </button>
           <div class="profileIcon" style={styles.verticalMargin}>
             <ProfileIcon></ProfileIcon>
           </div>
           <p className="title">Future Leaders of User Experience (FLUX)</p>
-          <div class="envelope" style={styles.verticalMargin}>
-            <FontAwesomeIcon icon={faEnvelope} size="lg" />
+          <div class="anything" style={styles.verticalMargin}>
+            <FontAwesomeIcon icon={faFacebook} size="lg" style={styles.icon} />
+            <FontAwesomeIcon icon={faTwitter} size="lg" style={styles.icon} />
+            <FontAwesomeIcon icon={faInstagram} size="lg" style={styles.icon} />
+            <FontAwesomeIcon icon={faEnvelope} size="lg" style={styles.icon} />
           </div>
           <u>
             <b>About</b>
