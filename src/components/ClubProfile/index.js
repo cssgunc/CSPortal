@@ -4,7 +4,9 @@ import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import ProfileIcon from "../ProfileIcon";
+import MediaIcon from "../MediaIcon";
 import colors from "../../constants/RTCColors";
+import facebook from "../../constants/icons/facebook.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -81,6 +83,7 @@ function ClubProfile(props) {
           </div>
           <p className="title">Future Leaders of User Experience (FLUX)</p>
           <div class="anything" style={styles.verticalMargin}>
+            <MediaIcon src={facebook} alt="Facebook" />
             <FontAwesomeIcon icon={faFacebook} size="lg" style={styles.icon} />
             <FontAwesomeIcon icon={faTwitter} size="lg" style={styles.icon} />
             <FontAwesomeIcon icon={faInstagram} size="lg" style={styles.icon} />
