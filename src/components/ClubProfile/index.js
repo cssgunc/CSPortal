@@ -43,10 +43,6 @@ function ClubProfile(props) {
       display: "flex",
       justifyContent: "center",
     },
-    icon: {
-      color: colors.black,
-      margin: "0px 5px 0px 5px",
-    },
   };
 
   let editMode = function () {
@@ -72,14 +68,17 @@ function ClubProfile(props) {
           style={styles.topBorderStyle}
           color={colors.limeGreen}
         >
-          <button class="button is-pulled-right" style={styles.editButtonStyle}>
+          <button
+            className="button is-pulled-right"
+            style={styles.editButtonStyle}
+          >
             Join
           </button>
-          <div class="profileIcon" style={styles.verticalMargin}>
+          <div className="profileIcon" style={styles.verticalMargin}>
             <ProfileIcon></ProfileIcon>
           </div>
           <p className="title">Future Leaders of User Experience (FLUX)</p>
-          <div class="columns" style={styles.verticalMargin}>
+          <div className="columns" style={styles.verticalMargin}>
             <MediaIcon src={facebook} alt="Facebook" />
             <MediaIcon src={twitter} alt="Twitter" />
             <MediaIcon src={instagram} alt="Instagram" />
