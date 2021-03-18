@@ -8,14 +8,8 @@ function MediaIcon(props) {
       cursor: "pointer",
       margin: "1px",
       padding: "0px",
-    },
-    large: {
-      height: "25px",
-      width: "25px",
-    },
-    small: {
-      height: "10px",
-      width: "10px",
+      height: "27px",
+      width: "27px",
     },
   };
 
