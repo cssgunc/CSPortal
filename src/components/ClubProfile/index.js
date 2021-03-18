@@ -79,7 +79,7 @@ function ClubProfile(props) {
             <ProfileIcon></ProfileIcon>
           </div>
           <p className="title">Future Leaders of User Experience (FLUX)</p>
-          <div class="anything" style={styles.verticalMargin}>
+          <div class="columns" style={styles.verticalMargin}>
             <MediaIcon src={facebook} alt="Facebook" />
             <MediaIcon src={twitter} alt="Twitter" />
             <MediaIcon src={instagram} alt="Instagram" />
