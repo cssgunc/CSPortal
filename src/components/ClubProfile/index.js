@@ -7,13 +7,10 @@ import ProfileIcon from "../ProfileIcon";
 import MediaIcon from "../MediaIcon";
 import colors from "../../constants/RTCColors";
 import facebook from "../../constants/icons/facebook.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebook,
-  faTwitter,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import twitter from "../../constants/icons/twitter.png";
+import instagram from "../../constants/icons/instagram.png";
+import linkedin from "../../constants/icons/linkedin.png";
+import youtube from "../../constants/icons/youtube.png";
 
 function ClubProfile(props) {
   const authUser = useContext(AuthUserContext);
@@ -84,10 +81,10 @@ function ClubProfile(props) {
           <p className="title">Future Leaders of User Experience (FLUX)</p>
           <div class="anything" style={styles.verticalMargin}>
             <MediaIcon src={facebook} alt="Facebook" />
-            <FontAwesomeIcon icon={faFacebook} size="lg" style={styles.icon} />
-            <FontAwesomeIcon icon={faTwitter} size="lg" style={styles.icon} />
-            <FontAwesomeIcon icon={faInstagram} size="lg" style={styles.icon} />
-            <FontAwesomeIcon icon={faEnvelope} size="lg" style={styles.icon} />
+            <MediaIcon src={twitter} alt="Twitter" />
+            <MediaIcon src={instagram} alt="Instagram" />
+            <MediaIcon src={linkedin} alt="LinkedIn" />
+            <MediaIcon src={youtube} alt="Youtube" />
           </div>
           <u>
             <b>About</b>
