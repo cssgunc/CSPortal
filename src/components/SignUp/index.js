@@ -74,7 +74,9 @@ const SignUpPage = () => {
 };
 
 function SignUpFormBase(props) {
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [preferredName, setPreferredName] = useState('');
   const [email, setEmail] = useState('');
   const [passwordOne, setPasswordOne] = useState('');
   const [passwordTwo, setPasswordTwo] = useState('');
@@ -82,9 +84,11 @@ function SignUpFormBase(props) {
 
   const onSubmit = (event) => {
     props.firebase
-      .doCreateUserWithEmailAndPassword(username, email, passwordOne)
+      .doCreateUserWithEmailAndPassword(firstName, lastName, preferredName, email, passwordOne)
       .then(() => {
-        setUsername('');
+        setFirstName('');
+        setLastName('');
+        setPreferredName('');
         setEmail('');
         setPasswordOne('');
         setPasswordTwo('');
@@ -98,9 +102,15 @@ function SignUpFormBase(props) {
     event.preventDefault();
   };
 
-  const onChangeUsername = (event) => {
-    setUsername(event.target.value);
+  const onChangeFirstName = (event) => {
+    setFirstName(event.target.value);
   };
+  const onChangeLastName = (event) => {
+    setLastName(event.target.value);
+  };
+  const onChangePreferredName = (event) => {
+    setPreferredName(event.target.value);
+  }
   const onChangeEmail = (event) => {
     setEmail(event.target.value);
   };
@@ -115,7 +125,8 @@ function SignUpFormBase(props) {
     passwordOne !== passwordTwo ||
     passwordOne === '' ||
     email === '' ||
-    username === '';
+    firstName === '' ||
+    lastName === '';
 
   return (
     <form onSubmit={onSubmit} style={styles.form}>
@@ -123,11 +134,37 @@ function SignUpFormBase(props) {
         <div className="control">
           <input
             className="input"
-            name="username"
-            value={username}
-            onChange={onChangeUsername}
+            name="firstName"
+            value={firstName}
+            onChange={onChangeFirstName}
             type="text"
-            placeholder="Full Name"
+            placeholder="First Name"
+            style={styles.input}
+          />
+        </div>
+      </div>
+      <div className="field">
+        <div className="control">
+          <input
+            className="input"
+            name="lastName"
+            value={lastName}
+            onChange={onChangeLastName}
+            type="text"
+            placeholder="Last Name"
+            style={styles.input}
+          />
+        </div>
+      </div>
+      <div className="field">
+        <div className="control">
+          <input
+            className="input"
+            name="preferredName"
+            value={preferredName}
+            onChange={onChangePreferredName}
+            type="text"
+            placeholder="Preferred Name"
             style={styles.input}
           />
         </div>
