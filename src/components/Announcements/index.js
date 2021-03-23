@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withAuthorization } from "../Session";
 import Popup from "./Popup";
+import Modali, { useModali } from 'modali';
+
+
 import Loading from "../General/Loading";
 import { withFirebase } from "../Firebase";
 import { parseJSON, format } from 'date-fns'
+import { id } from "date-fns/locale";
+import { user } from "firebase-functions/lib/providers/auth";
 
 function Announcements() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -18,11 +23,27 @@ function Announcements() {
   const [showPopup, setShowPopup] = useState(false);
 
   // TODO: Try to set an array of states so not all shows pop-up
-  // const [showPopup, setShowPopup] = useState([false]);
-
-  function togglePopup() {
+  // const [showPopup, setShowPopup] = useState([]);
+  const [exampleModal, toggleExampleModal] = useModali();
+  var popUpText = "";
+  // const resetPopup = () => {
+  //   setShowPopup(prevItems => [{
+  //     id: prevItems.length,
+  //     value: false
+  //   }]);
+  // }
+  const togglePopup = event => {
     setShowPopup(!showPopup);
   }
+ 
+  // const togglePopup = event => {
+  //   event.preventDefault();
+  //   setShowPopup([
+  //     ...showPopup,
+  //     [event.target.id]: event.target.value
+  //   ]);
+  // };
+  
 
   useEffect(() => {
     // CLOUD FUNCTIONS WAY:
@@ -34,6 +55,7 @@ function Announcements() {
       .then((result) => {
         setData(result.data.message.records);
         setDataLoaded(true);
+        setShowPopup([...false]);
       })
       .catch((error) => {
         console.log(error);
@@ -94,6 +116,15 @@ function Announcements() {
           <h4 className="title is-4">
             Announcements:
           </h4>
+          <button onClick={toggleExampleModal}>
+            Click me to open a basic modal
+          </button>
+          
+          {/* <button className="button-default" onClick={toggle}>Show Modal</button>
+          <Modal
+            isShowing={isShowing}
+            hide={toggle}
+          /> */}
           <hr />
           {dataLoaded ? (
             data.slice(0, 10).map((user) => (
@@ -103,24 +134,30 @@ function Announcements() {
                     <strong style={{ paddingTop: '10px', 
                                     fontSize: '30px', 
                                     color: 'black' }}
-                            onClick={togglePopup.bind(this)}
-                            // onClick={setShowPopup(!showPopup[user.id])}
+                            // value={user.fields.Content}
+                            // onMouseOver={popUpText = data.splice(0,10)[user.id].Content}
+                            onMouseOver={popUpText = user.fields.Title}
+                            onClick={toggleExampleModal}
+                            // onClick={togglePopup.bind(this)}
+                            // onClick={e => togglePopup(e.target.value)}
                             > 
                             {user.fields.Title} 
+                            
                     </strong>
-                    // TODO: implement an array of showPopup states
+                    {/* // TODO: implement an array of showPopup states
                       {showPopup ?
                         <Popup
                           text='Click "Close Button" to hide popup'
                           closePopup={togglePopup.bind(this)}
-                          // closePopup={setShowPopup(!showPopup[user.id])}
                         />
                         : null
-                      }
+                      } */}
+                    
                     <br />
                     <p style={{ paddingTop: '10px', 
                                     fontSize: '15px', 
-                                    color: 'black' }}>
+                                    color: 'black' }}
+                                    >
                     {/* {user.fields.Date.split("T",1)} */}
                     {format(parseJSON(user.fields.Date), 'PPPP')}
                     </p>
@@ -137,6 +174,7 @@ function Announcements() {
                     : null} */}
                   </p>
                 </header>
+                
               </div>
             ))
           ) : (
@@ -146,11 +184,15 @@ function Announcements() {
             // see dummy example below
             <Loading />
           )}
+        <Modali.Modal {...exampleModal}>
+            {popUpText}
+          </Modali.Modal>
         </div>
       </section>
     </div>
   );
 }
+
 
 const condition = (authUser) => authUser != null;
 
