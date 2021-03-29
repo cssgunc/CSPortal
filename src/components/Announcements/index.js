@@ -24,8 +24,16 @@ function Announcements() {
 
   // TODO: Try to set an array of states so not all shows pop-up
   // const [showPopup, setShowPopup] = useState([]);
-  const [exampleModal, toggleExampleModal] = useModali();
-  var popUpText = "";
+  const [exampleModal, toggleExampleModal] = useModali({
+    large: true,
+  });
+  const [popUpText, setPopUpText] = useState([]);
+  // var popUpText = "";
+  
+  const toggleFunc = (title, time, content) => {
+    setPopUpText([title, time, content]);
+    toggleExampleModal();
+  }
   // const resetPopup = () => {
   //   setShowPopup(prevItems => [{
   //     id: prevItems.length,
@@ -134,16 +142,37 @@ function Announcements() {
                     <strong style={{ paddingTop: '10px', 
                                     fontSize: '30px', 
                                     color: 'black' }}
-                            // value={user.fields.Content}
-                            // onMouseOver={popUpText = data.splice(0,10)[user.id].Content}
-                            onMouseOver={popUpText = user.fields.Title}
-                            onClick={toggleExampleModal}
-                            // onClick={togglePopup.bind(this)}
-                            // onClick={e => togglePopup(e.target.value)}
+                            
+                            onClick={() => toggleFunc(user.fields.Title, 
+                              format(parseJSON(user.fields.Date), 'PPPP'), 
+                              user.fields.Content)}
                             > 
                             {user.fields.Title} 
                             
                     </strong>
+                    <Modali.Modal {...exampleModal}>
+                      <strong strong style={{ padding: '20px', 
+                                    paddingLeft: '30px',
+                                    paddingRight: '30px',
+                                    fontSize: '40px', 
+                                    }}>
+                        {popUpText[0]}
+                      </strong>
+                      <p strong style={{ padding: '20px', 
+                                    paddingLeft: '30px',
+                                    paddingRight: '30px',
+                                    fontSize: '15px', 
+                                    }}>
+                        {popUpText[1]}
+                      </p>
+                      <p strong style={{ padding: '20px', 
+                                    paddingLeft: '30px',
+                                    paddingRight: '30px',
+                                    fontSize: '20px', 
+                                    }}>
+                        {popUpText[2]}
+                      </p>
+                    </Modali.Modal>
                     {/* // TODO: implement an array of showPopup states
                       {showPopup ?
                         <Popup
@@ -184,9 +213,9 @@ function Announcements() {
             // see dummy example below
             <Loading />
           )}
-        <Modali.Modal {...exampleModal}>
+        {/* <Modali.Modal {...exampleModal}>
             {popUpText}
-          </Modali.Modal>
+          </Modali.Modal> */}
         </div>
       </section>
     </div>
