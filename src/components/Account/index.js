@@ -10,16 +10,34 @@ var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
 function Account(props) {
   const { authUser } = props;
 
-  // get record id 
-  base('Directory').select({
-    filterByFormula: `{Email} = "${authUser.email}"`
-  }).eachPage(function page(records, fetchNextPage) {
-    records.forEach(function(record) {
-        console.log('Retrieved', record.id);
-	    console.dir(record);  // show full record JS object
-    })
-  });
-  
+let user_info = [];
+
+const getUserInfo = async function() {
+  try {
+    const records = await base('Directory').select({filterByFormula: `{Email} = "${authUser.email}"`}).all()
+    let record = records[0]
+    user_info.push({"id": record.id, "fields": record.fields});
+    return user_info;
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+getUserInfo().then((data) => {
+  let id = data.id;
+  function updateFields(field, event){
+    base('Directory').update([
+    {
+      "id": id,
+      "fields": {
+        // field: event (whatever input the user puts in)
+      }
+    }
+    ])
+  }
+
+})  
+
   return (
     <div>
       <section className="section is-white">
@@ -27,8 +45,7 @@ function Account(props) {
         <button
           className="button is-link"
           onClick={() => props.history.push(ROUTES.UPDATE_EMAIL)}
-          type="button"
-        >
+          type="button">
           Change Email
         </button>
       </section>
@@ -39,3 +56,5 @@ function Account(props) {
 const condition = (authUser) => authUser != null;
 
 export default withAuthorization(condition)(Account);
+
+
