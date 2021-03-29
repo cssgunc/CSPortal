@@ -10,6 +10,7 @@ import {
   faEnvelope,
   faLock,
   faLockOpen,
+  faCog
 } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage(props) {
@@ -66,6 +67,36 @@ function ProfilePage(props) {
     },
     box: {
       height: "100%",
+    },
+    popUp: {
+      display: "none",
+      zIndex: "3",
+      width: "40vw",
+      height: "30vh",
+      position: "relative",
+      top: "40%",
+    },
+    cog: {
+      padding: "4%",
+      paddingLeft: "12%",
+    },
+    changeButtons: {
+      display: "flex",
+      padding: "2%",
+      justifyContent: "center",
+      alignItem: "center",
+    },
+    popupBackground: {
+      display: "none",
+      backgroundColor: colors.white,
+      opacity: "30%",
+      zIndex: "2",
+      width: "100vw",
+    },
+    outerPopupBackground: {
+      display: "none",
+      width: "100vw",
+      justifyContent: "center",
     }
   };
 
@@ -87,122 +118,148 @@ function ProfilePage(props) {
     editButton.style.display = "block";
   };
 
+  let settingMode = function () {
+    const settingPopup = document.getElementById("settingPopup");
+    const settingBackground = document.getElementById("settingPopupBackground");
+    const outerBackground = document.getElementById("outerBackground");
+    outerBackground.style.display = "flex";
+    settingBackground.style.display = "flex";
+    settingPopup.style.display = "block";
+  }
+
   return (
-    <div className="columns">
-      <div className="column is-three-quarters" style={styles.profileColumn}>
-        <ViewWithTopBorder
-          style={styles.topBorderStyle}
-          color={colors.limeGreen}
-        >
-          <button id="editButton" onClick={editMode} class="button is-pulled-right" style={styles.editButtonStyle}>
-            Edit Profile
-          </button>
-          <div id="profileInfo"><div class="profileIcon" style={styles.verticalMargin}>
-            <ProfileIcon></ProfileIcon>
-          </div>
-            <p className="title">{authUser.displayName}</p>
-            <p className="subtitle">
-              President - Future Leaders of User Experience (FLUX)
+    <div>
+      <div id="outerBackground" class="is-overlay" style={styles.outerPopupBackground}>
+      <div id="settingPopupBackground" class="is-overlay" style={styles.popupBackground}>
+      </div>
+      <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
+        <div className="subtitle">{authUser.displayName}</div>
+        <p>email@gmail.com</p>
+        <div className="subtitle">Privacy Settings</div>
+
+      </div>
+      </div>
+      <div className="columns">
+        <div className="column is-three-quarters" style={styles.profileColumn}>
+          <ViewWithTopBorder
+            style={styles.topBorderStyle}
+            color={colors.limeGreen}
+          >
+            <div class="is-pulled-right" style={styles.changeButtons}>
+              <div>
+                <button id="editButton" onClick={editMode} class="button" style={styles.editButtonStyle}>
+                Edit Profile
+                </button>
+              </div>
+              <div style={styles.cog}><FontAwesomeIcon onClick={settingMode} icon={faCog} size="2x" /></div>
+            </div>
+            <div id="profileInfo"><div class="profileIcon" style={styles.verticalMargin}>
+              <ProfileIcon></ProfileIcon>
+            </div>
+              <p className="title">{authUser.displayName}</p>
+              <p className="subtitle">
+                President - Future Leaders of User Experience (FLUX)
           </p>
-            <div class="envelope" style={styles.verticalMargin}>
-              <FontAwesomeIcon icon={faEnvelope} size="lg" />
-            </div>
-            <u>
-              <b>About</b>
-            </u>
-            <p>
-              About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              ligula neque, lobortis eget euismod vitae, congue sed nisi. Donec
-              nibh ipsum, faucibus non pharetra et, vehicula id dui. Mauris
-              euismod tellus ornare dolor bibendum, viverra auctor ipsum suscipit.
-              Sed eleifend dui nisi, id elementum eros viverra vitae. Donec vitae
-              augue luctus, mattis leo sed, suscipit eros. Aenean luctus at mi non
-              volutpat. Pellentesque habitant morbi tristique senectus et netus et
-              malesuada fames ac turpis egestas. Quisque quam eros, condimentum
-              eget porttitor vitae, dapibus in nisl. Donec lorem turpis, mollis ac
-              rhoncus eu, pellentesque non arcu. Suspendisse quis dui volutpat,
+              <div class="envelope" style={styles.verticalMargin}>
+                <FontAwesomeIcon icon={faEnvelope} size="lg" />
+              </div>
+              <u>
+                <b>About</b>
+              </u>
+              <p>
+                About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                ligula neque, lobortis eget euismod vitae, congue sed nisi. Donec
+                nibh ipsum, faucibus non pharetra et, vehicula id dui. Mauris
+                euismod tellus ornare dolor bibendum, viverra auctor ipsum suscipit.
+                Sed eleifend dui nisi, id elementum eros viverra vitae. Donec vitae
+                augue luctus, mattis leo sed, suscipit eros. Aenean luctus at mi non
+                volutpat. Pellentesque habitant morbi tristique senectus et netus et
+                malesuada fames ac turpis egestas. Quisque quam eros, condimentum
+                eget porttitor vitae, dapibus in nisl. Donec lorem turpis, mollis ac
+                rhoncus eu, pellentesque non arcu. Suspendisse quis dui volutpat,
             eleifend lectus eget, placerat est.{" "}
-            </p>
-          </div>
-          <div id="editForm" style={styles.editForm}>
-        <div class="field">
-          <label class="label">Name</label>
-          <div class="control">
-            <input class="input" type="text" placeholder={authUser.displayName} />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Role</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="role" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="email" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">About</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="about" />
-          </div>
-        </div>
-        <button onClick={submitMode} class="button" style={styles.editButtonStyle}>
-            Submit
+              </p>
+            </div>
+            <div id="editForm" style={styles.editForm}>
+              <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                  <input class="input" type="text" placeholder={authUser.displayName} />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Role</label>
+                <div class="control">
+                  <input class="input" type="text" placeholder="role" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                  <input class="input" type="text" placeholder="email" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">About</label>
+                <div class="control">
+                  <input class="input" type="text" placeholder="about" />
+                </div>
+              </div>
+              <button onClick={submitMode} class="button" style={styles.editButtonStyle}>
+                Submit
           </button>
-      </div>
-        </ViewWithTopBorder>
-      </div>
-      <div className="column" style={styles.starredColumn}>
-        <ViewWithTopBorder
-          style={styles.topBorderStyle}
-          color={colors.green}
-        >
-          <div style={styles.starredHeader}>
-            <div style={styles.starredTitle}><p>Starred</p></div>
+            </div>
+          </ViewWithTopBorder>
+        </div>
+        <div className="column" style={styles.starredColumn}>
+          <ViewWithTopBorder
+            style={styles.topBorderStyle}
+            color={colors.green}
+          >
+            <div style={styles.starredHeader}>
+              <div style={styles.starredTitle}><p>Starred</p></div>
 
-            <div style={styles.jobClubStyle}>
-            <button class="button" style={styles.jobsButtonStyle}>Jobs</button>
-            <button class="button" style={styles.clubsButtonStyle}>Clubs</button>
+              <div style={styles.jobClubStyle}>
+                <button class="button" style={styles.jobsButtonStyle}>Jobs</button>
+                <button class="button" style={styles.clubsButtonStyle}>Clubs</button>
+              </div>
             </div>
-          </div>
 
-          <div style={styles.boxesContainer}>
-            <div class="box">
-              stuff about clubs here to get from air table
+            <div style={styles.boxesContainer}>
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-            <div class="box">
-              stuff about clubs here to get from air table
+              <div class="box">
+                stuff about clubs here to get from air table
             </div>
-          </div>
-          
-        </ViewWithTopBorder>
+            </div>
+
+          </ViewWithTopBorder>
+        </div>
+
+
       </div>
-      
-
     </div>
 
   );
