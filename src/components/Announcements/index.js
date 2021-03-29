@@ -124,9 +124,6 @@ function Announcements() {
           <h4 className="title is-4">
             Announcements:
           </h4>
-          <button onClick={toggleExampleModal}>
-            Click me to open a basic modal
-          </button>
           
           {/* <button className="button-default" onClick={toggle}>Show Modal</button>
           <Modal
