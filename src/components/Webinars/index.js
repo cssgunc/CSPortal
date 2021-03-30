@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
@@ -12,17 +14,15 @@ function Webinars() {
   const [webinars, setWebinars] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Videos`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setWebinars(result.data.records);
-        console.log(result.data.records);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateWebinars = async () => {        
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.VIDEOS_TABLE).select().all();
+
+      setWebinars(records);
+    }
+
+    updateWebinars();
   }, [airtableKey]);
 
   // PLEASE READ:

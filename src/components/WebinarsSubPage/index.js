@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
@@ -13,20 +15,17 @@ function WebinarsSubPage(props) {
   const currentWebinarID = match.params.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Videos/${currentWebinarID}`,
-        {
-          headers: { Authorization: `Bearer ${airtableKey}` },
-        },
-      )
-      .then((result) => {
-        setWebinar(result.data.fields);
-        console.log(result.data.fields);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateWebinar = async () => {        
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let record = await base(AIRTABLE.VIDEOS_TABLE).find(currentWebinarID);
+
+      console.log(record);
+
+      setWebinar(record.fields);
+    }
+
+    updateWebinar();
   }, [airtableKey, currentWebinarID]);
 
   return (
@@ -59,7 +58,7 @@ function WebinarsSubPage(props) {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              title={webinar.fields.Title}
+              title={webinar.Title}
             />
           </div>
         </ViewWithTopBorder>

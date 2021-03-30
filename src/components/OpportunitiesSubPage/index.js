@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 
@@ -12,20 +14,15 @@ function OpportunitiesSubPage(props) {
   const currentOpportunityID = match.params.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Opportunities/${currentOpportunityID}`,
-        {
-          headers: { Authorization: `Bearer ${airtableKey}` },
-        },
-      )
-      .then((result) => {
-        setOpportunity(result.data.fields);
-        console.log(result.data.fields);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateOpportunity = async () => {
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let record = await base(AIRTABLE.OPPORTUNITIES_TABLE).find(currentOpportunityID);
+
+      setOpportunity(record.fields);
+    }
+
+    updateOpportunity();
   }, [airtableKey, currentOpportunityID]);
 
   return (

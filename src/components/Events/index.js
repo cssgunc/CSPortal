@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
@@ -12,20 +14,18 @@ function Events() {
   const [calendarId, setCalendarId] = useState('');
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/MasterLinks`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setCalendarId(
-          result.data.records.filter(
-            (obj) => obj.fields.Name === 'EventsCalendar',
-          )[0].fields.Link,
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateCalendar = async () => {
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.MASTERLINKS_TABLE).select({
+        maxRecords: 1,
+        filterByFormula: "{Name} = 'EventsCalendar'"
+      }).all();
+
+      setCalendarId(records[0].fields.Link);
+    }
+
+    updateCalendar();
   }, [airtableKey]);
 
   return (
