@@ -3,6 +3,7 @@ import colors from "../../constants/RTCColors";
 import Heading from "../General/Heading";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import Avatar from "react-avatar";
+
 function Clubs() {
   return (
     <div
