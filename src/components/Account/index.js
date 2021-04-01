@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withAuthorization } from '../Session';
 
 import * as ROUTES from '../../constants/routes';
@@ -10,33 +10,57 @@ var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
 function Account(props) {
   const { authUser } = props;
 
-let user_info = [];
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    fields: []
+  });
 
-const getUserInfo = async function() {
-  try {
-    const records = await base('Directory').select({filterByFormula: `{Email} = "${authUser.email}"`}).all()
-    let record = records[0]
-    user_info.push({"id": record.id, "fields": record.fields});
-    return user_info;
-  } catch (e) {
-    console.error(e)
-  }
-}
+  useEffect(() => {
 
-getUserInfo().then((data) => {
-  let id = data.id;
-  function updateFields(field, event){
-    base('Directory').update([
-    {
-      "id": id,
-      "fields": {
-        // field: event (whatever input the user puts in)
-      }
+      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`}).
+      firstPage(function(err, records) {
+        if (err) { console.error(err); return; }
+        records.forEach(function(record) {
+            setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
+        });
+    }, [props.fields]);
+
+  })
+
+  const onChangeField = (event) => {
+    let field_name = event.target.className  // get field name
+    let value = event.target.value;    // need to change to this value
+    let field = "";
+
+    switch(field_name){
+      case 'input firstName': 
+        field = "First Name";
+        break;
+      case 'input lastName':
+        field = "Last Name"
+        break;
+      default:
+        field = "";
     }
-    ])
-  }
 
-})  
+
+    // base('Directory').update([
+    //   {
+    //     "id": userInfo.id,
+    //     "fields": {
+    //       field: value
+    //     }
+    //   }
+    // ], function(err, records) {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   records.forEach(function(record) {
+    //     console.log(record.id);
+    //   });
+    // });
+  };
 
   return (
     <div>
@@ -48,8 +72,17 @@ getUserInfo().then((data) => {
           type="button">
           Change Email
         </button>
-      </section>
+        <div className="field">
+    <label className="label">First Name</label>
+    <div className="control">
+      <input className="input firstName" type="text" onChange = {onChangeField} placeholder="Text input" defaultValue={userInfo.fields['First Name']}/> 
     </div>
+    </div>
+    </section>
+      
+
+    </div>
+    
   );
 }
 
