@@ -5,12 +5,13 @@ import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import ProfileIcon from "../ProfileIcon";
 import colors from "../../constants/RTCColors";
+import Switch from "bulma-switch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faLock,
   faLockOpen,
-  faCog
+  faCog,
 } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage(props) {
@@ -50,9 +51,17 @@ function ProfilePage(props) {
     clubsButtonStyle: {
       backgroundColor: colors.lightGreen,
     },
+    privateButtonStyle: {
+      backgroundColor: colors.lightBlue,
+      color: colors.white,
+    },
+    publicButtonStyle: {
+      backgroundColor: colors.mediumGray,
+      color: colors.white,
+    },
     jobClubStyle: {
       float: "right",
-      paddingLeft: "20%"
+      paddingLeft: "20%",
     },
     starredHeader: {
       display: "flex",
@@ -72,7 +81,7 @@ function ProfilePage(props) {
       display: "none",
       zIndex: "3",
       width: "40vw",
-      height: "30vh",
+      height: "40vh",
       position: "relative",
       top: "40%",
     },
@@ -97,7 +106,10 @@ function ProfilePage(props) {
       display: "none",
       width: "100vw",
       justifyContent: "center",
-    }
+    },
+    privacySettings: {
+      paddingBottom: "7%",
+    },
   };
 
   let editMode = function () {
@@ -125,19 +137,70 @@ function ProfilePage(props) {
     outerBackground.style.display = "flex";
     settingBackground.style.display = "flex";
     settingPopup.style.display = "block";
-  }
+  };
+
+  let hideSettingMode = function () {
+    const settingPopup = document.getElementById("settingPopup");
+    const settingBackground = document.getElementById("settingPopupBackground");
+    const outerBackground = document.getElementById("outerBackground");
+    outerBackground.style.display = "none";
+    settingBackground.style.display = "none";
+    settingPopup.style.display = "none";
+  };
 
   return (
     <div>
-      <div id="outerBackground" class="is-overlay" style={styles.outerPopupBackground}>
-      <div id="settingPopupBackground" class="is-overlay" style={styles.popupBackground}>
-      </div>
-      <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
-        <div className="subtitle">{authUser.displayName}</div>
-        <p>email@gmail.com</p>
-        <div className="subtitle">Privacy Settings</div>
-
-      </div>
+      <div
+        id="outerBackground"
+        class="is-overlay"
+        style={styles.outerPopupBackground}
+        onClick = {hideSettingMode}
+      >
+        <div
+          id="settingPopupBackground"
+          class="is-overlay"
+          style={styles.popupBackground}
+        ></div>
+        <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
+          <strong>{authUser.displayName}</strong>
+          <p>email@gmail.com</p>
+          <br></br>
+          <div class="privacyToggle" style={styles.privacySettings}>
+            <strong>Privacy Settings</strong>
+            <div style={styles.jobClubStyle}>
+              <button class="button" style={styles.privateButtonStyle}>
+                Private
+              </button>
+              <button class="button" style={styles.publicButtonStyle}>
+                Public
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <input
+              id="switchRoundedInfo"
+              type="checkbox"
+              name="switchRoundedInfo"
+              class="switch is-rounded is-info is-rtl"
+              checked="checked"
+            ></input>
+            <label for="switchRoundedInfo">Show up in club member lists</label>
+          </div>
+          <div class="field">
+            <input
+              id="switchRoundedInfo"
+              type="checkbox"
+              name="switchRoundedInfo"
+              class="switch is-rounded is-info is-rtl"
+              checked="checked"
+            ></input>
+            <label for="switchRoundedInfo">Display job openings</label>
+          </div>
+          <br></br>
+          <button class="button" style={styles.editButtonStyle}>
+            Change Password
+          </button>
+        </div>
       </div>
       <div className="columns">
         <div className="column is-three-quarters" style={styles.profileColumn}>
@@ -147,19 +210,27 @@ function ProfilePage(props) {
           >
             <div class="is-pulled-right" style={styles.changeButtons}>
               <div>
-                <button id="editButton" onClick={editMode} class="button" style={styles.editButtonStyle}>
-                Edit Profile
+                <button
+                  id="editButton"
+                  onClick={editMode}
+                  class="button"
+                  style={styles.editButtonStyle}
+                >
+                  Edit Profile
                 </button>
               </div>
-              <div style={styles.cog}><FontAwesomeIcon onClick={settingMode} icon={faCog} size="2x" /></div>
+              <div style={styles.cog}>
+                <FontAwesomeIcon onClick={settingMode} icon={faCog} size="2x" />
+              </div>
             </div>
-            <div id="profileInfo"><div class="profileIcon" style={styles.verticalMargin}>
-              <ProfileIcon></ProfileIcon>
-            </div>
+            <div id="profileInfo">
+              <div class="profileIcon" style={styles.verticalMargin}>
+                <ProfileIcon></ProfileIcon>
+              </div>
               <p className="title">{authUser.displayName}</p>
               <p className="subtitle">
                 President - Future Leaders of User Experience (FLUX)
-          </p>
+              </p>
               <div class="envelope" style={styles.verticalMargin}>
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
               </div>
@@ -167,24 +238,29 @@ function ProfilePage(props) {
                 <b>About</b>
               </u>
               <p>
-                About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                ligula neque, lobortis eget euismod vitae, congue sed nisi. Donec
-                nibh ipsum, faucibus non pharetra et, vehicula id dui. Mauris
-                euismod tellus ornare dolor bibendum, viverra auctor ipsum suscipit.
-                Sed eleifend dui nisi, id elementum eros viverra vitae. Donec vitae
-                augue luctus, mattis leo sed, suscipit eros. Aenean luctus at mi non
-                volutpat. Pellentesque habitant morbi tristique senectus et netus et
-                malesuada fames ac turpis egestas. Quisque quam eros, condimentum
-                eget porttitor vitae, dapibus in nisl. Donec lorem turpis, mollis ac
-                rhoncus eu, pellentesque non arcu. Suspendisse quis dui volutpat,
-            eleifend lectus eget, placerat est.{" "}
+                About Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Donec ligula neque, lobortis eget euismod vitae, congue sed
+                nisi. Donec nibh ipsum, faucibus non pharetra et, vehicula id
+                dui. Mauris euismod tellus ornare dolor bibendum, viverra auctor
+                ipsum suscipit. Sed eleifend dui nisi, id elementum eros viverra
+                vitae. Donec vitae augue luctus, mattis leo sed, suscipit eros.
+                Aenean luctus at mi non volutpat. Pellentesque habitant morbi
+                tristique senectus et netus et malesuada fames ac turpis
+                egestas. Quisque quam eros, condimentum eget porttitor vitae,
+                dapibus in nisl. Donec lorem turpis, mollis ac rhoncus eu,
+                pellentesque non arcu. Suspendisse quis dui volutpat, eleifend
+                lectus eget, placerat est.{" "}
               </p>
             </div>
             <div id="editForm" style={styles.editForm}>
               <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder={authUser.displayName} />
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder={authUser.displayName}
+                  />
                 </div>
               </div>
               <div class="field">
@@ -205,63 +281,66 @@ function ProfilePage(props) {
                   <input class="input" type="text" placeholder="about" />
                 </div>
               </div>
-              <button onClick={submitMode} class="button" style={styles.editButtonStyle}>
+              <button
+                onClick={submitMode}
+                class="button"
+                style={styles.editButtonStyle}
+              >
                 Submit
-          </button>
+              </button>
             </div>
           </ViewWithTopBorder>
         </div>
         <div className="column" style={styles.starredColumn}>
-          <ViewWithTopBorder
-            style={styles.topBorderStyle}
-            color={colors.green}
-          >
+          <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
             <div style={styles.starredHeader}>
-              <div style={styles.starredTitle}><p>Starred</p></div>
+              <div style={styles.starredTitle}>
+                <p>Starred</p>
+              </div>
 
               <div style={styles.jobClubStyle}>
-                <button class="button" style={styles.jobsButtonStyle}>Jobs</button>
-                <button class="button" style={styles.clubsButtonStyle}>Clubs</button>
+                <button class="button" style={styles.jobsButtonStyle}>
+                  Jobs
+                </button>
+                <button class="button" style={styles.clubsButtonStyle}>
+                  Clubs
+                </button>
               </div>
             </div>
 
             <div style={styles.boxesContainer}>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
-            </div>
+              </div>
               <div class="box">
                 stuff about clubs here to get from air table
+              </div>
             </div>
-            </div>
-
           </ViewWithTopBorder>
         </div>
-
-
       </div>
     </div>
-
   );
 }
 
