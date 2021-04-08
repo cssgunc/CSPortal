@@ -3,14 +3,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import 'bulma/css/bulma.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import colors from '../../constants/RTCColors';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import 'font-awesome/css/font-awesome.min.css';
 import GoogleCalendar from '../General/GoogleCalendar';
 import * as ROUTES from '../../constants/routes';
 
@@ -23,16 +25,15 @@ function Landing() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Announcements`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setAnnouncements(result.data.records);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateAnnouncements = async () => {        
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.ANNOUNCEMENTS_TABLE).select().all();
+
+      setAnnouncements(records);
+    }
+
+    updateAnnouncements();
   }, [airtableKey]);
 
   const styles = {
@@ -142,16 +143,15 @@ function Landing() {
   const [opportunities, setOpportunities] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Opportunities`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setOpportunities(result.data.records);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateOpportunities = async () => {        
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.OPPORTUNITIES_TABLE).select().all();
+
+      setOpportunities(records);
+    }
+
+    updateOpportunities();
   }, [airtableKey]);
 
   // implements scrolling

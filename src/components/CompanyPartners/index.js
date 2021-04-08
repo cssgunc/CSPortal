@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
@@ -11,16 +13,14 @@ function CompanyPartners() {
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Companies`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setCompanies(result.data.records);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const updateCompanies = async () => {
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.COMPANIES_TABLE).select().all();
+      setCompanies(records);
+    }
+
+    updateCompanies();
   }, [airtableKey]);
 
   // PLEASE READ:
