@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import * as ROUTES from '../../constants/routes';
-import SignOutButton from '../SignOut';
-import { AuthUserContext } from '../Session';
-import ProfileIcon from '../ProfileIcon';
-import colors from '../../constants/RTCColors';
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
+import SignOutButton from "../SignOut";
+import { AuthUserContext } from "../Session";
+import ProfileIcon from "../ProfileIcon";
+import colors from "../../constants/RTCColors";
 // import logo from '../../constants/RTC_Color_Logo.png';
 
 function Navigation() {
@@ -15,20 +15,20 @@ function Navigation() {
 const styles = {
   bar: {
     backgroundColor: colors.black,
-    height: '75px',
-    paddingLeft: '20px',
+    height: "75px",
+    paddingLeft: "20px",
   },
   barMobile: {
-    height: '100%',
+    height: "100%",
   },
   burger: {
-    height: '100%',
+    height: "100%",
     color: colors.white,
     backgroundColor: colors.black,
-    border: 'none',
+    border: "none",
   },
   burgerLine: {
-    width: '20px',
+    width: "20px",
   },
   button: {
     marginBottom: 0,
@@ -37,26 +37,26 @@ const styles = {
     backgroundColor: colors.black,
   },
   menu: {
-    padding: '0px 13px 0px 13px',
+    padding: "0px 13px 0px 13px",
     backgroundColor: colors.black,
   },
   center: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   lightButton: {
     backgroundColor: colors.lightBlue,
     color: colors.white,
   },
   profileIcon: {
-    alignItems: 'center',
-    border: 'none',
+    alignItems: "center",
+    border: "none",
   },
   signInBar: {
-    width: '100%',
+    width: "100%",
   },
   signInContainer: {
-    marginLeft: 'auto',
-    height: '100%',
+    marginLeft: "auto",
+    height: "100%",
   },
   signInButton: {
     backgroundColor: colors.green,
@@ -83,7 +83,7 @@ const NavigationAuthYes = () => {
             <img alt="Logo here" />
           </Link> */}
           <button
-            className={`navbar-burger ${openMenu ? 'is-active' : ''}`}
+            className={`navbar-burger ${openMenu ? "is-active" : ""}`}
             type="button"
             style={styles.burger}
             onClick={toggleMenu}
@@ -96,7 +96,7 @@ const NavigationAuthYes = () => {
         </div>
         <div
           id="navbarMenu"
-          className={`navbar-menu ${openMenu ? 'is-active' : ''}`}
+          className={`navbar-menu ${openMenu ? "is-active" : ""}`}
           style={styles.menu}
         >
           <div className="navbar-start" style={styles.center}>
@@ -150,6 +150,13 @@ const NavigationAuthYes = () => {
               <div className="navbar-dropdown" style={styles.dropdown}>
                 <Link
                   className="navbar-item"
+                  to={ROUTES.ANNOUNCEMENTS}
+                  onClick={closeMenu}
+                >
+                  Announcements
+                </Link>
+                <Link
+                  className="navbar-item"
                   to={ROUTES.OPPORTUNITIES}
                   onClick={closeMenu}
                 >
@@ -162,6 +169,7 @@ const NavigationAuthYes = () => {
                 >
                   Sample Opportunities Sub-Page
                 </Link> */}
+
                 <Link
                   className="navbar-item"
                   to={ROUTES.WEBINARS}

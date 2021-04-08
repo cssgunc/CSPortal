@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import * as ROUTES from '../../constants/routes';
-import { withFirebase } from '../Firebase';
-import { AuthUserContext } from '../Session';
-import Navigation from '../Navigation';
-import LandingPage from '../Landing';
-import SignUpPage from '../SignUp';
-import UpdateEmailPage from '../UpdateEmail';
-import SignInPage from '../SignIn';
-import PasswordForgetPage from '../PasswordForget';
-import AccountPage from '../Account';
-import AdminPage from '../Admin';
-import Directory from '../Directory';
-import Refer from '../Refer';
-import Resources from '../Resources';
-import Opportunities from '../Opportunities';
-import Webinars from '../Webinars';
-import Events from '../Events';
-import CompanyPartners from '../CompanyPartners';
-import ContactUs from '../ContactUs';
-import Communities from '../Communities';
-import MeetTheTeam from '../MeetTheTeam';
-import Mentorship from '../Mentorship';
-import FellowshipGuide from '../FellowshipGuide';
-import OpportunitiesSubPage from '../OpportunitiesSubPage';
-import WebinarsSubPage from '../WebinarsSubPage';
-import VerifyPage from '../Verify';
-import Footer from '../Footer';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
+import { withFirebase } from "../Firebase";
+import { AuthUserContext } from "../Session";
+import Navigation from "../Navigation";
+import LandingPage from "../Landing";
+import SignUpPage from "../SignUp";
+import UpdateEmailPage from "../UpdateEmail";
+import SignInPage from "../SignIn";
+import PasswordForgetPage from "../PasswordForget";
+import AccountPage from "../Account";
+import AdminPage from "../Admin";
+import Directory from "../Directory";
+import Refer from "../Refer";
+import Resources from "../Resources";
+import Opportunities from "../Opportunities";
+import Webinars from "../Webinars";
+import Events from "../Events";
+import CompanyPartners from "../CompanyPartners";
+import ContactUs from "../ContactUs";
+import Communities from "../Communities";
+import MeetTheTeam from "../MeetTheTeam";
+import Mentorship from "../Mentorship";
+import FellowshipGuide from "../FellowshipGuide";
+import OpportunitiesSubPage from "../OpportunitiesSubPage";
+import WebinarsSubPage from "../WebinarsSubPage";
+import VerifyPage from "../Verify";
+import Footer from "../Footer";
+import Announcements from "../Announcements";
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
@@ -37,13 +38,13 @@ function App(props) {
       setSmall(window.innerWidth < 500);
     };
 
-    window.addEventListener('resize', updateWindowDimensions);
-    return () => window.removeEventListener('resize', updateWindowDimensions);
+    window.addEventListener("resize", updateWindowDimensions);
+    return () => window.removeEventListener("resize", updateWindowDimensions);
   });
 
   useEffect(() => {
     const handle = props.firebase.auth.onAuthStateChanged((auth) =>
-      auth ? setAuthUser(auth) : setAuthUser(null),
+      auth ? setAuthUser(auth) : setAuthUser(null)
     );
 
     return function cleanup() {
@@ -53,8 +54,8 @@ function App(props) {
 
   const styles = {
     app: {
-      textAlign: 'left',
-      paddingBottom: small ? '125px' : '75px',
+      textAlign: "left",
+      paddingBottom: small ? "125px" : "75px",
     },
   };
 
@@ -88,6 +89,7 @@ function App(props) {
             component={OpportunitiesSubPage}
           />
           <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
+          <Route path={ROUTES.ANNOUNCEMENTS} component={Announcements} />
         </div>
         <Footer />
       </Router>
