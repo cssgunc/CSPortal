@@ -2,6 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/functions';
 import axios from 'axios';
+import Airtable from 'airtable';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -49,9 +50,26 @@ class Firebase {
   };
 
   // only signs user up if provided email is in rtc directory
-  doCreateUserWithEmailAndPassword = async (username, email, password) => {
+  doCreateUserWithEmailAndPassword = async (firstName, lastName, preferredName, email, password) => {
     // const val = await this.getEmails();
     // if (val.includes(email)) {
+
+    var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
+
+    base('Directory').create([
+      {
+        "fields": {
+          "Email": email,
+          "First Name": firstName,
+          "Last Name": lastName,
+          "Preferred Name": preferredName,
+          "Role": "user",
+        }
+      }
+    ]);
+
+    let username = `${firstName} ${lastName}`;
+
     return this.auth
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
