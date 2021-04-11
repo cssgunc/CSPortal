@@ -27,6 +27,11 @@ function Account(props) {
 
   })
 
+  // const onSubmit = (event) => {
+  //   let value = document.getElementsByClassName('input firstName')
+  //   console.log(value)
+  // }
+
   const onChangeField = (event) => {
     let field_name = event.target.className  // get field name
     let value = event.target.value;    // need to change to this value
@@ -43,24 +48,23 @@ function Account(props) {
         field = "";
     }
 
-
-    // base('Directory').update([
-    //   {
-    //     "id": userInfo.id,
-    //     "fields": {
-    //       field: value
-    //     }
-    //   }
-    // ], function(err, records) {
-    //   if (err) {
-    //     console.error(err);
-    //     return;
-    //   }
-    //   records.forEach(function(record) {
-    //     console.log(record.id);
-    //   });
-    // });
-  };
+    base('Directory').update([
+      {
+        "id": userInfo.id,
+        "fields": {
+          [field]: value
+        }
+      }
+    ], function(err, records) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      records.forEach(function(record) {
+        console.log(record.id);
+      });
+    });
+  };  
 
   return (
     <div>
@@ -75,8 +79,11 @@ function Account(props) {
         <div className="field">
     <label className="label">First Name</label>
     <div className="control">
-      <input className="input firstName" type="text" onChange = {onChangeField} placeholder="Text input" defaultValue={userInfo.fields['First Name']}/> 
+      <input className="input firstName" type="text" placeholder="Text input" onChange={onChangeField}defaultValue={userInfo.fields['First Name']}/> 
     </div>
+    {/* <div class="control">
+  <button class="button is-primary" onClick= {onSubmit} >Submit</button>
+</div> */}
     </div>
     </section>
       
