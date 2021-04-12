@@ -12,6 +12,7 @@ import {
   faLock,
   faLockOpen,
   faCog,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage(props) {
@@ -110,6 +111,12 @@ function ProfilePage(props) {
     privacySettings: {
       paddingBottom: "7%",
     },
+    settingExitIcon: {
+      float: "right",
+    },
+    toggleButton: {
+      float: "right"
+    }
   };
 
   let editMode = function () {
@@ -154,7 +161,7 @@ function ProfilePage(props) {
         id="outerBackground"
         class="is-overlay"
         style={styles.outerPopupBackground}
-        onClick = {hideSettingMode}
+        onClick={hideSettingMode}
       >
         <div
           id="settingPopupBackground"
@@ -162,9 +169,14 @@ function ProfilePage(props) {
           style={styles.popupBackground}
         ></div>
         <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
-          <strong>{authUser.displayName}</strong>
-          <p>email@gmail.com</p>
-          <br></br>
+          <div style={styles.settingExitIcon}>
+            <FontAwesomeIcon onClick={settingMode} icon={faTimes} />
+          </div>
+          <div>
+            <strong>{authUser.displayName}</strong>
+            <p>email@gmail.com</p>
+            <br></br>
+          </div>
           <div class="privacyToggle" style={styles.privacySettings}>
             <strong>Privacy Settings</strong>
             <div style={styles.jobClubStyle}>
@@ -177,6 +189,8 @@ function ProfilePage(props) {
             </div>
           </div>
           <div class="field">
+          Show up in club member lists
+            <div style={styles.toggleButton}>
             <input
               id="switchRoundedInfo"
               type="checkbox"
@@ -184,9 +198,12 @@ function ProfilePage(props) {
               class="switch is-rounded is-info is-rtl"
               checked="checked"
             ></input>
-            <label for="switchRoundedInfo">Show up in club member lists</label>
+            <label for="switchRoundedInfo"> </label>
+            </div>
           </div>
           <div class="field">
+          Display job openings
+          <div style={styles.toggleButton}>
             <input
               id="switchRoundedInfo"
               type="checkbox"
@@ -194,7 +211,8 @@ function ProfilePage(props) {
               class="switch is-rounded is-info is-rtl"
               checked="checked"
             ></input>
-            <label for="switchRoundedInfo">Display job openings</label>
+            <label for="switchRoundedInfo"></label>
+            </div>
           </div>
           <br></br>
           <button class="button" style={styles.editButtonStyle}>
