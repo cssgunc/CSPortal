@@ -21,11 +21,15 @@ function ProfileIcon(props) {
       fontWeight: '900',
       fontSize: '22px',
     },
+    usernameStyle :{
+      marginRight:"5px"
+    },
   };
 
   return (
     <div className="is-hidden-touch" style={styles.circle}>
       <p style={styles.initial}>{identifier.charAt(0).toUpperCase()}</p>
+      <p style={styles.usernameStyle}>{authUser.displayName}</p>
     </div>
   );
 }

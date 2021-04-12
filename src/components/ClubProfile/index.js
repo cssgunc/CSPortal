@@ -11,6 +11,9 @@ import twitter from "../../constants/icons/twitter.png";
 import instagram from "../../constants/icons/instagram.png";
 import linkedin from "../../constants/icons/linkedin.png";
 import youtube from "../../constants/icons/youtube.png";
+import Heading from "../General/Heading";
+import Avatar from "react-avatar";
+import calendarIcon from "../../constants/icons/calendarIcon.svg"
 
 function ClubProfile(props) {
   const authUser = useContext(AuthUserContext);
@@ -37,6 +40,10 @@ function ClubProfile(props) {
     editButtonStyle: {
       color: colors.white,
       backgroundColor: colors.lightBlue,
+      width: "150px",
+      height: "50px",
+      fontFamily: "Roboto",
+      fontStyle: "normal",
     },
     fileUpload: {
       padding: "10px",
@@ -75,7 +82,7 @@ function ClubProfile(props) {
             Join
           </button>
           <div className="profileIcon" style={styles.verticalMargin}>
-            <ProfileIcon></ProfileIcon>
+              <Avatar round={true} size="176px" />
           </div>
           <p className="title">Future Leaders of User Experience (FLUX)</p>
           <div className="columns" style={styles.verticalMargin}>
@@ -85,10 +92,11 @@ function ClubProfile(props) {
             <MediaIcon src={linkedin} alt="LinkedIn" />
             <MediaIcon src={youtube} alt="Youtube" />
           </div>
+          <div style={{marginBottom:"30px" }}>
           <u>
             <b>About</b>
           </u>
-          <p>
+          <p style={{marginTop:"15px" }}>
             About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
             ligula neque, lobortis eget euismod vitae, congue sed nisi. Donec
             nibh ipsum, faucibus non pharetra et, vehicula id dui. Mauris
@@ -101,11 +109,71 @@ function ClubProfile(props) {
             rhoncus eu, pellentesque non arcu. Suspendisse quis dui volutpat,
             eleifend lectus eget, placerat est.{" "}
           </p>
+          </div>
+          <div >
+          <u>
+            <b>Members</b>
+          </u>
+          <div className="columns" style={styles.verticalMargin}>
+            <ProfileIcon></ProfileIcon>
+            <ProfileIcon></ProfileIcon>
+            <ProfileIcon></ProfileIcon>
+          </div>
+          </div>
         </ViewWithTopBorder>
       </div>
       <div className="column" style={styles.starredColumn}>
         <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
-          <p className="subtitle">Starred</p>
+          <section>
+            <Heading
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "bold",
+                fontSize: "18px",
+                lineHeight: "21px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+              }}
+            >
+              Upcoming Events
+            </Heading>
+          </section>
+          <section
+            style={{
+              backgroundColor: "white",
+              width: "80%",
+              height: "250px",
+              margin: "40px",
+            }}
+          >
+            <Heading
+              style={{
+                padding: "15px",
+                textAlign: "center",
+              }}
+            >
+              Event1
+            </Heading>
+          </section>
+          <section
+            style={{
+              backgroundColor: "white",
+              width: "80%",
+              height: "250px",
+              margin: "40px",
+            }}
+          >
+            <Heading
+              style={{
+                padding: "15px",
+                textAlign: "center",
+              }}
+            >
+              Event2
+            </Heading>
+          </section>
         </ViewWithTopBorder>
       </div>
     </div>
