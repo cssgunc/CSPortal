@@ -161,7 +161,6 @@ function ProfilePage(props) {
         id="outerBackground"
         class="is-overlay"
         style={styles.outerPopupBackground}
-        onClick={hideSettingMode}
       >
         <div
           id="settingPopupBackground"
@@ -170,7 +169,7 @@ function ProfilePage(props) {
         ></div>
         <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
           <div style={styles.settingExitIcon}>
-            <FontAwesomeIcon onClick={settingMode} icon={faTimes} />
+            <FontAwesomeIcon onClick={hideSettingMode} icon={faTimes} />
           </div>
           <div>
             <strong>{authUser.displayName}</strong>
