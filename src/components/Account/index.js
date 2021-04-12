@@ -5,7 +5,7 @@ import * as ROUTES from '../../constants/routes';
 
 var Airtable = require('airtable');
 const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
+var base = new Airtable({ apiKey: airtableKey }).base('appWPIPmVSmXaMhey');
 
 function Account(props) {
   const { authUser } = props;
@@ -14,31 +14,67 @@ function Account(props) {
     id: "",
     fields: []
   });
+  const [img, setImg] = useState(null);
+  const [update, setUpdate] = useState(false); // better way to do this ?
 
   useEffect(() => {
 
-      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`}).
-      firstPage(function(err, records) {
+    base('Directory').select({ filterByFormula: `Email = "${authUser.email}"` }).
+      firstPage(function (err, records) {
         if (err) { console.error(err); return; }
-        records.forEach(function(record) {
-            setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
+        records.forEach(function (record) {
+          setUserInfo(userInfo => ({ "id": record.id, "fields": record.fields }))
         });
-    }, [props.fields]);
+      });
 
-  })
+  }, [update, authUser.email])
 
   // const onSubmit = (event) => {
   //   let value = document.getElementsByClassName('input firstName')
   //   console.log(value)
   // }
 
+  const handleChange = (event) => {
+    setImg(event.target.files[0]);
+  }
+
+  const handleUpload = (event) => {
+    event.preventDefault();
+    props.firebase.doPfpUpload(img).then((snapshot) => {
+      snapshot.ref.getDownloadURL().then((url) => {
+        base('Directory').update([
+          {
+            "id": userInfo.id,
+            "fields": {
+              "Profile Picture": [
+                {
+                  "url": url
+                }
+              ]
+            }
+          }
+        ], function (err, records) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          setUpdate(!update);
+          records.forEach(function (record) {
+            console.log(record.id);
+          });
+        });
+      });
+    }
+    );
+  }
+
   const onChangeField = (event) => {
     let field_name = event.target.className  // get field name
     let value = event.target.value;    // need to change to this value
     let field = "";
 
-    switch(field_name){
-      case 'input firstName': 
+    switch (field_name) {
+      case 'input firstName':
         field = "First Name";
         break;
       case 'input lastName':
@@ -55,16 +91,16 @@ function Account(props) {
           [field]: value
         }
       }
-    ], function(err, records) {
+    ], function (err, records) {
       if (err) {
         console.error(err);
         return;
       }
-      records.forEach(function(record) {
+      records.forEach(function (record) {
         console.log(record.id);
       });
     });
-  };  
+  };
 
   return (
     <div>
@@ -77,19 +113,24 @@ function Account(props) {
           Change Email
         </button>
         <div className="field">
-    <label className="label">First Name</label>
-    <div className="control">
-      <input className="input firstName" type="text" placeholder="Text input" onChange={onChangeField}defaultValue={userInfo.fields['First Name']}/> 
-    </div>
-    {/* <div class="control">
+          <label className="label">First Name</label>
+          <div className="control">
+            <input className="input firstName" type="text" placeholder="Text input" onChange={onChangeField} defaultValue={userInfo.fields['First Name']} />
+          </div>
+          {/* <div class="control">
   <button class="button is-primary" onClick= {onSubmit} >Submit</button>
 </div> */}
-    </div>
-    </section>
-      
+        </div>
+        <form onSubmit={handleUpload}>
+          <input type="file" onChange={handleChange} />
+          <button disabled={!img}>Upload</button>
+        </form>
+        <img src={userInfo.fields['Profile Picture'] != null ? userInfo.fields['Profile Picture'][0].url : null} alt=""></img>
+      </section>
+
 
     </div>
-    
+
   );
 }
 
