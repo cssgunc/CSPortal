@@ -60,6 +60,10 @@ function ProfilePage(props) {
       backgroundColor: colors.mediumGray,
       color: colors.white,
     },
+    cancelButtonStyle: {
+      color: colors.white,
+      backgroundColor: colors.lightBlue,
+    },
     jobClubStyle: {
       float: "right",
       paddingLeft: "20%",
@@ -116,6 +120,13 @@ function ProfilePage(props) {
     },
     toggleButton: {
       float: "right"
+    },
+    editFormButtons: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    buttonSpacing: {
+      padding: "2%",
     }
   };
 
@@ -129,6 +140,15 @@ function ProfilePage(props) {
   };
 
   let submitMode = function () {
+    const editForm = document.getElementById("editForm");
+    const profileInfo = document.getElementById("profileInfo");
+    const editButton = document.getElementById("editButton");
+    profileInfo.style.display = "block";
+    editForm.style.display = "none";
+    editButton.style.display = "block";
+  };
+
+  let cancelMode = function () {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
@@ -188,29 +208,29 @@ function ProfilePage(props) {
             </div>
           </div>
           <div class="field">
-          Show up in club member lists
+            Show up in club member lists
             <div style={styles.toggleButton}>
-            <input
-              id="switchRoundedInfo"
-              type="checkbox"
-              name="switchRoundedInfo"
-              class="switch is-rounded is-info is-rtl"
-              checked="checked"
-            ></input>
-            <label for="switchRoundedInfo"> </label>
+              <input
+                id="switchRoundedInfo"
+                type="checkbox"
+                name="switchRoundedInfo"
+                class="switch is-rounded is-info is-rtl"
+                checked="checked"
+              ></input>
+              <label for="switchRoundedInfo"> </label>
             </div>
           </div>
           <div class="field">
-          Display job openings
+            Display job openings
           <div style={styles.toggleButton}>
-            <input
-              id="switchRoundedInfo"
-              type="checkbox"
-              name="switchRoundedInfo"
-              class="switch is-rounded is-info is-rtl"
-              checked="checked"
-            ></input>
-            <label for="switchRoundedInfo"></label>
+              <input
+                id="switchRoundedInfo"
+                type="checkbox"
+                name="switchRoundedInfo"
+                class="switch is-rounded is-info is-rtl"
+                checked="checked"
+              ></input>
+              <label for="switchRoundedInfo"></label>
             </div>
           </div>
           <br></br>
@@ -298,13 +318,26 @@ function ProfilePage(props) {
                   <input class="input" type="text" placeholder="about" />
                 </div>
               </div>
-              <button
-                onClick={submitMode}
-                class="button"
-                style={styles.editButtonStyle}
-              >
-                Submit
+              <div style={styles.editFormButtons}>
+                <div style={styles.buttonSpacing}>
+                  <button
+                    onClick={submitMode}
+                    class="button"
+                    style={styles.editButtonStyle}
+                  >
+                    Submit
               </button>
+                </div>
+                <div style={styles.buttonSpacing}>
+                  <button
+                    onClick={cancelMode}
+                    class="button"
+                    style={styles.cancelButtonStyle}
+                  >
+                    Cancel
+              </button>
+                </div>
+              </div>
             </div>
           </ViewWithTopBorder>
         </div>
