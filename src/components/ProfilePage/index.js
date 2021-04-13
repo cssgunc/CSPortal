@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import "bulma/css/bulma.css";
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
@@ -15,8 +15,58 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
+var Airtable = require('airtable');
+const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
+
 function ProfilePage(props) {
+  
   const authUser = useContext(AuthUserContext);
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    fields: {}
+  });
+
+  useEffect(() => {
+      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`}).
+      firstPage(function(err, records) {
+        if (err) { console.error(err); return; }
+        records.forEach(function(record) {
+            setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
+        });
+    }, [props.fields]);
+  })
+
+
+  const handleChange = useCallback((e) => {
+    const { fields } = { ...userInfo };
+    const currentState = fields;
+    const { name, value } = e.target;
+    currentState[name] = value;
+    setUserInfo({ fields: currentState });
+  }, [userInfo]);
+
+
+  // const handleChange = async (e) => {
+  //   const { fields } = { ...userInfo };
+  //   const currentState = fields;
+  //   const { name, value } = e.target;
+  //   currentState[name] = await value;
+    
+  //   setUserInfo({ fields: currentState });
+  // }
+  
+    // let field = e.target.name  // get field name
+    // let value = e.target.value;    // get field's updated value
+    // setUserInfo(prevState => {
+    //   return {
+    //   ...prevState,           // copy all other field/objects
+    //   "fields": {              // recreate the object that contains the field to update
+    //     ...prevState.fields, // copy all the fields of the object
+    //     [field]: value    // overwrite the value of the field to update
+    //   }
+    // }
+    // });
 
   const styles = {
     topBorderStyle: {
@@ -139,14 +189,30 @@ function ProfilePage(props) {
     editButton.style.display = "none";
   };
 
-  let submitMode = function () {
+  let submitMode = function (event) {
+    event.preventDefault();
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
-  };
+    console.log(userInfo)
+    // base('Directory').update([
+    //   {
+    //     "id": userInfo.id,
+    //     "fields": userInfo.fields
+    //   }
+    // ], function(err, records) {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   records.forEach(function(record) {
+    //     console.log(record.id);
+    //   });
+    // }); 
+  }
 
   let cancelMode = function () {
     const editForm = document.getElementById("editForm");
@@ -179,30 +245,30 @@ function ProfilePage(props) {
     <div>
       <div
         id="outerBackground"
-        class="is-overlay"
+        className="is-overlay"
         style={styles.outerPopupBackground}
       >
         <div
           id="settingPopupBackground"
-          class="is-overlay"
+          className="is-overlay"
           style={styles.popupBackground}
         ></div>
-        <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
+        <div id="settingPopup" className="box is-overlay" style={styles.popUp}>
           <div style={styles.settingExitIcon}>
             <FontAwesomeIcon onClick={hideSettingMode} icon={faTimes} />
           </div>
           <div>
             <strong>{authUser.displayName}</strong>
-            <p>email@gmail.com</p>
+            <p>{userInfo.fields['Email']}</p>
             <br></br>
           </div>
-          <div class="privacyToggle" style={styles.privacySettings}>
+          <div className="privacyToggle" style={styles.privacySettings}>
             <strong>Privacy Settings</strong>
             <div style={styles.jobClubStyle}>
-              <button class="button" style={styles.privateButtonStyle}>
+              <button className="button" style={styles.privateButtonStyle}>
                 Private
               </button>
-              <button class="button" style={styles.publicButtonStyle}>
+              <button className="button" style={styles.publicButtonStyle}>
                 Public
               </button>
             </div>
@@ -234,7 +300,7 @@ function ProfilePage(props) {
             </div>
           </div>
           <br></br>
-          <button class="button" style={styles.editButtonStyle}>
+          <button className="button" style={styles.editButtonStyle}>
             Change Password
           </button>
         </div>
@@ -245,12 +311,12 @@ function ProfilePage(props) {
             style={styles.topBorderStyle}
             color={colors.limeGreen}
           >
-            <div class="is-pulled-right" style={styles.changeButtons}>
+            <div className="is-pulled-right" style={styles.changeButtons}>
               <div>
                 <button
                   id="editButton"
                   onClick={editMode}
-                  class="button"
+                  className="button"
                   style={styles.editButtonStyle}
                 >
                   Edit Profile
@@ -261,14 +327,14 @@ function ProfilePage(props) {
               </div>
             </div>
             <div id="profileInfo">
-              <div class="profileIcon" style={styles.verticalMargin}>
+              <div className="profileIcon" style={styles.verticalMargin}>
                 <ProfileIcon></ProfileIcon>
               </div>
               <p className="title">{authUser.displayName}</p>
               <p className="subtitle">
                 President - Future Leaders of User Experience (FLUX)
               </p>
-              <div class="envelope" style={styles.verticalMargin}>
+              <div className="envelope" style={styles.verticalMargin}>
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
               </div>
               <u>
@@ -290,32 +356,58 @@ function ProfilePage(props) {
               </p>
             </div>
             <div id="editForm" style={styles.editForm}>
-              <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
+              <div className="field">
+                <label className="label">First Name</label>
+                <div className="control">
                   <input
-                    class="input"
+                    className="input"
+                    name = "First Name"
                     type="text"
-                    placeholder={authUser.displayName}
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['First Name']}
                   />
                 </div>
               </div>
-              <div class="field">
-                <label class="label">Role</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="role" />
+              <div className="field">
+                <label className="label">Last Name</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    name = "Last Name"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['Last Name']}
+                  />
                 </div>
               </div>
-              <div class="field">
-                <label class="label">Email</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="email" />
+              <div className="field">
+                <label className="label">Preferred Name</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    name = "Preferred Name"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['Preferred Name']}
+                  />
                 </div>
               </div>
-              <div class="field">
-                <label class="label">About</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="about" />
+              <div className="field">
+                <label className="label">Role</label>
+                <div className="control">
+                  <input className="input" name ="Role" type="text" onChange={handleChange} defaultValue={userInfo.fields['Role']} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Email</label>
+                <div className="control">
+                  <input className="input" name="Email" type="text" onChange={handleChange} defaultValue={userInfo.fields['Email']} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">About</label>
+                <div className="control">
+                  <input className="input" name="About" type="text" onChange={handleChange} placeholder="about" />
                 </div>
               </div>
               <div style={styles.editFormButtons}>
@@ -349,41 +441,41 @@ function ProfilePage(props) {
               </div>
 
               <div style={styles.jobClubStyle}>
-                <button class="button" style={styles.jobsButtonStyle}>
+                <button className="button" style={styles.jobsButtonStyle}>
                   Jobs
                 </button>
-                <button class="button" style={styles.clubsButtonStyle}>
+                <button className="button" style={styles.clubsButtonStyle}>
                   Clubs
                 </button>
               </div>
             </div>
 
             <div style={styles.boxesContainer}>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
-              <div class="box">
+              <div className="box">
                 stuff about clubs here to get from air table
               </div>
             </div>
