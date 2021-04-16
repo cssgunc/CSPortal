@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "bulma/css/bulma.css";
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
@@ -35,39 +35,22 @@ function ProfilePage(props) {
             setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
         });
     }, [props.fields]);
-  })
+  }, [authUser.email, props.fields])
 
 
-  const handleChange = useCallback((e) => {
-    const { fields } = { ...userInfo };
-    const currentState = fields;
-    const { name, value } = e.target;
-    currentState[name] = value;
-    setUserInfo({ fields: currentState });
-    // console.log(userInfo)
-  }, [userInfo]);
-
-
-  // const handleChange = async (e) => {
-  //   const { fields } = { ...userInfo };
-  //   const currentState = fields;
-  //   const { name, value } = e.target;
-  //   currentState[name] = await value;
-    
-  //   setUserInfo({ fields: currentState });
-  // }
-  
-    // let field = e.target.name  // get field name
-    // let value = e.target.value;    // get field's updated value
-    // setUserInfo(prevState => {
-    //   return {
-    //   ...prevState,           // copy all other field/objects
-    //   "fields": {              // recreate the object that contains the field to update
-    //     ...prevState.fields, // copy all the fields of the object
-    //     [field]: value    // overwrite the value of the field to update
-    //   }
-    // }
-    // });
+  const handleChange = (e) => {
+    let field = e.target.name  // get field name
+    let value = e.target.value;    // get field's updated value
+    setUserInfo(prevState => {
+      return {
+      ...prevState,           // copy all other field/objects
+      "fields": {              // recreate the object that contains the field to update
+        ...prevState.fields, // copy all the fields of the object
+        [field]: value    // overwrite the value of the field to update
+      }
+    }
+    });
+  };
 
   const styles = {
     topBorderStyle: {
@@ -198,7 +181,7 @@ function ProfilePage(props) {
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
-    // console.log(userInfo)
+    console.log(userInfo)
     base('Directory').update([
       {
         "id": userInfo.id,
@@ -274,27 +257,27 @@ function ProfilePage(props) {
               </button>
             </div>
           </div>
-          <div class="field">
+          <div className="field">
             Show up in club member lists
             <div style={styles.toggleButton}>
               <input
                 id="switchRoundedInfo"
                 type="checkbox"
                 name="switchRoundedInfo"
-                class="switch is-rounded is-info is-rtl"
+                className="switch is-rounded is-info is-rtl"
                 checked="checked"
               ></input>
               <label for="switchRoundedInfo"> </label>
             </div>
           </div>
-          <div class="field">
+          <div className="field">
             Display job openings
           <div style={styles.toggleButton}>
               <input
                 id="switchRoundedInfo"
                 type="checkbox"
                 name="switchRoundedInfo"
-                class="switch is-rounded is-info is-rtl"
+                className="switch is-rounded is-info is-rtl"
                 checked="checked"
               ></input>
               <label for="switchRoundedInfo"></label>
@@ -416,7 +399,7 @@ function ProfilePage(props) {
                 <div style={styles.buttonSpacing}>
                   <button
                     onClick={submitMode}
-                    class="button"
+                    className="button"
                     style={styles.editButtonStyle}
                   >
                     Submit
@@ -425,7 +408,7 @@ function ProfilePage(props) {
                 <div style={styles.buttonSpacing}>
                   <button
                     onClick={cancelMode}
-                    class="button"
+                    className="button"
                     style={styles.cancelButtonStyle}
                   >
                     Cancel
