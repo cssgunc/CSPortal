@@ -44,6 +44,7 @@ function ProfilePage(props) {
     const { name, value } = e.target;
     currentState[name] = value;
     setUserInfo({ fields: currentState });
+    // console.log(userInfo)
   }, [userInfo]);
 
 
@@ -197,21 +198,21 @@ function ProfilePage(props) {
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
-    console.log(userInfo)
-    // base('Directory').update([
-    //   {
-    //     "id": userInfo.id,
-    //     "fields": userInfo.fields
-    //   }
-    // ], function(err, records) {
-    //   if (err) {
-    //     console.error(err);
-    //     return;
-    //   }
-    //   records.forEach(function(record) {
-    //     console.log(record.id);
-    //   });
-    // }); 
+    // console.log(userInfo)
+    base('Directory').update([
+      {
+        "id": userInfo.id,
+        "fields": userInfo.fields
+      }
+    ], function(err, records) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      records.forEach(function(record) {
+        console.log(record.id);
+      });
+    }); 
   }
 
   let cancelMode = function () {
@@ -332,7 +333,7 @@ function ProfilePage(props) {
               </div>
               <p className="title">{authUser.displayName}</p>
               <p className="subtitle">
-                President - Future Leaders of User Experience (FLUX)
+              {userInfo.fields['Headline']}
               </p>
               <div className="envelope" style={styles.verticalMargin}>
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
@@ -341,21 +342,22 @@ function ProfilePage(props) {
                 <b>About</b>
               </u>
               <p>
-                About Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Donec ligula neque, lobortis eget euismod vitae, congue sed
-                nisi. Donec nibh ipsum, faucibus non pharetra et, vehicula id
-                dui. Mauris euismod tellus ornare dolor bibendum, viverra auctor
-                ipsum suscipit. Sed eleifend dui nisi, id elementum eros viverra
-                vitae. Donec vitae augue luctus, mattis leo sed, suscipit eros.
-                Aenean luctus at mi non volutpat. Pellentesque habitant morbi
-                tristique senectus et netus et malesuada fames ac turpis
-                egestas. Quisque quam eros, condimentum eget porttitor vitae,
-                dapibus in nisl. Donec lorem turpis, mollis ac rhoncus eu,
-                pellentesque non arcu. Suspendisse quis dui volutpat, eleifend
-                lectus eget, placerat est.{" "}
+              {userInfo.fields['About']}
               </p>
             </div>
             <div id="editForm" style={styles.editForm}>
+            <div className="field">
+                <label className="label">Headline</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    name = "Headline"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['Headline']}
+                  />
+                </div>
+              </div>
               <div className="field">
                 <label className="label">First Name</label>
                 <div className="control">
@@ -407,7 +409,7 @@ function ProfilePage(props) {
               <div className="field">
                 <label className="label">About</label>
                 <div className="control">
-                  <input className="input" name="About" type="text" onChange={handleChange} placeholder="about" />
+                  <input className="input" name="About" type="text" onChange={handleChange} defaultValue={userInfo.fields['About']} />
                 </div>
               </div>
               <div style={styles.editFormButtons}>
