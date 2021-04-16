@@ -181,7 +181,6 @@ function ProfilePage(props) {
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
-    console.log(userInfo)
     base('Directory').update([
       {
         "id": userInfo.id,
@@ -193,7 +192,7 @@ function ProfilePage(props) {
         return;
       }
       records.forEach(function(record) {
-        console.log(record.id);
+        console.log("Updated Record");
       });
     }); 
   }
@@ -242,7 +241,7 @@ function ProfilePage(props) {
             <FontAwesomeIcon onClick={hideSettingMode} icon={faTimes} />
           </div>
           <div>
-            <strong>{authUser.displayName}</strong>
+            <strong>{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</strong>
             <p>{userInfo.fields['Email']}</p>
             <br></br>
           </div>
@@ -314,7 +313,7 @@ function ProfilePage(props) {
               <div className="profileIcon" style={styles.verticalMargin}>
                 <ProfileIcon></ProfileIcon>
               </div>
-              <p className="title">{authUser.displayName}</p>
+              <p className="title">{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</p>
               <p className="subtitle">
               {userInfo.fields['Headline']}
               </p>
