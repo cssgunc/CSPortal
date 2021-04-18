@@ -13,7 +13,7 @@ import linkedin from "../../constants/icons/linkedin.png";
 import youtube from "../../constants/icons/youtube.png";
 import Heading from "../General/Heading";
 import Avatar from "react-avatar";
-import calendarIcon from "../../constants/icons/calendarIcon.svg"
+import calendarIcon from "../../constants/icons/calendarIcon.png";
 
 function ClubProfile(props) {
   const authUser = useContext(AuthUserContext);
@@ -32,7 +32,7 @@ function ClubProfile(props) {
       margin: "25px 25px 25px 0px",
     },
     verticalMargin: {
-      margin: "25px 0px",
+      margin: "25px 0px 25px",
     },
     editForm: {
       display: "none",
@@ -44,6 +44,18 @@ function ClubProfile(props) {
       height: "50px",
       fontFamily: "Roboto",
       fontStyle: "normal",
+    },
+    registerButtonStyle: {
+      color: colors.white,
+      backgroundColor: "#9ACBDD",
+      width: "120px",
+      height: "30px",
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      borderRadius: "10px",
+      borderColor:"white",
+      position: "relative",
+      marginTop: "180px",
     },
     fileUpload: {
       padding: "10px",
@@ -82,7 +94,7 @@ function ClubProfile(props) {
             Join
           </button>
           <div className="profileIcon" style={styles.verticalMargin}>
-              <Avatar round={true} size="176px" />
+            <Avatar round={true} size="176px" />
           </div>
           <p className="title">Future Leaders of User Experience (FLUX)</p>
           <div className="columns" style={styles.verticalMargin}>
@@ -92,39 +104,46 @@ function ClubProfile(props) {
             <MediaIcon src={linkedin} alt="LinkedIn" />
             <MediaIcon src={youtube} alt="Youtube" />
           </div>
-          <div style={{marginBottom:"30px" }}>
-          <u>
-            <b>About</b>
-          </u>
-          <p style={{marginTop:"15px" }}>
-            About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            ligula neque, lobortis eget euismod vitae, congue sed nisi. Donec
-            nibh ipsum, faucibus non pharetra et, vehicula id dui. Mauris
-            euismod tellus ornare dolor bibendum, viverra auctor ipsum suscipit.
-            Sed eleifend dui nisi, id elementum eros viverra vitae. Donec vitae
-            augue luctus, mattis leo sed, suscipit eros. Aenean luctus at mi non
-            volutpat. Pellentesque habitant morbi tristique senectus et netus et
-            malesuada fames ac turpis egestas. Quisque quam eros, condimentum
-            eget porttitor vitae, dapibus in nisl. Donec lorem turpis, mollis ac
-            rhoncus eu, pellentesque non arcu. Suspendisse quis dui volutpat,
-            eleifend lectus eget, placerat est.{" "}
-          </p>
+          <div style={{ marginBottom: "30px" }}>
+            <u>
+              <b>About</b>
+            </u>
+            <p style={{ marginTop: "15px" }}>
+              About Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Donec ligula neque, lobortis eget euismod vitae, congue sed nisi.
+              Donec nibh ipsum, faucibus non pharetra et, vehicula id dui.
+              Mauris euismod tellus ornare dolor bibendum, viverra auctor ipsum
+              suscipit. Sed eleifend dui nisi, id elementum eros viverra vitae.
+              Donec vitae augue luctus, mattis leo sed, suscipit eros. Aenean
+              luctus at mi non volutpat. Pellentesque habitant morbi tristique
+              senectus et netus et malesuada fames ac turpis egestas. Quisque
+              quam eros, condimentum eget porttitor vitae, dapibus in nisl.
+              Donec lorem turpis, mollis ac rhoncus eu, pellentesque non arcu.
+              Suspendisse quis dui volutpat, eleifend lectus eget, placerat est.{" "}
+              <calendarIcon></calendarIcon>
+            </p>
           </div>
-          <div >
-          <u>
-            <b>Members</b>
-          </u>
-          <div className="columns" style={styles.verticalMargin}>
-            <ProfileIcon></ProfileIcon>
-            <ProfileIcon></ProfileIcon>
-            <ProfileIcon></ProfileIcon>
-          </div>
+          <div>
+            <u>
+              <b>Members</b>
+            </u>
+            <div className="columns" style={styles.verticalMargin}>
+              <section style={{ margin: "20px" }}>
+                <ProfileIcon></ProfileIcon>
+              </section>
+              <section style={{ margin: "20px" }}>
+                <ProfileIcon></ProfileIcon>
+              </section>
+              <section style={{ margin: "20px" }}>
+                <ProfileIcon></ProfileIcon>
+              </section>
+            </div>
           </div>
         </ViewWithTopBorder>
       </div>
       <div className="column" style={styles.starredColumn}>
         <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
-          <section>
+          <div>
             <Heading
               style={{
                 fontFamily: "Roboto",
@@ -139,8 +158,9 @@ function ClubProfile(props) {
             >
               Upcoming Events
             </Heading>
-          </section>
-          <section
+            <calendarIcon></calendarIcon>
+          </div>
+          <div
             style={{
               backgroundColor: "white",
               width: "80%",
@@ -152,12 +172,76 @@ function ClubProfile(props) {
               style={{
                 padding: "15px",
                 textAlign: "center",
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "bold",
+                fontSize: "18px",
+                lineHeight: "21px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "200px",
               }}
             >
-              Event1
+              Figma Workshop
             </Heading>
-          </section>
-          <section
+            <p
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "16px",
+                lineHeight: "19px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "235px",
+                left: "75px",
+              }}
+            >
+              Friday, 2/26/2021
+            </p>
+            <p
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "16px",
+                lineHeight: "19px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "250px",
+                left: "85px",
+                color: "#B6B6B6",
+              }}
+            >
+              Zoom
+            </p>
+            <button style={styles.registerButtonStyle}>Register Now</button>
+            <p
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "12px",
+                lineHeight: "14px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "310px",
+                left: "75px",
+                color:"#6C6D6F",
+              }}
+            >
+              5 members attending
+            </p>
+          </div>
+          <div
             style={{
               backgroundColor: "white",
               width: "80%",
@@ -169,11 +253,74 @@ function ClubProfile(props) {
               style={{
                 padding: "15px",
                 textAlign: "center",
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "bold",
+                fontSize: "18px",
+                lineHeight: "21px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "495px",
               }}
             >
-              Event2
+              Psychology in UX
             </Heading>
-          </section>
+            <p
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "16px",
+                lineHeight: "19px",
+                display: "flex",
+                alignItems: "center",
+                position: "absolute",
+                top: "530px",
+                left: "75px",
+              }}
+            >
+              Monday, 3/1/2021
+            </p>
+            <p
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "16px",
+                lineHeight: "19px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "545px",
+                left: "85px",
+                color: "#B6B6B6",
+              }}
+            >
+              Zoom
+            </p>
+            <button style={styles.registerButtonStyle}>Register Now</button>
+            <p
+              style={{
+                fontFamily: "Roboto",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "12px",
+                lineHeight: "14px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "0.05em",
+                position: "absolute",
+                top: "600px",
+                left: "75px",
+                color:"#6C6D6F",
+              }}
+            >
+              5 members attending
+            </p>
+          </div>
         </ViewWithTopBorder>
       </div>
     </div>
