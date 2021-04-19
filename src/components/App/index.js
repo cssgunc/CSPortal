@@ -27,6 +27,7 @@ import OpportunitiesSubPage from "../OpportunitiesSubPage";
 import WebinarsSubPage from "../WebinarsSubPage";
 import VerifyPage from "../Verify";
 import Footer from "../Footer";
+import ProfilePage from "../ProfilePage";
 import Announcements from "../Announcements";
 
 function App(props) {
