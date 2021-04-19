@@ -32,23 +32,23 @@ function ProfilePage(props) {
   const [isMyClub, setStar] = useState(false)
 
   useEffect(() => {
-      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`})
+      base('Directory').select({filterByFormula: `uid = "${authUser.uid}"`})
       .firstPage(function(err, records) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
             setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
 
             // set club info 
+            if(typeof record.fields.Clubs !== 'undefined') {
             record.fields.Clubs.forEach((club_id) => {
-              console.log(club_id)
               base('Clubs').find(club_id, function(err, record) {
                 if (err) { console.error(err); return; }
                 setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
             });
-          })
+          })}
         });
-    }, [props.fields]);
-  }, [authUser.email, props.fields])
+    });
+  }, [authUser.uid, props.fields])
 
   useEffect(() => {
     base('Clubs').select()
@@ -57,9 +57,8 @@ function ProfilePage(props) {
       records.forEach(function(record) {
         setAllClubs(allClubs => [...allClubs, ({"id": record.id, "fields": record.fields})])
       });
-  }, [props.fields]);
+  });
 }, [props.fields])
-
 
   const handleChange = (e) => {
     let field = e.target.name  // get field name
@@ -223,6 +222,7 @@ function ProfilePage(props) {
     }); 
   }
 
+  console.log(myClubs.length)
   let cancelMode = function () {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
@@ -461,8 +461,8 @@ function ProfilePage(props) {
             </div>
             <div style={styles.boxesContainer}>
             <details open><summary>MY CLUBS</summary>
-            { myClubs.length > 0 ?
               <aside class="menu">
+              { myClubs.length > 0 ?
               <ul class="menu-list">
                 <li>
                   <ul> 
@@ -488,8 +488,8 @@ function ProfilePage(props) {
                 </div> ))} 
                   </ul>
                 </li>
-              </ul>
-            </aside> : <p>No Clubs Added</p> }</details> 
+              </ul>: <p>No Clubs Added Yet</p> }
+            </aside> </details> 
             <details><summary className="all_clubs">ALL CLUBS</summary>
               <aside class="menu">
               <ul class="menu-list">
