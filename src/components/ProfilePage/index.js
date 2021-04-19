@@ -40,6 +40,7 @@ function ProfilePage(props) {
 
             // set club info 
             record.fields.Clubs.forEach((club_id) => {
+              console.log(club_id)
               base('Clubs').find(club_id, function(err, record) {
                 if (err) { console.error(err); return; }
                 setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
@@ -73,10 +74,9 @@ function ProfilePage(props) {
     }
     });
   };
-
-  const toggleStar = () => {
-    setStar(!isMyClub);
-  };
+  // const toggleStar = () => {
+  //   setStar(!isMyClub);
+  // };
 
   const styles = {
     topBorderStyle: {
@@ -461,13 +461,14 @@ function ProfilePage(props) {
             </div>
             <div style={styles.boxesContainer}>
             <details open><summary>MY CLUBS</summary>
+            { myClubs.length > 0 ?
               <aside class="menu">
               <ul class="menu-list">
                 <li>
-                  <ul>
+                  <ul> 
                   {myClubs.map(item => (
-                <div class="box" key={item.id}>
-                <FontAwesomeIcon key={item.fields.id}color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/>
+                <div class="box" key={item.fields.id}>
+                {/* <FontAwesomeIcon key={item.fields.id} color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/> */}
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
@@ -484,11 +485,11 @@ function ProfilePage(props) {
                       </div>
                     </div>
                   </article>
-                </div> ))}
+                </div> ))} 
                   </ul>
                 </li>
               </ul>
-            </aside></details>
+            </aside> : <p>No Clubs Added</p> }</details> 
             <details><summary className="all_clubs">ALL CLUBS</summary>
               <aside class="menu">
               <ul class="menu-list">
@@ -496,7 +497,7 @@ function ProfilePage(props) {
                   <ul>
                   {allClubs.map(item => (
                 <div class="box" key={item.id}>
-                <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} />
+                {/* <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} /> */}
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
@@ -513,7 +514,7 @@ function ProfilePage(props) {
                       </div>
                     </div>
                   </article>
-                </div> ))}
+                </div> ))} 
                   </ul>
                 </li>
               </ul>
