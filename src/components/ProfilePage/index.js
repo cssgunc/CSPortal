@@ -5,12 +5,13 @@ import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import ProfileIcon from "../ProfileIcon";
 import colors from "../../constants/RTCColors";
-import Switch from "bulma-switch";
+// import Switch from "bulma-switch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
-  faLock,
-  faLockOpen,
+  faStar,
+  // faLock,
+  // faLockOpen,
   faCog,
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,8 +31,8 @@ function ProfilePage(props) {
     )
 
   useEffect(() => {
-      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`}).
-      firstPage(function(err, records) {
+      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`})
+      .firstPage(function(err, records) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
             setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
@@ -90,10 +91,10 @@ function ProfilePage(props) {
       justifyContent: "center",
     },
     jobsButtonStyle: {
-      backgroundColor: colors.green,
+      backgroundColor: colors.lightGreen,
     },
     clubsButtonStyle: {
-      backgroundColor: colors.lightGreen,
+      backgroundColor: colors.green,
     },
     privateButtonStyle: {
       backgroundColor: colors.lightBlue,
@@ -238,13 +239,13 @@ function ProfilePage(props) {
       <div
         id="outerBackground"
         className="is-overlay"
-        style={styles.outerPopupBackground}
-      >
-        <div
+        style={styles.outerPopupBackground}>
+          <div
           id="settingPopupBackground"
           className="is-overlay"
-          style={styles.popupBackground}
-        ></div>
+          style={styles.popupBackground}>
+
+          </div>
         <div id="settingPopup" className="box is-overlay" style={styles.popUp}>
           <div style={styles.settingExitIcon}>
             <FontAwesomeIcon onClick={hideSettingMode} icon={faTimes} />
@@ -298,7 +299,7 @@ function ProfilePage(props) {
         </div>
       </div>
       <div className="columns">
-        <div className="column is-three-quarters" style={styles.profileColumn}>
+        <div className="column is-two-thirds" style={styles.profileColumn}>
           <ViewWithTopBorder
             style={styles.topBorderStyle}
             color={colors.limeGreen}
@@ -426,7 +427,7 @@ function ProfilePage(props) {
             </div>
           </ViewWithTopBorder>
         </div>
-        <div className="column" style={styles.starredColumn}>
+        <div className="column is-one-third" style={styles.starredColumn}>
           <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
             <div style={styles.starredHeader}>
               <div style={styles.starredTitle}>
@@ -442,20 +443,25 @@ function ProfilePage(props) {
                 </button>
               </div>
             </div>
-
             <div style={styles.boxesContainer}>
-                {clubArr.map(item => (
+            <details open><summary>MY CLUBS</summary>
+              <aside class="menu">
+              <ul class="menu-list">
+                <li>
+                  <ul>
+                  {clubArr.map(item => (
                 <div class="box" key={item.id}>
+                <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} />
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
-                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt="Club Image" /> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image"/>}
+                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
                       </figure>
                     </div>
                     <div class="media-content">
                       <div class="content">
                         <p>
-                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small>
+                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
                           <br />
                           {item.fields.Description}
                         </p>
@@ -463,6 +469,10 @@ function ProfilePage(props) {
                     </div>
                   </article>
                 </div> ))}
+                  </ul>
+                </li>
+              </ul>
+            </aside></details>
             </div> 
           </ViewWithTopBorder>
         </div>
