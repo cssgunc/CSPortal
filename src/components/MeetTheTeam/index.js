@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.css';
-import axios from 'axios';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
@@ -12,17 +14,16 @@ function MeetTheTeam() {
   const [team, setTeam] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/MeetTheTeam`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setTeam(result.data.records);
-        console.log(result.data.records);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      const updateTeam = async () => {        
+        let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+  
+        let records = await base(AIRTABLE.TEAM_TABLE).select().all();
+  
+        setTeam(records);
+      }
+
+      updateTeam();
+
   }, [airtableKey]);
 
   // PLEASE READ:

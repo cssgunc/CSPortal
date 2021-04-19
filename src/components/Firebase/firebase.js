@@ -1,7 +1,9 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/functions';
-import axios from 'axios';
+import Airtable from 'airtable';
+
+import * as AIRTABLE from '../../constants/airtable';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -33,25 +35,38 @@ class Firebase {
 
   // Gets array of emails from airtable
   getEmails = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.airtable.com/v0/appWPIPmVSmXaMhey/Directory`,
-        {
-          headers: { Authorization: `Bearer ${airtableKey}` },
-        },
-      );
-      return response.data.records.map((x) => x.fields.Email);
-    } catch (error) {
-      console.log(error);
+    const updateEmails = async () => {
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.DIRECTORY_TABLE).select().all();
+
+      return records.length > 0 ? records.map((x) => x.fields.Email) : [];
     }
 
-    return [];
+    updateEmails();
   };
 
   // only signs user up if provided email is in rtc directory
-  doCreateUserWithEmailAndPassword = async (username, email, password) => {
+  doCreateUserWithEmailAndPassword = async (firstName, lastName, preferredName, email, password) => {
     // const val = await this.getEmails();
     // if (val.includes(email)) {
+
+    let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+    base(AIRTABLE.DIRECTORY_TABLE).create([
+      {
+        "fields": {
+          "Email": email,
+          "First Name": firstName,
+          "Last Name": lastName,
+          "Preferred Name": preferredName,
+          "Role": "user",
+        }
+      }
+    ]);
+
+    let username = `${firstName} ${lastName}`;
+
     return this.auth
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
