@@ -26,6 +26,8 @@ function ProfilePage(props) {
     id: "",
     fields: {}
   });
+  const [clubArr, setClubs] = useState([]
+    )
 
   useEffect(() => {
       base('Directory').select({filterByFormula: `Email = "${authUser.email}"`}).
@@ -33,10 +35,17 @@ function ProfilePage(props) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
             setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
+
+            // set club info 
+            record.fields.Clubs.forEach((club_id) => {
+              base('Clubs').find(club_id, function(err, record) {
+                if (err) { console.error(err); return; }
+                setClubs(clubArr => [...clubArr, ({"id": record.id, "fields": record.fields})])
+            });
+          })
         });
     }, [props.fields]);
   }, [authUser.email, props.fields])
-
 
   const handleChange = (e) => {
     let field = e.target.name  // get field name
@@ -435,34 +444,26 @@ function ProfilePage(props) {
             </div>
 
             <div style={styles.boxesContainer}>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div className="box">
-                stuff about clubs here to get from air table
-              </div>
-            </div>
+                {clubArr.map(item => (
+                <div class="box" key={item.id}>
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt="Club Image" /> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image"/>}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small>
+                          <br />
+                          {item.fields.Description}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </div> ))}
+            </div> 
           </ViewWithTopBorder>
         </div>
       </div>
