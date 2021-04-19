@@ -311,7 +311,7 @@ function ProfilePage(props) {
             </div>
             <div id="profileInfo">
               <div className="profileIcon" style={styles.verticalMargin}>
-                <ProfileIcon></ProfileIcon>
+                <ProfileIcon img={userInfo.fields['Profile Picture']}></ProfileIcon>
               </div>
               <p className="title">{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</p>
               <p className="subtitle">
