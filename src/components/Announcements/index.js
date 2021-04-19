@@ -24,8 +24,12 @@ function Announcements() {
   const [popUpText, setPopUpText] = useState([]);
   // var popUpText = "";
   
-  const toggleFunc = (title, time, content) => {
-    setPopUpText([title, time, content]);
+  const toggleFunc = (title, time, content, image) => {
+    if (image != null){
+      setPopUpText([title, time, content, image]);
+    } else {
+      setPopUpText([title, time, content]);
+    }    
     toggleExampleModal();
   }
 
@@ -65,9 +69,17 @@ function Announcements() {
                                     fontSize: '30px', 
                                     color: 'black' }}
                             
-                            onClick={() => toggleFunc(user.fields.Title, 
-                              format(parseJSON(user.fields.Date), 'PPPP'), 
-                              user.fields.Content)}
+                            onClick={() => {
+                              if (user.fields.PostedByImage != null){
+                                toggleFunc(user.fields.Title, 
+                                  format(parseJSON(user.fields.Date), 'PPPP'), 
+                                  user.fields.Content, user.fields.PostedByImage[0].url);
+                              } else {
+                                toggleFunc(user.fields.Title, 
+                                  format(parseJSON(user.fields.Date), 'PPPP'), 
+                                  user.fields.Content, 0);
+                              }}
+                            }
                             > 
                             {user.fields.Title} 
                             
@@ -80,6 +92,17 @@ function Announcements() {
                                     }}>
                         {popUpText[0]}
                       </strong>
+                      
+                      <img src = {popUpText[3] !=  0 ? 
+                        popUpText[3] : 
+                        "https://cs.unc.edu/wp-content/uploads/sites/130/2015/01/CS_UNC_blue.png"}
+                        width="500" height="600" 
+                        style={{ padding: '20px', 
+                          paddingLeft: '30px',
+                          paddingRight: '30px', 
+                        }}
+                        />                     
+                 
                       <p strong style={{ padding: '20px', 
                                     paddingLeft: '30px',
                                     paddingRight: '30px',
