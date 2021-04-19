@@ -5,18 +5,78 @@ import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import ProfileIcon from "../ProfileIcon";
 import colors from "../../constants/RTCColors";
-import Switch from "bulma-switch";
+// import Switch from "bulma-switch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
-  faLock,
-  faLockOpen,
+  faStar,
+  // faLock,
+  // faLockOpen,
   faCog,
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
+var Airtable = require('airtable');
+const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
+
 function ProfilePage(props) {
+  
   const authUser = useContext(AuthUserContext);
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    fields: {}
+  });
+  const [myClubs, setMyClubs] = useState([])
+  const [allClubs, setAllClubs] = useState([])
+  const [isMyClub, setStar] = useState(false)
+
+  useEffect(() => {
+      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`})
+      .firstPage(function(err, records) {
+        if (err) { console.error(err); return; }
+        records.forEach(function(record) {
+            setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
+
+            // set club info 
+            record.fields.Clubs.forEach((club_id) => {
+              base('Clubs').find(club_id, function(err, record) {
+                if (err) { console.error(err); return; }
+                setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
+            });
+          })
+        });
+    }, [props.fields]);
+  }, [authUser.email, props.fields])
+
+  useEffect(() => {
+    base('Clubs').select()
+    .firstPage(function(err, records) {
+      if (err) { console.error(err); return; }
+      records.forEach(function(record) {
+        setAllClubs(allClubs => [...allClubs, ({"id": record.id, "fields": record.fields})])
+      });
+  }, [props.fields]);
+}, [props.fields])
+
+
+  const handleChange = (e) => {
+    let field = e.target.name  // get field name
+    let value = e.target.value;    // get field's updated value
+    setUserInfo(prevState => {
+      return {
+      ...prevState,           // copy all other field/objects
+      "fields": {              // recreate the object that contains the field to update
+        ...prevState.fields, // copy all the fields of the object
+        [field]: value    // overwrite the value of the field to update
+      }
+    }
+    });
+  };
+
+  const toggleStar = () => {
+    setStar(!isMyClub);
+  };
 
   const styles = {
     topBorderStyle: {
@@ -47,10 +107,10 @@ function ProfilePage(props) {
       justifyContent: "center",
     },
     jobsButtonStyle: {
-      backgroundColor: colors.green,
+      backgroundColor: colors.lightGreen,
     },
     clubsButtonStyle: {
-      backgroundColor: colors.lightGreen,
+      backgroundColor: colors.green,
     },
     privateButtonStyle: {
       backgroundColor: colors.lightBlue,
@@ -59,6 +119,10 @@ function ProfilePage(props) {
     publicButtonStyle: {
       backgroundColor: colors.mediumGray,
       color: colors.white,
+    },
+    cancelButtonStyle: {
+      color: colors.white,
+      backgroundColor: colors.lightBlue,
     },
     jobClubStyle: {
       float: "right",
@@ -116,6 +180,13 @@ function ProfilePage(props) {
     },
     toggleButton: {
       float: "right"
+    },
+    editFormButtons: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    buttonSpacing: {
+      padding: "2%",
     }
   };
 
@@ -128,7 +199,31 @@ function ProfilePage(props) {
     editButton.style.display = "none";
   };
 
-  let submitMode = function () {
+  let submitMode = function (event) {
+    event.preventDefault();
+    const editForm = document.getElementById("editForm");
+    const profileInfo = document.getElementById("profileInfo");
+    const editButton = document.getElementById("editButton");
+    profileInfo.style.display = "block";
+    editForm.style.display = "none";
+    editButton.style.display = "block";
+    base('Directory').update([
+      {
+        "id": userInfo.id,
+        "fields": userInfo.fields
+      }
+    ], function(err, records) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      records.forEach(function(record) {
+        console.log("Updated Record");
+      });
+    }); 
+  }
+
+  let cancelMode = function () {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
@@ -159,78 +254,78 @@ function ProfilePage(props) {
     <div>
       <div
         id="outerBackground"
-        class="is-overlay"
-        style={styles.outerPopupBackground}
-      >
-        <div
+        className="is-overlay"
+        style={styles.outerPopupBackground}>
+          <div
           id="settingPopupBackground"
-          class="is-overlay"
-          style={styles.popupBackground}
-        ></div>
-        <div id="settingPopup" class="box is-overlay" style={styles.popUp}>
+          className="is-overlay"
+          style={styles.popupBackground}>
+
+          </div>
+        <div id="settingPopup" className="box is-overlay" style={styles.popUp}>
           <div style={styles.settingExitIcon}>
             <FontAwesomeIcon onClick={hideSettingMode} icon={faTimes} />
           </div>
           <div>
-            <strong>{authUser.displayName}</strong>
-            <p>email@gmail.com</p>
+            <strong>{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</strong>
+            <p>{userInfo.fields['Email']}</p>
             <br></br>
           </div>
-          <div class="privacyToggle" style={styles.privacySettings}>
+          <div className="privacyToggle" style={styles.privacySettings}>
             <strong>Privacy Settings</strong>
             <div style={styles.jobClubStyle}>
-              <button class="button" style={styles.privateButtonStyle}>
+              <button className="button" style={styles.privateButtonStyle}>
                 Private
               </button>
-              <button class="button" style={styles.publicButtonStyle}>
+              <button className="button" style={styles.publicButtonStyle}>
                 Public
               </button>
             </div>
           </div>
-          <div class="field">
-          Show up in club member lists
+          <div className="field">
+            Show up in club member lists
             <div style={styles.toggleButton}>
-            <input
-              id="switchRoundedInfo"
-              type="checkbox"
-              name="switchRoundedInfo"
-              class="switch is-rounded is-info is-rtl"
-              checked="checked"
-            ></input>
-            <label for="switchRoundedInfo"> </label>
+              <input
+                id="switchRoundedInfo"
+                type="checkbox"
+                name="switchRoundedInfo"
+                className="switch is-rounded is-info is-rtl"
+                checked="checked"
+              ></input>
+              <label for="switchRoundedInfo"> </label>
             </div>
           </div>
-          <div class="field">
-          Display job openings
+          <div className="field">
+            Display job openings
           <div style={styles.toggleButton}>
-            <input
-              id="switchRoundedInfo"
-              type="checkbox"
-              name="switchRoundedInfo"
-              class="switch is-rounded is-info is-rtl"
-              checked="checked"
-            ></input>
-            <label for="switchRoundedInfo"></label>
+              <input
+                id="switchRoundedInfo"
+                type="checkbox"
+                name="switchRoundedInfo"
+                className="switch is-rounded is-info is-rtl"
+                checked="checked"
+              ></input>
+              <label for="switchRoundedInfo"></label>
             </div>
           </div>
           <br></br>
-          <button class="button" style={styles.editButtonStyle}>
+          <button className="button" style={styles.editButtonStyle}>
             Change Password
           </button>
         </div>
       </div>
       <div className="columns">
-        <div className="column is-three-quarters" style={styles.profileColumn}>
+        <div className="column is-two-thirds" style={styles.profileColumn}>
           <ViewWithTopBorder
             style={styles.topBorderStyle}
             color={colors.limeGreen}
           >
-            <div class="is-pulled-right" style={styles.changeButtons}>
+            <div className="is-pulled-right" style={styles.changeButtons}>
               <div>
                 <button
                   id="editButton"
                   onClick={editMode}
-                  class="button"
+                  className="button"
                   style={styles.editButtonStyle}
                 >
                   Edit Profile
@@ -241,74 +336,114 @@ function ProfilePage(props) {
               </div>
             </div>
             <div id="profileInfo">
-              <div class="profileIcon" style={styles.verticalMargin}>
-                <ProfileIcon></ProfileIcon>
+              <div className="profileIcon" style={styles.verticalMargin}>
+                <ProfileIcon img={userInfo.fields['Profile Picture']}></ProfileIcon>
               </div>
-              <p className="title">{authUser.displayName}</p>
+              <p className="title">{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</p>
               <p className="subtitle">
-                President - Future Leaders of User Experience (FLUX)
+              {userInfo.fields['Headline']}
               </p>
-              <div class="envelope" style={styles.verticalMargin}>
+              <div className="envelope" style={styles.verticalMargin}>
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
               </div>
               <u>
                 <b>About</b>
               </u>
               <p>
-                About Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Donec ligula neque, lobortis eget euismod vitae, congue sed
-                nisi. Donec nibh ipsum, faucibus non pharetra et, vehicula id
-                dui. Mauris euismod tellus ornare dolor bibendum, viverra auctor
-                ipsum suscipit. Sed eleifend dui nisi, id elementum eros viverra
-                vitae. Donec vitae augue luctus, mattis leo sed, suscipit eros.
-                Aenean luctus at mi non volutpat. Pellentesque habitant morbi
-                tristique senectus et netus et malesuada fames ac turpis
-                egestas. Quisque quam eros, condimentum eget porttitor vitae,
-                dapibus in nisl. Donec lorem turpis, mollis ac rhoncus eu,
-                pellentesque non arcu. Suspendisse quis dui volutpat, eleifend
-                lectus eget, placerat est.{" "}
+              {userInfo.fields['About']}
               </p>
             </div>
             <div id="editForm" style={styles.editForm}>
-              <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
+            <div className="field">
+                <label className="label">Headline</label>
+                <div className="control">
                   <input
-                    class="input"
+                    className="input"
+                    name = "Headline"
                     type="text"
-                    placeholder={authUser.displayName}
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['Headline']}
                   />
                 </div>
               </div>
-              <div class="field">
-                <label class="label">Role</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="role" />
+              <div className="field">
+                <label className="label">First Name</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    name = "First Name"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['First Name']}
+                  />
                 </div>
               </div>
-              <div class="field">
-                <label class="label">Email</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="email" />
+              <div className="field">
+                <label className="label">Last Name</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    name = "Last Name"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['Last Name']}
+                  />
                 </div>
               </div>
-              <div class="field">
-                <label class="label">About</label>
-                <div class="control">
-                  <input class="input" type="text" placeholder="about" />
+              <div className="field">
+                <label className="label">Preferred Name</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    name = "Preferred Name"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue={userInfo.fields['Preferred Name']}
+                  />
                 </div>
               </div>
-              <button
-                onClick={submitMode}
-                class="button"
-                style={styles.editButtonStyle}
-              >
-                Submit
+              <div className="field">
+                <label className="label">Role</label>
+                <div className="control">
+                  <input className="input" name ="Role" type="text" onChange={handleChange} defaultValue={userInfo.fields['Role']} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Email</label>
+                <div className="control">
+                  <input className="input" name="Email" type="text" onChange={handleChange} defaultValue={userInfo.fields['Email']} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">About</label>
+                <div className="control">
+                  <input className="input" name="About" type="text" onChange={handleChange} defaultValue={userInfo.fields['About']} />
+                </div>
+              </div>
+              <div style={styles.editFormButtons}>
+                <div style={styles.buttonSpacing}>
+                  <button
+                    onClick={submitMode}
+                    className="button"
+                    style={styles.editButtonStyle}
+                  >
+                    Submit
               </button>
+                </div>
+                <div style={styles.buttonSpacing}>
+                  <button
+                    onClick={cancelMode}
+                    className="button"
+                    style={styles.cancelButtonStyle}
+                  >
+                    Cancel
+              </button>
+                </div>
+              </div>
             </div>
           </ViewWithTopBorder>
         </div>
-        <div className="column" style={styles.starredColumn}>
+        <div className="column is-one-third" style={styles.starredColumn}>
           <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
             <div style={styles.starredHeader}>
               <div style={styles.starredTitle}>
@@ -316,44 +451,74 @@ function ProfilePage(props) {
               </div>
 
               <div style={styles.jobClubStyle}>
-                <button class="button" style={styles.jobsButtonStyle}>
+                <button className="button" style={styles.jobsButtonStyle}>
                   Jobs
                 </button>
-                <button class="button" style={styles.clubsButtonStyle}>
+                <button className="button" style={styles.clubsButtonStyle}>
                   Clubs
                 </button>
               </div>
             </div>
-
             <div style={styles.boxesContainer}>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-              <div class="box">
-                stuff about clubs here to get from air table
-              </div>
-            </div>
+            <details open><summary>MY CLUBS</summary>
+              <aside class="menu">
+              <ul class="menu-list">
+                <li>
+                  <ul>
+                  {myClubs.map(item => (
+                <div class="box" key={item.id}>
+                <FontAwesomeIcon key={item.fields.id}color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/>
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
+                          <br />
+                          {item.fields.Description}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </div> ))}
+                  </ul>
+                </li>
+              </ul>
+            </aside></details>
+            <details><summary className="all_clubs">ALL CLUBS</summary>
+              <aside class="menu">
+              <ul class="menu-list">
+                <li>
+                  <ul>
+                  {allClubs.map(item => (
+                <div class="box" key={item.id}>
+                <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} />
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
+                          <br />
+                          {item.fields.Description}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </div> ))}
+                  </ul>
+                </li>
+              </ul>
+            </aside></details>
+            </div> 
           </ViewWithTopBorder>
         </div>
       </div>
