@@ -55,3 +55,44 @@ html {
   position: relative;
   min-height: 100vh;
 }
+
+.star:hover{
+ color:transparent;
+ stroke: black;
+ stroke-width: 10;
+}
+
+details {
+  font: 16px sans-serif;
+  width: auto;
+}
+
+details > summary {
+  padding: 2px 6px;
+  width: auto;
+  background-color: #6EC48B;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 0.75em;
+  letter-spacing: 0.1em;
+}
+
+details > p {
+  border-radius: 0 0 10px 10px;
+  background-color: #ddd;
+  padding: 2px 6px;
+  margin: 0;
+  box-shadow: 3px 3px 4px black;
+}
+
+details[open] > summary {
+  background-color: #6EC48B;
+  color: white;
+  font-size: 0.75em;
+  letter-spacing: 0.1em;
+}
+
+.all_clubs {
+  margin-top: 4%;
+}
