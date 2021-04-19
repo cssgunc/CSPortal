@@ -27,8 +27,9 @@ function ProfilePage(props) {
     id: "",
     fields: {}
   });
-  const [clubArr, setClubs] = useState([]
-    )
+  const [myClubs, setMyClubs] = useState([])
+  const [allClubs, setAllClubs] = useState([])
+  const [isMyClub, setStar] = useState(false)
 
   useEffect(() => {
       base('Directory').select({filterByFormula: `Email = "${authUser.email}"`})
@@ -41,12 +42,23 @@ function ProfilePage(props) {
             record.fields.Clubs.forEach((club_id) => {
               base('Clubs').find(club_id, function(err, record) {
                 if (err) { console.error(err); return; }
-                setClubs(clubArr => [...clubArr, ({"id": record.id, "fields": record.fields})])
+                setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
             });
           })
         });
     }, [props.fields]);
   }, [authUser.email, props.fields])
+
+  useEffect(() => {
+    base('Clubs').select()
+    .firstPage(function(err, records) {
+      if (err) { console.error(err); return; }
+      records.forEach(function(record) {
+        setAllClubs(allClubs => [...allClubs, ({"id": record.id, "fields": record.fields})])
+      });
+  }, [props.fields]);
+}, [props.fields])
+
 
   const handleChange = (e) => {
     let field = e.target.name  // get field name
@@ -60,6 +72,10 @@ function ProfilePage(props) {
       }
     }
     });
+  };
+
+  const toggleStar = () => {
+    setStar(!isMyClub);
   };
 
   const styles = {
@@ -449,7 +465,36 @@ function ProfilePage(props) {
               <ul class="menu-list">
                 <li>
                   <ul>
-                  {clubArr.map(item => (
+                  {myClubs.map(item => (
+                <div class="box" key={item.id}>
+                <FontAwesomeIcon key={item.fields.id}color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/>
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
+                          <br />
+                          {item.fields.Description}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </div> ))}
+                  </ul>
+                </li>
+              </ul>
+            </aside></details>
+            <details><summary className="all_clubs">ALL CLUBS</summary>
+              <aside class="menu">
+              <ul class="menu-list">
+                <li>
+                  <ul>
+                  {allClubs.map(item => (
                 <div class="box" key={item.id}>
                 <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} />
                   <article class="media">
