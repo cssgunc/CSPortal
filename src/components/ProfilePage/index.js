@@ -29,7 +29,7 @@ function ProfilePage(props) {
   });
   const [myClubs, setMyClubs] = useState([])
   const [allClubs, setAllClubs] = useState([])
-  const [isMyClub, setStar] = useState(false)
+  const [isMyClub, setStar] = useState({})
 
   useEffect(() => {
       base('Directory').select({filterByFormula: `uid = "${authUser.uid}"`})
@@ -40,12 +40,13 @@ function ProfilePage(props) {
 
             // set club info 
             if(typeof record.fields.Clubs !== 'undefined') {
-            record.fields.Clubs.forEach((club_id) => {
-              base('Clubs').find(club_id, function(err, record) {
-                if (err) { console.error(err); return; }
-                setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
-            });
-          })}
+              record.fields.Clubs.forEach((club_id) => {
+                base('Clubs').find(club_id, function(err, record) {
+                  if (err) { console.error(err); return; }
+                  setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields, "starred": true})])
+                  setStar(prevState => ({...prevState, [record.id]: true}))
+              });
+            })}
         });
     });
   }, [authUser.uid, props.fields])
@@ -60,6 +61,34 @@ function ProfilePage(props) {
   });
 }, [props.fields])
 
+useEffect(() => {
+    let new_arr = []
+    for(let i in isMyClub) {
+      if (isMyClub.hasOwnProperty(i)) {
+        if(isMyClub[i] === true){
+          new_arr.push(i)
+        }
+      }
+  }
+  // setMyClubs(myClubs => [...myClubs, ({"id": ne, "fields": record.fields})])
+    base('Directory').update([
+      {
+        "id": userInfo.id,
+        "fields": {
+          "Clubs": new_arr
+        }
+      }
+    ], function(err, records) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      records.forEach(function(record) {
+        console.log("Updated Clubs List");
+      });
+    }); 
+}, [isMyClub, myClubs]);
+
   const handleChange = (e) => {
     let field = e.target.name  // get field name
     let value = e.target.value;    // get field's updated value
@@ -73,9 +102,17 @@ function ProfilePage(props) {
     }
     });
   };
-  // const toggleStar = () => {
-  //   setStar(!isMyClub);
-  // };
+
+  const toggleStar = async (id) => {
+    setStar(prevState => ({
+      ...prevState, [id]: !prevState[id]
+    }))
+    // var data = [...myClubs];
+    // var index = data.findIndex(obj => obj.id === id);
+    // // console.log(data[index].starred)
+    // data[index].starred = !data[index].starred;
+    // setMyClubs(myClubs => data);
+  };
 
   const styles = {
     topBorderStyle: {
@@ -222,7 +259,6 @@ function ProfilePage(props) {
     }); 
   }
 
-  console.log(myClubs.length)
   let cancelMode = function () {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
@@ -461,22 +497,22 @@ function ProfilePage(props) {
             </div>
             <div style={styles.boxesContainer}>
             <details open><summary>MY CLUBS</summary>
-              <aside class="menu">
+              <aside className="menu">
               { myClubs.length > 0 ?
-              <ul class="menu-list">
+              <ul className="menu-list">
                 <li>
                   <ul> 
                   {myClubs.map(item => (
-                <div class="box" key={item.fields.id}>
-                {/* <FontAwesomeIcon key={item.fields.id} color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/> */}
-                  <article class="media">
-                    <div class="media-left">
-                      <figure class="image is-64x64">
+                <div className="box" key={item.id}>
+                <FontAwesomeIcon key={item.id} color={isMyClub[item.id] ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={() => toggleStar(item.id)}/>
+                  <article className="media">
+                    {/* <div className="media-left">
+                      <figure className="image is-64x64">
                       {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
                       </figure>
-                    </div>
-                    <div class="media-content">
-                      <div class="content">
+                    </div> */}
+                    <div className="media-content">
+                      <div className="content">
                         <p>
                           <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
                           <br />
@@ -491,21 +527,21 @@ function ProfilePage(props) {
               </ul>: <p>No Clubs Added Yet</p> }
             </aside> </details> 
             <details><summary className="all_clubs">ALL CLUBS</summary>
-              <aside class="menu">
-              <ul class="menu-list">
+              <aside className="menu">
+              <ul className="menu-list">
                 <li>
-                  <ul>
+                  <ul> 
                   {allClubs.map(item => (
-                <div class="box" key={item.id}>
-                {/* <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} /> */}
-                  <article class="media">
-                    <div class="media-left">
-                      <figure class="image is-64x64">
+                <div className="box" key={item.id}>
+                <FontAwesomeIcon key={item.id} color={isMyClub[item.id] ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={() => toggleStar(item.id)}/>
+                  <article className="media">
+                    {/* <div className="media-left">
+                      <figure className="image is-64x64">
                       {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
                       </figure>
-                    </div>
-                    <div class="media-content">
-                      <div class="content">
+                    </div> */}
+                    <div className="media-content">
+                      <div className="content">
                         <p>
                           <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
                           <br />
