@@ -1,6 +1,6 @@
-import React from 'react';
-import { withAuthorization } from '../Session';
-import colors from '../../constants/RTCColors';
+import React from "react";
+import { withAuthorization } from "../Session";
+import colors from "../../constants/RTCColors";
 
 function ProfileIcon(props) {
   const { authUser } = props;
@@ -9,27 +9,26 @@ function ProfileIcon(props) {
   const styles = {
     circle: {
       backgroundColor: colors.green,
-      borderRadius: '50%',
-      width: '44px',
-      height: '44px',
-      cursor: 'pointer',
+      borderRadius: "50%",
+      width: "44px",
+      height: "44px",
+      cursor: "pointer",
     },
     initial: {
-      textAlign: 'center',
-      lineHeight: '44px',
+      textAlign: "center",
+      lineHeight: "44px",
       color: colors.white,
-      fontWeight: '900',
-      fontSize: '22px',
+      fontWeight: "900",
+      fontSize: "22px",
     },
-    usernameStyle :{
-      marginRight:"5px"
+    usernameStyle: {
+      marginRight: "5px",
     },
   };
 
   return (
     <div className="is-hidden-touch" style={styles.circle}>
       <p style={styles.initial}>{identifier.charAt(0).toUpperCase()}</p>
-      <p style={styles.usernameStyle}>{authUser.displayName}</p>
     </div>
   );
 }
