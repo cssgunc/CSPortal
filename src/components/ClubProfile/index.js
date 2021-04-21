@@ -117,7 +117,7 @@ function ClubProfile(props) {
           <div className="profileIcon" style={styles.verticalMargin}>
             <Avatar round={true} size="176px" />
           </div>
-          <p className="title">Future Leaders of User Experience (FLUX)</p>
+          <p className="title">{club.Name}</p>
           <div className="columns" style={styles.verticalMargin}>
             <MediaIcon src={facebook} alt="Facebook" />
             <MediaIcon src={twitter} alt="Twitter" />
