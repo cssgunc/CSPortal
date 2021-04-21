@@ -20,6 +20,4 @@ export const FELLOWSHIPGUIDE = "/fellowship";
 export const MEETTHETEAM = "/meettheteam";
 export const SINGLEOPPORTUNITY = "/opportunities/:id";
 export const SINGLEWEBINAR = "/webinars/:id";
-
-/* TODO: Replace this test route with proper route depending on id */
-export const CLUBTEST = "/clubprofile";
+export const SINGLECOMMUNITY = "/communities/:id";
