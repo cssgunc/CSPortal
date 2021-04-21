@@ -28,6 +28,7 @@ import WebinarsSubPage from "../WebinarsSubPage";
 import VerifyPage from "../Verify";
 import Footer from "../Footer";
 import ClubProfile from "../ClubProfile";
+import Announcements from "../Announcements";
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
@@ -90,6 +91,7 @@ function App(props) {
           />
           <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
           <Route path={ROUTES.SINGLECOMMUNITY} component={ClubProfile} />
+          <Route path={ROUTES.ANNOUNCEMENTS} component={Announcements} />
         </div>
         <Footer />
       </Router>

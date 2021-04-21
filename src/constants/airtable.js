@@ -1,0 +1,8 @@
+export const BASE_ID = 'appWPIPmVSmXaMhey'
+export const DIRECTORY_TABLE = 'Directory'
+export const COMPANIES_TABLE = 'Companies'
+export const MASTERLINKS_TABLE = 'MasterLinks'
+export const ANNOUNCEMENTS_TABLE = 'Announcements'
+export const OPPORTUNITIES_TABLE = 'Opportunities'
+export const TEAM_TABLE = 'MeetTheTeam'
+export const VIDEOS_TABLE = 'Videos'

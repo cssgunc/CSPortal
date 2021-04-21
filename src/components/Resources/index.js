@@ -82,7 +82,7 @@ function Resources() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Airtable as a Database:{' '}
+            Using Airtable as a Database:{" "}
             <span role="img" aria-label="check">
               ✅
             </span>
@@ -112,7 +112,7 @@ function Resources() {
       <section className="section is-white">
         <div className="container">
           <h4 className="title is-4">
-            Using Youtube API:{' '}
+            Using Youtube API:{" "}
             <span role="img" aria-label="check">
               ✅
             </span>
