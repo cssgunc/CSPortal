@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import "bulma/css/bulma.css";
+import axios from "axios";
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
@@ -17,6 +17,27 @@ import calendarIcon from "../../constants/icons/calendarIcon.png";
 
 function ClubProfile(props) {
   const authUser = useContext(AuthUserContext);
+
+  const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+  // all the data for a particular club is stored here
+  const [club, setClub] = useState([]);
+
+  const { match } = props;
+  const club_id = match.params.id;
+
+  useEffect(() => {
+    axios
+      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Clubs/${club_id}`, {
+        headers: { Authorization: `Bearer ${airtableKey}` },
+      })
+      .then((result) => {
+        setClub(result.data.fields);
+        console.log(result.data.fields);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [airtableKey, club_id]);
 
   const styles = {
     topBorderStyle: {
@@ -53,7 +74,7 @@ function ClubProfile(props) {
       fontFamily: "Roboto",
       fontStyle: "normal",
       borderRadius: "10px",
-      borderColor:"white",
+      borderColor: "white",
       position: "relative",
       marginTop: "180px",
     },
@@ -235,7 +256,7 @@ function ClubProfile(props) {
                 position: "absolute",
                 top: "310px",
                 left: "75px",
-                color:"#6C6D6F",
+                color: "#6C6D6F",
               }}
             >
               5 members attending
@@ -315,7 +336,7 @@ function ClubProfile(props) {
                 position: "absolute",
                 top: "600px",
                 left: "75px",
-                color:"#6C6D6F",
+                color: "#6C6D6F",
               }}
             >
               5 members attending
