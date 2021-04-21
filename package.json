@@ -66,8 +66,8 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
-    "nodemailer": "^4.7.0",
     "eslint-plugin-react": "^7.21.5",
+    "nodemailer": "^4.7.0",
     "prettier": "^2.1.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.42.0"
