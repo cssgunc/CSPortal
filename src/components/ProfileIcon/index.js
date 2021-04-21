@@ -21,9 +21,6 @@ function ProfileIcon(props) {
       fontWeight: "900",
       fontSize: "22px",
     },
-    usernameStyle: {
-      marginRight: "5px",
-    },
   };
 
   return (
