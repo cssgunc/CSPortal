@@ -20,4 +20,5 @@ export const FELLOWSHIPGUIDE = '/fellowship';
 export const MEETTHETEAM = '/meettheteam';
 export const SINGLEOPPORTUNITY = '/opportunities/:id';
 export const SINGLEWEBINAR = '/webinars/:id';
+export const PROFILEPAGE = '/profile';
 export const ANNOUNCEMENTS = '/announcements';

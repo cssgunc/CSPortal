@@ -5,6 +5,7 @@ import colors from '../../constants/RTCColors';
 function ProfileIcon(props) {
   const { authUser } = props;
   const identifier = authUser.displayName ?? authUser.email;
+  const pfp = props.img;
 
   const styles = {
     circle: {
@@ -25,7 +26,7 @@ function ProfileIcon(props) {
 
   return (
     <div className="is-hidden-touch" style={styles.circle}>
-      <p style={styles.initial}>{identifier.charAt(0).toUpperCase()}</p>
+      {pfp != null ? <img src={pfp[0].url} alt="" style={styles.circle}></img> : <p style={styles.initial}>{identifier.charAt(0).toUpperCase()}</p>}
     </div>
   );
 }

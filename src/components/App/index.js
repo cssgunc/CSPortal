@@ -27,6 +27,7 @@ import OpportunitiesSubPage from "../OpportunitiesSubPage";
 import WebinarsSubPage from "../WebinarsSubPage";
 import VerifyPage from "../Verify";
 import Footer from "../Footer";
+import ProfilePage from "../ProfilePage";
 import Announcements from "../Announcements";
 
 function App(props) {
@@ -89,6 +90,7 @@ function App(props) {
             component={OpportunitiesSubPage}
           />
           <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
+          <Route path={ROUTES.PROFILEPAGE} component={ProfilePage} />
           <Route path={ROUTES.ANNOUNCEMENTS} component={Announcements} />
         </div>
         <Footer />
