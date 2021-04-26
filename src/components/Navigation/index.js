@@ -264,6 +264,9 @@ const NavEndDesktop = (props) => {
       >
         <ProfileIcon />
         <div className="navbar-dropdown is-right" style={styles.dropdown}>
+          <Link className="navbar-item" to={ROUTES.PROFILE} onClick={onClick}>
+            Profile
+          </Link>
           <Link className="navbar-item" to={ROUTES.ACCOUNT} onClick={onClick}>
             Account
           </Link>

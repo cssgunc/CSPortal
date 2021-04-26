@@ -4,6 +4,7 @@ export const VERIFY = "/verify";
 export const UPDATE_EMAIL = "/update-email";
 export const SIGN_IN = "/signin";
 export const ACCOUNT = "/account";
+export const PROFILE = "/profile";
 export const ADMIN = "/admin";
 export const PASSWORD_FORGET = "/pw-forget";
 export const RESOURCES = "/resources";
