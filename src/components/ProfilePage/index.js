@@ -257,6 +257,12 @@ useEffect(() => {
         console.log("Updated Record");
       });
     }); 
+
+    const first = userInfo.fields['First Name'];
+    const last = userInfo.fields['Last Name'];
+    if (first + " " + last !== authUser.displayName) {
+      props.firebase.doUpdateProfile(first + " " + last);
+    }
   }
 
   let cancelMode = function () {

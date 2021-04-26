@@ -100,6 +100,14 @@ class Firebase {
 
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
+
+  doUpdateProfile = (displayName) => {
+    this.auth.currentUser.updateProfile({
+      displayName: displayName
+    }).catch(function(error) {
+      console.log(error);
+    })
+  }
 }
 
 export default Firebase;
