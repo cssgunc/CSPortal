@@ -14,6 +14,7 @@
     "axios": "^0.19.2",
     "blocks-cli": "0.0.1",
     "bulma": "^0.8.2",
+    "bulma-switch": "^2.0.0",
     "cors": "^2.8.5",
     "create-react-app": "^3.4.1",
     "date-fns": "^2.19.0",
