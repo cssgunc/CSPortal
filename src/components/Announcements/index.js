@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withAuthorization } from "../Session";
-import Modali, { useModali } from 'modali';
-
+import Modali, { useModali } from "modali";
 
 import Loading from "../General/Loading";
 import { withFirebase } from "../Firebase";
-import { parseJSON, format } from 'date-fns'
+import { parseJSON, format } from "date-fns";
 
 function Announcements() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -23,11 +22,11 @@ function Announcements() {
   });
   const [popUpText, setPopUpText] = useState([]);
   // var popUpText = "";
-  
+
   const toggleFunc = (title, time, content) => {
     setPopUpText([title, time, content]);
     toggleExampleModal();
-  }
+  };
 
   useEffect(() => {
     // CLOUD FUNCTIONS WAY:
@@ -44,16 +43,13 @@ function Announcements() {
         console.log(error);
         setDataLoaded(true);
       });
-
   }, [airtableKey, googleKey, playlistId]);
 
   return (
     <div>
       <section className="section is-white">
         <div className="container">
-          <h4 className="title is-4">
-            Announcements:
-          </h4>
+          <h4 className="title is-4">Announcements:</h4>
 
           <hr />
           {dataLoaded ? (
@@ -61,56 +57,75 @@ function Announcements() {
               <div className="card" key={user.id}>
                 <header className="card-header">
                   <p className="card-content">
-                    <strong style={{ paddingTop: '10px', 
-                                    fontSize: '30px', 
-                                    color: 'black' }}
-                            
-                            onClick={() => toggleFunc(user.fields.Title, 
-                              format(parseJSON(user.fields.Date), 'PPPP'), 
-                              user.fields.Content)}
-                            > 
-                            {user.fields.Title} 
-                            
+                    <strong
+                      style={{
+                        paddingTop: "10px",
+                        fontSize: "30px",
+                        color: "black",
+                      }}
+                      onClick={() =>
+                        toggleFunc(
+                          user.fields.Title,
+                          format(parseJSON(user.fields.Date), "PPPP"),
+                          user.fields.Content
+                        )
+                      }
+                    >
+                      {user.fields.Title}
                     </strong>
                     <Modali.Modal {...exampleModal}>
-                      <strong strong style={{ padding: '20px', 
-                                    paddingLeft: '30px',
-                                    paddingRight: '30px',
-                                    fontSize: '40px', 
-                                    }}>
+                      <strong
+                        strong
+                        style={{
+                          padding: "20px",
+                          paddingLeft: "30px",
+                          paddingRight: "30px",
+                          fontSize: "40px",
+                        }}
+                      >
                         {popUpText[0]}
                       </strong>
-                      <p strong style={{ padding: '20px', 
-                                    paddingLeft: '30px',
-                                    paddingRight: '30px',
-                                    fontSize: '15px', 
-                                    }}>
+                      <p
+                        strong
+                        style={{
+                          padding: "20px",
+                          paddingLeft: "30px",
+                          paddingRight: "30px",
+                          fontSize: "15px",
+                        }}
+                      >
                         {popUpText[1]}
                       </p>
-                      <p strong style={{ padding: '20px', 
-                                    paddingLeft: '30px',
-                                    paddingRight: '30px',
-                                    fontSize: '20px', 
-                                    }}>
+                      <p
+                        strong
+                        style={{
+                          padding: "20px",
+                          paddingLeft: "30px",
+                          paddingRight: "30px",
+                          fontSize: "20px",
+                        }}
+                      >
                         {popUpText[2]}
                       </p>
                     </Modali.Modal>
-                    
+
                     <br />
-                    <p style={{ paddingTop: '10px', 
-                                    fontSize: '15px', 
-                                    color: 'black' }}
-                                    >
-                    {format(parseJSON(user.fields.Date), 'PPPP')}
+                    <p
+                      style={{
+                        paddingTop: "10px",
+                        fontSize: "15px",
+                        color: "black",
+                      }}
+                    >
+                      {format(parseJSON(user.fields.Date), "PPPP")}
                     </p>
-                    
+
                     <br />
-                    <p style={{ fontSize: '20px',
-                                paddingBottom:'20px'}}>
-                    {user.fields.Content}  </p>
+                    <p style={{ fontSize: "20px", paddingBottom: "20px" }}>
+                      {user.fields.Content}{" "}
+                    </p>
                   </p>
                 </header>
-                
               </div>
             ))
           ) : (
@@ -125,7 +140,6 @@ function Announcements() {
     </div>
   );
 }
-
 
 const condition = (authUser) => authUser != null;
 

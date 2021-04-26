@@ -27,6 +27,7 @@ import OpportunitiesSubPage from "../OpportunitiesSubPage";
 import WebinarsSubPage from "../WebinarsSubPage";
 import VerifyPage from "../Verify";
 import Footer from "../Footer";
+import ClubProfile from "../ClubProfile";
 import ProfilePage from "../ProfilePage";
 import Announcements from "../Announcements";
 
@@ -81,7 +82,7 @@ function App(props) {
           <Route path={ROUTES.EVENTS} component={Events} />
           <Route path={ROUTES.COMPANYPARTNERS} component={CompanyPartners} />
           <Route path={ROUTES.CONTACTUS} component={ContactUs} />
-          <Route path={ROUTES.COMMUNITIES} component={Communities} />
+          <Route path={ROUTES.COMMUNITIES} exact component={Communities} />
           <Route path={ROUTES.MEETTHETEAM} component={MeetTheTeam} />
           <Route path={ROUTES.MENTORSHIP} component={Mentorship} />
           <Route path={ROUTES.FELLOWSHIPGUIDE} component={FellowshipGuide} />
@@ -90,6 +91,7 @@ function App(props) {
             component={OpportunitiesSubPage}
           />
           <Route path={ROUTES.SINGLEWEBINAR} component={WebinarsSubPage} />
+          <Route path={ROUTES.SINGLECOMMUNITY} component={ClubProfile} />
           <Route path={ROUTES.PROFILEPAGE} component={ProfilePage} />
           <Route path={ROUTES.ANNOUNCEMENTS} component={Announcements} />
         </div>
