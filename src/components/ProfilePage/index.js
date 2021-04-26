@@ -154,6 +154,7 @@ function ProfilePage(props) {
     cog: {
       padding: "4%",
       paddingLeft: "12%",
+      display: "block"
     },
     changeButtons: {
       display: "flex",
@@ -203,6 +204,9 @@ function ProfilePage(props) {
     },
     clubContent: {
       overflow: "auto",
+    },
+    settingButtons: {
+      display: "flex"
     }
   };
 
@@ -210,9 +214,11 @@ function ProfilePage(props) {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
+    const settingButtons = document.getElementById("settingButtons");
     profileInfo.style.display = "none";
     editForm.style.display = "block";
     editButton.style.display = "none";
+    settingButtons.style.display = "none";
   };
 
   let submitMode = function (event) {
@@ -220,9 +226,11 @@ function ProfilePage(props) {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
+    const settingButtons = document.getElementById("settingButtons");
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
+    settingButtons.style.display = "flex";
     base('Directory').update([
       {
         "id": userInfo.id,
@@ -243,9 +251,11 @@ function ProfilePage(props) {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
+    const settingButtons = document.getElementById("settingButtons");
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
+    settingButtons.style.display = "flex";
   };
 
   let settingMode = function () {
@@ -336,7 +346,7 @@ function ProfilePage(props) {
             style={styles.topBorderStyle}
             color={colors.limeGreen}
           >
-            <div className="is-pulled-right" style={styles.changeButtons}>
+            <div id="settingButtons" className="is-pulled-right" style={styles.changeButtons}>
               <div>
                 <button
                   id="editButton"
