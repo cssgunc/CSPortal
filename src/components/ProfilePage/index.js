@@ -139,6 +139,7 @@ function ProfilePage(props) {
       paddingTop: "20px",
       overflow: "scroll",
       height: "85vh",
+      display: "block",
     },
     box: {
       height: "100%",
@@ -207,6 +208,13 @@ function ProfilePage(props) {
     },
     settingButtons: {
       display: "flex"
+    },
+    clubFormat: {
+      borderLeft: "none",
+      paddingLeft: "0px"
+    },
+    jobContainer: {
+      display: "none",
     }
   };
 
@@ -275,6 +283,28 @@ function ProfilePage(props) {
     settingBackground.style.display = "none";
     settingPopup.style.display = "none";
   };
+
+  let jobMode = function () {
+    const jobContainer = document.getElementById("jobMode");
+    const clubContainer = document.getElementById("clubMode");
+    const jobButton = document.getElementById("jobButton");
+    const clubButton = document.getElementById("clubButton");
+    jobButton.style.backgroundColor = colors.green;
+    clubButton.style.backgroundColor = colors.lightGreen;
+    clubContainer.style.display = "none";
+    jobContainer.style.display = "block";
+  }
+
+  let clubMode = function () {
+    const jobContainer = document.getElementById("jobMode");
+    const clubContainer = document.getElementById("clubMode");
+    const jobButton = document.getElementById("jobButton");
+    const clubButton = document.getElementById("clubButton");
+    clubButton.style.backgroundColor = colors.green;
+    jobButton.style.backgroundColor = colors.lightGreen;
+    clubContainer.style.display = "block";
+    jobContainer.style.display = "none";
+  }
 
   return (
     <div>
@@ -363,7 +393,7 @@ function ProfilePage(props) {
             </div>
             <div id="profileInfo">
               <div className="profileIcon" style={styles.verticalMargin}>
-                <ProfileIcon img={userInfo.fields['Profile Picture']}></ProfileIcon>
+                <ProfileIcon size={120} img={userInfo.fields['Profile Picture']}></ProfileIcon>
               </div>
               <p className="title">{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</p>
               <p className="subtitle">
@@ -477,40 +507,43 @@ function ProfilePage(props) {
               </div>
 
               <div style={styles.jobClubStyle}>
-                <button className="button" style={styles.jobsButtonStyle}>
+                <button id="jobButton" className="button" style={styles.jobsButtonStyle} onClick={jobMode}>
                   Jobs
                 </button>
-                <button className="button" style={styles.clubsButtonStyle}>
+                <button id="clubButton" className="button" style={styles.clubsButtonStyle} onClick={clubMode}>
                   Clubs
                 </button>
               </div>
             </div>
-            <div style={styles.boxesContainer}>
+            <div id="jobMode" style={styles.jobContainer}>
+              jobs here
+            </div>
+            <div id="clubMode" style={styles.boxesContainer}>
               <details open><summary>MY CLUBS</summary>
                 <aside class="menu">
                   <ul class="menu-list">
                     <li>
-                      <ul>
+                      <ul style={styles.clubFormat}>
                         {myClubs.map(item => (
                           <div class="box" key={item.id}>
-                            <FontAwesomeIcon style={styles.starButton} key={item.fields.id} color={isMyClub ? "#FFAC32" : 'transparent'} className="star" icon={faStar} onClick={toggleStar} />
-                            <article class="media">
-                              <div class="media-left">
-                                <figure class="image is-64x64">
-                                  {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
-                                </figure>
-                              </div>
-                              <div class="media-content">
-                                <div class="content">
-                                  <p>
-                                    <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small>
-                                    <br />
-                                    {item.fields.Description}
-                                  </p>
+                          <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
+                          <div>
+                            <div style={styles.clubImage}>
+                              <figure class="image is-64x64">
+                                {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
+                              </figure>
+                            </div>
+                            <div>
+                              <div class="content" style={styles.clubContent}>
+                                <div><strong><h4 style={styles.clubName}>{item.fields.Name}</h4></strong></div>
+                                <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="med"/>{item.fields.Contact}</div>
+                                <div>{item.fields.Description}</div>
+                                  
                                 </div>
                               </div>
-                            </article>
-                          </div>))}
+              
+                          </div>
+                        </div>))}
                       </ul>
                     </li>
                   </ul>
@@ -519,7 +552,7 @@ function ProfilePage(props) {
                 <aside class="menu">
                   <ul class="menu-list">
                     <li>
-                      <ul>
+                      <ul style={styles.clubFormat}>
                         {allClubs.map(item => (
                           <div class="box" key={item.id}>
                             <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
