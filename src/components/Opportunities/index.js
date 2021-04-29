@@ -5,6 +5,7 @@ import Airtable from 'airtable';
 import * as AIRTABLE from '../../constants/airtable';
 import { withAuthorization } from '../Session';
 import Heading from '../General/Heading';
+import Loading from "../General/Loading";
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import * as ROUTES from '../../constants/routes';
 
@@ -14,6 +15,7 @@ function Opportunities() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   // all the opportunities data is stored here
   const [opportunities, setOpportunities] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     const updateOpportunities = async () => {        
@@ -22,6 +24,7 @@ function Opportunities() {
       let records = await base(AIRTABLE.OPPORTUNITIES_TABLE).select().all();
 
       setOpportunities(records);
+      setDataLoaded(true);
     }
 
     updateOpportunities();
@@ -39,48 +42,99 @@ function Opportunities() {
 
   return (
     <div>
-      <section className="section is-white">
-        <ViewWithTopBorder>
-          <Heading>Featured Opportunities</Heading>
-          <div className="columns is-multiline">
-            {opportunities.length === 0 ? (
-              <div className="box">
-                <div className="content">
-                  <p>
-                    <strong>No Opportunities yet! Check back later! </strong>
-                  </p>
+      { dataLoaded ? (
+        <section className="section is-white">
+          <ViewWithTopBorder>
+            <Heading>Opportunities</Heading>
+            <div className="columns is-multiline">
+              {opportunities.length === 0 ? (
+                <div className="box">
+                  <div className="content">
+                    <p>
+                      <strong>No Opportunities yet! Check back later! </strong>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              opportunities
-                .filter((role) => role.fields.Featured)
-                .map((role) => (
-                  <div className="column is-one-quarter">
-                    <div className="box" key={role.id}>
-                      <img
-                        src={role.fields.CompanyLogo[0].thumbnails.small.url}
-                        alt="Logo"
-                      />
-                      <div className="content">
-                        <p>
-                          <Link to={`${ROUTES.OPPORTUNITIES}/${role.id}`}>
-                            <strong>{role.fields.Title}</strong>
-                          </Link>
-                          <br />
-                          {role.fields.CompanyName}
-                          <br />
-                          {role.fields.Location}
-                          <br />
-                          {role.fields.Start}
-                        </p>
+              ) : (
+                opportunities
+                  .filter((role) => role.fields.Featured)
+                  .map((role) => (
+                    <div className="column is-one-quarter">
+                      <div className="box" key={role.id}>
+                        <img
+                          src={role.fields.CompanyLogo[0].thumbnails.small.url}
+                          alt="Logo"
+                        />
+                        <p className="is-pulled-right">Featured</p>
+                        <div className="content">
+                          <p>
+                            <Link to={`${ROUTES.OPPORTUNITIES}/${role.id}`}>
+                              <strong>{role.fields.Title}</strong>
+                            </Link>
+                            <br />
+                            {role.fields.CompanyName}
+                            <br />
+                            {role.fields.Location}
+                            <br />
+                            {role.fields.Start ? (
+                              role.fields.Start.join(", ")
+                            ) : (
+                              <br />
+                            )}
+                          </p>
+                        </div>
                       </div>
                     </div>
+                  ))
+              )}
+            </div>
+            <hr></hr>
+            <div className="columns is-multiline">
+              {opportunities.length === 0 ? (
+                <div className="box">
+                  <div className="content">
+                    <p>
+                      <strong>No Opportunities yet! Check back later! </strong>
+                    </p>
                   </div>
-                ))
-            )}
-          </div>
-        </ViewWithTopBorder>
-      </section>
+                </div>
+              ) : (
+                opportunities
+                  .filter((role) => !role.fields.Featured)
+                  .map((role) => (
+                    <div className="column is-one-quarter">
+                      <div className="box" key={role.id}>
+                        <img
+                          src={role.fields.CompanyLogo[0].thumbnails.small.url}
+                          alt="Logo"
+                        />
+                        <div className="content">
+                          <p>
+                            <Link to={`${ROUTES.OPPORTUNITIES}/${role.id}`}>
+                              <strong>{role.fields.Title}</strong>
+                            </Link>
+                            <br />
+                            {role.fields.CompanyName}
+                            <br />
+                            {role.fields.Location}
+                            <br />
+                            {role.fields.Start ? (
+                              role.fields.Start.join(", ")
+                            ) : (
+                              <br />
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+              )}
+            </div>
+          </ViewWithTopBorder>
+        </section>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }
