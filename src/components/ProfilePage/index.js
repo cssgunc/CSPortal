@@ -16,6 +16,8 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
+import * as AIRTABLE from "../../constants/airtable";
+
 var Airtable = require('airtable');
 const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
 var base = new Airtable({ apiKey: airtableKey }).base('appWPIPmVSmXaMhey');
@@ -32,19 +34,21 @@ function ProfilePage(props) {
   const [isMyClub, setStar] = useState(false)
 
   useEffect(() => {
-    base('Directory').select({ filterByFormula: `Email = "${authUser.email}"` })
-      .firstPage(function (err, records) {
+      base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
+      .firstPage(function(err, records) {
         if (err) { console.error(err); return; }
-        records.forEach(function (record) {
-          setUserInfo(userInfo => ({ "id": record.id, "fields": record.fields }))
+        records.forEach(function(record) {
+          setUserInfo({"id": record.id, "fields": record.fields})
 
           // set club info 
-          record.fields.Clubs.forEach((club_id) => {
-            base('Clubs').find(club_id, function (err, record) {
-              if (err) { console.error(err); return; }
-              setMyClubs(myClubs => [...myClubs, ({ "id": record.id, "fields": record.fields })])
-            });
-          })
+          if (record.fields.Clubs) {
+            record.fields.Clubs.forEach((club_id) => {
+              base(AIRTABLE.CLUBS_TABLE).find(club_id, function(err, record) {
+                if (err) { console.error(err); return; }
+                setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
+              });
+            })
+          }
         });
       }, [props.fields]);
   }, [authUser.email, props.fields])
@@ -348,7 +352,7 @@ function ProfilePage(props) {
                 className="switch is-rounded is-info is-rtl"
                 checked="checked"
               ></input>
-              <label for="switchRoundedInfo"> </label>
+              <label htmlFor="switchRoundedInfo"> </label>
             </div>
           </div>
           <div className="field">
@@ -361,7 +365,7 @@ function ProfilePage(props) {
                 className="switch is-rounded is-info is-rtl"
                 checked="checked"
               ></input>
-              <label for="switchRoundedInfo"></label>
+              <label htmlFor="switchRoundedInfo"></label>
             </div>
           </div>
           <br></br>
