@@ -134,7 +134,6 @@ function ClubProfile(props) {
                 </u>
                 <p style={{ marginTop: "15px" }}>
                   { club.Description }
-                  <calendarIcon></calendarIcon>
                 </p>
               </div>
               <div>
@@ -175,7 +174,6 @@ function ClubProfile(props) {
                 >
                   Upcoming Events
                 </Heading>
-                <calendarIcon></calendarIcon>
               </div>
               <div
                 style={{
