@@ -222,13 +222,6 @@ const NavigationAuthYes = () => {
             >
               Directory
             </Link>
-            <Link
-              className="navbar-item is-hidden-desktop"
-              to={ROUTES.ACCOUNT}
-              onClick={closeMenu}
-            >
-              Account
-            </Link>
             {/* <Link className="navbar-item" to={ROUTES.ADMIN} onClick={closeMenu}>
               Admin
             </Link> */}
@@ -266,9 +259,6 @@ const NavEndDesktop = (props) => {
         <div className="navbar-dropdown is-right" style={styles.dropdown}>
           <Link className="navbar-item" to={ROUTES.PROFILE} onClick={onClick}>
             Profile
-          </Link>
-          <Link className="navbar-item" to={ROUTES.ACCOUNT} onClick={onClick}>
-            Account
           </Link>
           <div className="navbar-item">
             <SignOutButton style={styles.button} />
