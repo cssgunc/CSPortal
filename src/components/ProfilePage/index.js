@@ -13,17 +13,17 @@ import {
   // faLock,
   // faLockOpen,
   faCog,
-  faTimes
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
 import * as AIRTABLE from "../../constants/airtable";
 
 var Airtable = require('airtable');
 const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
+var base = new Airtable({ apiKey: airtableKey }).base('appWPIPmVSmXaMhey');
 
 function ProfilePage(props) {
-  
+
   const authUser = useContext(AuthUserContext);
   const [userInfo, setUserInfo] = useState({
     id: "",
@@ -50,18 +50,18 @@ function ProfilePage(props) {
             })
           }
         });
-    }, [props.fields]);
+      }, [props.fields]);
   }, [authUser.email, props.fields])
 
   useEffect(() => {
     base('Clubs').select()
-    .firstPage(function(err, records) {
-      if (err) { console.error(err); return; }
-      records.forEach(function(record) {
-        setAllClubs(allClubs => [...allClubs, ({"id": record.id, "fields": record.fields})])
-      });
-  }, [props.fields]);
-}, [props.fields])
+      .firstPage(function (err, records) {
+        if (err) { console.error(err); return; }
+        records.forEach(function (record) {
+          setAllClubs(allClubs => [...allClubs, ({ "id": record.id, "fields": record.fields })])
+        });
+      }, [props.fields]);
+  }, [props.fields])
 
 
   const handleChange = (e) => {
@@ -69,12 +69,12 @@ function ProfilePage(props) {
     let value = e.target.value;    // get field's updated value
     setUserInfo(prevState => {
       return {
-      ...prevState,           // copy all other field/objects
-      "fields": {              // recreate the object that contains the field to update
-        ...prevState.fields, // copy all the fields of the object
-        [field]: value    // overwrite the value of the field to update
+        ...prevState,           // copy all other field/objects
+        "fields": {              // recreate the object that contains the field to update
+          ...prevState.fields, // copy all the fields of the object
+          [field]: value    // overwrite the value of the field to update
+        }
       }
-    }
     });
   };
 
@@ -94,6 +94,7 @@ function ProfilePage(props) {
     },
     starredColumn: {
       margin: "25px 25px 25px 0px",
+      width: "30%",
     },
     verticalMargin: {
       margin: "25px 0px",
@@ -130,7 +131,7 @@ function ProfilePage(props) {
     },
     jobClubStyle: {
       float: "right",
-      paddingLeft: "20%",
+      paddingLeft: "50%",
     },
     starredHeader: {
       display: "flex",
@@ -142,6 +143,7 @@ function ProfilePage(props) {
       paddingTop: "20px",
       overflow: "scroll",
       height: "85vh",
+      display: "block",
     },
     box: {
       height: "100%",
@@ -157,6 +159,7 @@ function ProfilePage(props) {
     cog: {
       padding: "4%",
       paddingLeft: "12%",
+      display: "block"
     },
     changeButtons: {
       display: "flex",
@@ -191,6 +194,31 @@ function ProfilePage(props) {
     },
     buttonSpacing: {
       padding: "2%",
+    },
+    starButton: {
+      float: "right",
+    },
+    clubImage: {
+      paddingBottom: "10px",
+    },
+    clubName: {
+      marginBottom: "3%",
+    },
+    clubContactButton: {
+
+    },
+    clubContent: {
+      overflow: "auto",
+    },
+    settingButtons: {
+      display: "flex"
+    },
+    clubFormat: {
+      borderLeft: "none",
+      paddingLeft: "0px"
+    },
+    jobContainer: {
+      display: "none",
     }
   };
 
@@ -198,9 +226,11 @@ function ProfilePage(props) {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
+    const settingButtons = document.getElementById("settingButtons");
     profileInfo.style.display = "none";
     editForm.style.display = "block";
     editButton.style.display = "none";
+    settingButtons.style.display = "none";
   };
 
   let submitMode = function (event) {
@@ -208,32 +238,36 @@ function ProfilePage(props) {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
+    const settingButtons = document.getElementById("settingButtons");
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
+    settingButtons.style.display = "flex";
     base('Directory').update([
       {
         "id": userInfo.id,
         "fields": userInfo.fields
       }
-    ], function(err, records) {
+    ], function (err, records) {
       if (err) {
         console.error(err);
         return;
       }
-      records.forEach(function(record) {
+      records.forEach(function (record) {
         console.log("Updated Record");
       });
-    }); 
+    });
   }
 
   let cancelMode = function () {
     const editForm = document.getElementById("editForm");
     const profileInfo = document.getElementById("profileInfo");
     const editButton = document.getElementById("editButton");
+    const settingButtons = document.getElementById("settingButtons");
     profileInfo.style.display = "block";
     editForm.style.display = "none";
     editButton.style.display = "block";
+    settingButtons.style.display = "flex";
   };
 
   let settingMode = function () {
@@ -254,18 +288,40 @@ function ProfilePage(props) {
     settingPopup.style.display = "none";
   };
 
+  let jobMode = function () {
+    const jobContainer = document.getElementById("jobMode");
+    const clubContainer = document.getElementById("clubMode");
+    const jobButton = document.getElementById("jobButton");
+    const clubButton = document.getElementById("clubButton");
+    jobButton.style.backgroundColor = colors.green;
+    clubButton.style.backgroundColor = colors.lightGreen;
+    clubContainer.style.display = "none";
+    jobContainer.style.display = "block";
+  }
+
+  let clubMode = function () {
+    const jobContainer = document.getElementById("jobMode");
+    const clubContainer = document.getElementById("clubMode");
+    const jobButton = document.getElementById("jobButton");
+    const clubButton = document.getElementById("clubButton");
+    clubButton.style.backgroundColor = colors.green;
+    jobButton.style.backgroundColor = colors.lightGreen;
+    clubContainer.style.display = "block";
+    jobContainer.style.display = "none";
+  }
+
   return (
     <div>
       <div
         id="outerBackground"
         className="is-overlay"
         style={styles.outerPopupBackground}>
-          <div
+        <div
           id="settingPopupBackground"
           className="is-overlay"
           style={styles.popupBackground}>
 
-          </div>
+        </div>
         <div id="settingPopup" className="box is-overlay" style={styles.popUp}>
           <div style={styles.settingExitIcon}>
             <FontAwesomeIcon onClick={hideSettingMode} icon={faTimes} />
@@ -324,7 +380,7 @@ function ProfilePage(props) {
             style={styles.topBorderStyle}
             color={colors.limeGreen}
           >
-            <div className="is-pulled-right" style={styles.changeButtons}>
+            <div id="settingButtons" className="is-pulled-right" style={styles.changeButtons}>
               <div>
                 <button
                   id="editButton"
@@ -341,11 +397,11 @@ function ProfilePage(props) {
             </div>
             <div id="profileInfo">
               <div className="profileIcon" style={styles.verticalMargin}>
-                <ProfileIcon img={userInfo.fields['Profile Picture']}></ProfileIcon>
+                <ProfileIcon size={120} img={userInfo.fields['Profile Picture']}></ProfileIcon>
               </div>
               <p className="title">{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</p>
               <p className="subtitle">
-              {userInfo.fields['Headline']}
+                {userInfo.fields['Headline']}
               </p>
               <div className="envelope" style={styles.verticalMargin}>
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
@@ -354,16 +410,16 @@ function ProfilePage(props) {
                 <b>About</b>
               </u>
               <p>
-              {userInfo.fields['About']}
+                {userInfo.fields['About']}
               </p>
             </div>
             <div id="editForm" style={styles.editForm}>
-            <div className="field">
+              <div className="field">
                 <label className="label">Headline</label>
                 <div className="control">
                   <input
                     className="input"
-                    name = "Headline"
+                    name="Headline"
                     type="text"
                     onChange={handleChange}
                     defaultValue={userInfo.fields['Headline']}
@@ -375,7 +431,7 @@ function ProfilePage(props) {
                 <div className="control">
                   <input
                     className="input"
-                    name = "First Name"
+                    name="First Name"
                     type="text"
                     onChange={handleChange}
                     defaultValue={userInfo.fields['First Name']}
@@ -387,7 +443,7 @@ function ProfilePage(props) {
                 <div className="control">
                   <input
                     className="input"
-                    name = "Last Name"
+                    name="Last Name"
                     type="text"
                     onChange={handleChange}
                     defaultValue={userInfo.fields['Last Name']}
@@ -399,7 +455,7 @@ function ProfilePage(props) {
                 <div className="control">
                   <input
                     className="input"
-                    name = "Preferred Name"
+                    name="Preferred Name"
                     type="text"
                     onChange={handleChange}
                     defaultValue={userInfo.fields['Preferred Name']}
@@ -409,7 +465,7 @@ function ProfilePage(props) {
               <div className="field">
                 <label className="label">Role</label>
                 <div className="control">
-                  <input className="input" name ="Role" type="text" onChange={handleChange} defaultValue={userInfo.fields['Role']} />
+                  <input className="input" name="Role" type="text" onChange={handleChange} defaultValue={userInfo.fields['Role']} />
                 </div>
               </div>
               <div className="field">
@@ -455,74 +511,78 @@ function ProfilePage(props) {
               </div>
 
               <div style={styles.jobClubStyle}>
-                <button className="button" style={styles.jobsButtonStyle}>
+                <button id="jobButton" className="button" style={styles.jobsButtonStyle} onClick={jobMode}>
                   Jobs
                 </button>
-                <button className="button" style={styles.clubsButtonStyle}>
+                <button id="clubButton" className="button" style={styles.clubsButtonStyle} onClick={clubMode}>
                   Clubs
                 </button>
               </div>
             </div>
-            <div style={styles.boxesContainer}>
-            <details open><summary>MY CLUBS</summary>
-              <aside className="menu">
-              <ul className="menu-list">
-                <li>
-                  <ul>
-                  {myClubs.map(item => (
-                <div className="box" key={item.id}>
-                <FontAwesomeIcon key={item.fields.id}color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/>
-                  <article className="media">
-                    <div className="media-left">
-                      <figure className="image is-64x64">
-                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
-                      </figure>
-                    </div>
-                    <div className="media-content">
-                      <div className="content">
-                        <p>
-                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
-                          <br />
-                          {item.fields.Description}
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                </div> ))}
+            <div id="jobMode" style={styles.jobContainer}>
+              jobs here
+            </div>
+            <div id="clubMode" style={styles.boxesContainer}>
+              <details open><summary>MY CLUBS</summary>
+                <aside class="menu">
+                  <ul class="menu-list">
+                    <li>
+                      <ul style={styles.clubFormat}>
+                        {myClubs.map(item => (
+                          <div class="box" key={item.id}>
+                          <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
+                          <div>
+                            <div style={styles.clubImage}>
+                              <figure class="image is-64x64">
+                                {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
+                              </figure>
+                            </div>
+                            <div>
+                              <div class="content" style={styles.clubContent}>
+                                <div><strong><h4 style={styles.clubName}>{item.fields.Name}</h4></strong></div>
+                                <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="med"/>{item.fields.Contact}</div>
+                                <div>{item.fields.Description}</div>
+                                  
+                                </div>
+                              </div>
+              
+                          </div>
+                        </div>))}
+                      </ul>
+                    </li>
                   </ul>
-                </li>
-              </ul>
-            </aside></details>
-            <details><summary className="all_clubs">ALL CLUBS</summary>
-              <aside className="menu">
-              <ul className="menu-list">
-                <li>
-                  <ul>
-                  {allClubs.map(item => (
-                <div className="box" key={item.id}>
-                <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} />
-                  <article className="media">
-                    <div className="media-left">
-                      <figure className="image is-64x64">
-                      {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
-                      </figure>
-                    </div>
-                    <div className="media-content">
-                      <div className="content">
-                        <p>
-                          <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
-                          <br />
-                          {item.fields.Description}
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-                </div> ))}
+                </aside></details>
+              <details><summary className="all_clubs">ALL CLUBS</summary>
+                <aside class="menu">
+                  <ul class="menu-list">
+                    <li>
+                      <ul style={styles.clubFormat}>
+                        {allClubs.map(item => (
+                          <div class="box" key={item.id}>
+                            <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
+                            <div>
+                              <div style={styles.clubImage}>
+                                <figure class="image is-64x64">
+                                  {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
+                                </figure>
+                              </div>
+                              <div>
+                                <div class="content" style={styles.clubContent}>
+                                  <div><strong><h4 style={styles.clubName}>{item.fields.Name}</h4></strong></div>
+                                  <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="med"/>{item.fields.Contact}</div>
+                                  <div>{item.fields.Description}</div>
+                                    
+                                  </div>
+                                </div>
+                  
+
+                            </div>
+                          </div>))}
+                      </ul>
+                    </li>
                   </ul>
-                </li>
-              </ul>
-            </aside></details>
-            </div> 
+                </aside></details>
+            </div>
           </ViewWithTopBorder>
         </div>
       </div>
