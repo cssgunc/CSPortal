@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Airtable from 'airtable';
 import { Link } from "react-router-dom";
 import { withAuthorization } from "../Session";
 import Heading from "../General/Heading";
+import ViewWithTopBorder from '../General/ViewWithTopBorder';
 import * as ROUTES from "../../constants/routes";
+import * as AIRTABLE from '../../constants/airtable';
 
 function Communities() {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
@@ -11,31 +13,57 @@ function Communities() {
   const [clubs, setClubs] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Clubs`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setClubs(result.data.records);
-        console.log(result.data.records);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let updateClubs = async () => {
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let records = await base(AIRTABLE.CLUBS_TABLE).select().all();
+
+      setClubs(records);
+      console.log(records);
+    }
+    updateClubs();
   }, [airtableKey]);
 
   return (
     <div>
       <section className="section is-white">
-        <Heading>Communities</Heading>
-        {clubs.map((club) => (
-          <p>
-            <Link to={`${ROUTES.COMMUNITIES}/${club.id}`}>
-              {club.fields.Name}
-            </Link>
-            <br />
-          </p>
-        ))}
+        <ViewWithTopBorder>
+          <Heading>Communities</Heading>
+          <div className="columns is-multiline">
+            { clubs.length === 0 ? (
+              <div className="box">
+                <div className="content">
+                  <p>
+                    <strong>No clubs yet! Check back later! </strong>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              clubs
+                .map((club) => (
+                  <div className="column is-flex is-one-quarter">
+                    <div className="box" key={club.id}> 
+                      {/* {club.fields.Logo &&
+                        <img
+                          src={club.fields.Logo.url}
+                          alt="Logo"
+                        />
+                      } */}
+                      <div className="content">
+                        <p>
+                          <Link to={`${ROUTES.COMMUNITIES}/${club.id}`}>
+                            <strong>{club.fields.Name}</strong>
+                          </Link>
+                          <br />
+                          {club.fields.Description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+            )}
+          </div>
+        </ViewWithTopBorder>
       </section>
     </div>
   );

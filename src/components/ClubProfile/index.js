@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import Airtable from 'airtable';
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
@@ -13,7 +13,7 @@ import linkedin from "../../constants/icons/linkedin.png";
 import youtube from "../../constants/icons/youtube.png";
 import Heading from "../General/Heading";
 import Avatar from "react-avatar";
-import calendarIcon from "../../constants/icons/calendarIcon.png";
+import * as AIRTABLE from '../../constants/airtable';
 
 function ClubProfile(props) {
   const authUser = useContext(AuthUserContext);
@@ -26,17 +26,15 @@ function ClubProfile(props) {
   const club_id = match.params.id;
 
   useEffect(() => {
-    axios
-      .get(`https://api.airtable.com/v0/appWPIPmVSmXaMhey/Clubs/${club_id}`, {
-        headers: { Authorization: `Bearer ${airtableKey}` },
-      })
-      .then((result) => {
-        setClub(result.data.fields);
-        console.log(result.data.fields);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let updateClub = async () => {
+      let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
+
+      let result = await base(AIRTABLE.CLUBS_TABLE).find(club_id);
+
+      setClub(result.fields);
+      console.log(result.fields);
+    }
+    updateClub();
   }, [airtableKey, club_id]);
 
   const styles = {
@@ -130,17 +128,7 @@ function ClubProfile(props) {
               <b>About</b>
             </u>
             <p style={{ marginTop: "15px" }}>
-              About Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec ligula neque, lobortis eget euismod vitae, congue sed nisi.
-              Donec nibh ipsum, faucibus non pharetra et, vehicula id dui.
-              Mauris euismod tellus ornare dolor bibendum, viverra auctor ipsum
-              suscipit. Sed eleifend dui nisi, id elementum eros viverra vitae.
-              Donec vitae augue luctus, mattis leo sed, suscipit eros. Aenean
-              luctus at mi non volutpat. Pellentesque habitant morbi tristique
-              senectus et netus et malesuada fames ac turpis egestas. Quisque
-              quam eros, condimentum eget porttitor vitae, dapibus in nisl.
-              Donec lorem turpis, mollis ac rhoncus eu, pellentesque non arcu.
-              Suspendisse quis dui volutpat, eleifend lectus eget, placerat est.{" "}
+              { club.Description }
               <calendarIcon></calendarIcon>
             </p>
           </div>
@@ -149,15 +137,18 @@ function ClubProfile(props) {
               <b>Members</b>
             </u>
             <div className="columns" style={styles.verticalMargin}>
-              <section style={{ margin: "20px" }}>
-                <ProfileIcon></ProfileIcon>
-              </section>
-              <section style={{ margin: "20px" }}>
-                <ProfileIcon></ProfileIcon>
-              </section>
-              <section style={{ margin: "20px" }}>
-                <ProfileIcon></ProfileIcon>
-              </section>
+            { !club.Directory || club.Directory.length === 0 ? (
+                <p>
+                  <strong>No members yet! Check back later! </strong>
+                </p>
+            ) : (
+              club.Directory
+                .map((member) => (
+                  <section style={{ margin: "20px" }} key={member}>
+                    <ProfileIcon displayName={member.displayName}></ProfileIcon>
+                  </section>
+                ))
+            )}
             </div>
           </div>
         </ViewWithTopBorder>
