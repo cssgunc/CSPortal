@@ -12,6 +12,7 @@ import instagram from "../../constants/icons/instagram.png";
 import linkedin from "../../constants/icons/linkedin.png";
 import youtube from "../../constants/icons/youtube.png";
 import Heading from "../General/Heading";
+import Loading from "../General/Loading";
 import Avatar from "react-avatar";
 import * as AIRTABLE from '../../constants/airtable';
 
@@ -21,6 +22,7 @@ function ClubProfile(props) {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   // all the data for a particular club is stored here
   const [club, setClub] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const { match } = props;
   const club_id = match.params.id;
@@ -33,6 +35,7 @@ function ClubProfile(props) {
 
       setClub(result.fields);
       console.log(result.fields);
+      setDataLoaded(true);
     }
     updateClub();
   }, [airtableKey, club_id]);
@@ -100,241 +103,251 @@ function ClubProfile(props) {
   };
 
   return (
-    <div className="columns">
-      <div className="column is-three-quarters" style={styles.profileColumn}>
-        <ViewWithTopBorder
-          style={styles.topBorderStyle}
-          color={colors.limeGreen}
-        >
-          <button
-            className="button is-pulled-right"
-            style={styles.editButtonStyle}
-          >
-            Join
-          </button>
-          <div className="profileIcon" style={styles.verticalMargin}>
-            <Avatar round={true} size="176px" />
-          </div>
-          <p className="title">{club.Name}</p>
-          <div className="columns" style={styles.verticalMargin}>
-            <MediaIcon src={facebook} alt="Facebook" />
-            <MediaIcon src={twitter} alt="Twitter" />
-            <MediaIcon src={instagram} alt="Instagram" />
-            <MediaIcon src={linkedin} alt="LinkedIn" />
-            <MediaIcon src={youtube} alt="Youtube" />
-          </div>
-          <div style={{ marginBottom: "30px" }}>
-            <u>
-              <b>About</b>
-            </u>
-            <p style={{ marginTop: "15px" }}>
-              { club.Description }
-              <calendarIcon></calendarIcon>
-            </p>
-          </div>
-          <div>
-            <u>
-              <b>Members</b>
-            </u>
-            <div className="columns" style={styles.verticalMargin}>
-            { !club.Directory || club.Directory.length === 0 ? (
-                <p>
-                  <strong>No members yet! Check back later! </strong>
+    <div>
+      { dataLoaded ? (
+        <div className="columns">
+          <div className="column is-three-quarters" style={styles.profileColumn}>
+            <ViewWithTopBorder
+              style={styles.topBorderStyle}
+              color={colors.limeGreen}
+            >
+              <button
+                className="button is-pulled-right"
+                style={styles.editButtonStyle}
+              >
+                Join
+              </button>
+              <div className="profileIcon" style={styles.verticalMargin}>
+                <Avatar round={true} size="176px" />
+              </div>
+              <p className="title">{club.Name}</p>
+              <div className="columns" style={styles.verticalMargin}>
+                <MediaIcon src={facebook} alt="Facebook" />
+                <MediaIcon src={twitter} alt="Twitter" />
+                <MediaIcon src={instagram} alt="Instagram" />
+                <MediaIcon src={linkedin} alt="LinkedIn" />
+                <MediaIcon src={youtube} alt="Youtube" />
+              </div>
+              <div style={{ marginBottom: "30px" }}>
+                <u>
+                  <b>About</b>
+                </u>
+                <p style={{ marginTop: "15px" }}>
+                  { club.Description }
+                  <calendarIcon></calendarIcon>
                 </p>
-            ) : (
-              club.Directory
-                .map((member) => (
-                  <section style={{ margin: "20px" }} key={member}>
-                    <ProfileIcon displayName={member.displayName}></ProfileIcon>
-                  </section>
-                ))
-            )}
-            </div>
+              </div>
+              <div>
+                <u>
+                  <b>Members</b>
+                </u>
+                <div className="columns" style={styles.verticalMargin}>
+                { !club.Directory || club.Directory.length === 0 ? (
+                    <p>
+                      <strong>No members yet! Check back later! </strong>
+                    </p>
+                ) : (
+                  club.Directory
+                    .map((member) => (
+                      <section style={{ margin: "20px" }} key={member}>
+                        <ProfileIcon displayName={member.displayName}></ProfileIcon>
+                      </section>
+                    ))
+                )}
+                </div>
+              </div>
+            </ViewWithTopBorder>
           </div>
-        </ViewWithTopBorder>
-      </div>
-      <div className="column" style={styles.starredColumn}>
-        <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
-          <div>
-            <Heading
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "21px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-              }}
-            >
-              Upcoming Events
-            </Heading>
-            <calendarIcon></calendarIcon>
+          <div className="column" style={styles.starredColumn}>
+            <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
+              <div>
+                <Heading
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "21px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Upcoming Events
+                </Heading>
+                <calendarIcon></calendarIcon>
+              </div>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  width: "80%",
+                  height: "250px",
+                  margin: "40px",
+                }}
+              >
+                <Heading
+                  style={{
+                    padding: "15px",
+                    textAlign: "center",
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "21px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "200px",
+                  }}
+                >
+                  Figma Workshop
+                </Heading>
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    lineHeight: "19px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "235px",
+                    left: "75px",
+                  }}
+                >
+                  Friday, 2/26/2021
+                </p>
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    lineHeight: "19px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "250px",
+                    left: "85px",
+                    color: "#B6B6B6",
+                  }}
+                >
+                  Zoom
+                </p>
+                <button style={styles.registerButtonStyle}>Register Now</button>
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "12px",
+                    lineHeight: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "310px",
+                    left: "75px",
+                    color: "#6C6D6F",
+                  }}
+                >
+                  5 members attending
+                </p>
+              </div>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  width: "80%",
+                  height: "250px",
+                  margin: "40px",
+                }}
+              >
+                <Heading
+                  style={{
+                    padding: "15px",
+                    textAlign: "center",
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    lineHeight: "21px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "495px",
+                  }}
+                >
+                  Psychology in UX
+                </Heading>
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    lineHeight: "19px",
+                    display: "flex",
+                    alignItems: "center",
+                    position: "absolute",
+                    top: "530px",
+                    left: "75px",
+                  }}
+                >
+                  Monday, 3/1/2021
+                </p>
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    lineHeight: "19px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "545px",
+                    left: "85px",
+                    color: "#B6B6B6",
+                  }}
+                >
+                  Zoom
+                </p>
+                <button style={styles.registerButtonStyle}>Register Now</button>
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "12px",
+                    lineHeight: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    letterSpacing: "0.05em",
+                    position: "absolute",
+                    top: "600px",
+                    left: "75px",
+                    color: "#6C6D6F",
+                  }}
+                >
+                  5 members attending
+                </p>
+              </div>
+            </ViewWithTopBorder>
           </div>
-          <div
-            style={{
-              backgroundColor: "white",
-              width: "80%",
-              height: "250px",
-              margin: "40px",
-            }}
-          >
-            <Heading
-              style={{
-                padding: "15px",
-                textAlign: "center",
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "21px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "200px",
-              }}
-            >
-              Figma Workshop
-            </Heading>
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: "16px",
-                lineHeight: "19px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "235px",
-                left: "75px",
-              }}
-            >
-              Friday, 2/26/2021
-            </p>
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: "16px",
-                lineHeight: "19px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "250px",
-                left: "85px",
-                color: "#B6B6B6",
-              }}
-            >
-              Zoom
-            </p>
-            <button style={styles.registerButtonStyle}>Register Now</button>
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: "12px",
-                lineHeight: "14px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "310px",
-                left: "75px",
-                color: "#6C6D6F",
-              }}
-            >
-              5 members attending
-            </p>
-          </div>
-          <div
-            style={{
-              backgroundColor: "white",
-              width: "80%",
-              height: "250px",
-              margin: "40px",
-            }}
-          >
-            <Heading
-              style={{
-                padding: "15px",
-                textAlign: "center",
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "bold",
-                fontSize: "18px",
-                lineHeight: "21px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "495px",
-              }}
-            >
-              Psychology in UX
-            </Heading>
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: "16px",
-                lineHeight: "19px",
-                display: "flex",
-                alignItems: "center",
-                position: "absolute",
-                top: "530px",
-                left: "75px",
-              }}
-            >
-              Monday, 3/1/2021
-            </p>
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: "16px",
-                lineHeight: "19px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "545px",
-                left: "85px",
-                color: "#B6B6B6",
-              }}
-            >
-              Zoom
-            </p>
-            <button style={styles.registerButtonStyle}>Register Now</button>
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: "12px",
-                lineHeight: "14px",
-                display: "flex",
-                alignItems: "center",
-                letterSpacing: "0.05em",
-                position: "absolute",
-                top: "600px",
-                left: "75px",
-                color: "#6C6D6F",
-              }}
-            >
-              5 members attending
-            </p>
-          </div>
-        </ViewWithTopBorder>
-      </div>
+        </div>
+      ) : (
+        // you can also add a "width" property that sets how wide it will be
+        // you can set the styles for the container with the "containerStyle" property
+        // and set any other styles for the loading image itself with the "style" property
+        // see dummy example below
+        <Loading />
+      )}
     </div>
   );
 }
