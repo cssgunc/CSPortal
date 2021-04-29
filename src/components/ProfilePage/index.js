@@ -16,6 +16,8 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
+import * as AIRTABLE from "../../constants/airtable";
+
 var Airtable = require('airtable');
 const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
 var base = new Airtable({apiKey: airtableKey}).base('appWPIPmVSmXaMhey');
@@ -32,19 +34,21 @@ function ProfilePage(props) {
   const [isMyClub, setStar] = useState(false)
 
   useEffect(() => {
-      base('Directory').select({filterByFormula: `Email = "${authUser.email}"`})
+      base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
       .firstPage(function(err, records) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
-            setUserInfo(userInfo => ({"id": record.id, "fields": record.fields}))
+          setUserInfo({"id": record.id, "fields": record.fields})
 
-            // set club info 
+          // set club info 
+          if (record.fields.Clubs) {
             record.fields.Clubs.forEach((club_id) => {
-              base('Clubs').find(club_id, function(err, record) {
+              base(AIRTABLE.CLUBS_TABLE).find(club_id, function(err, record) {
                 if (err) { console.error(err); return; }
                 setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
-            });
-          })
+              });
+            })
+          }
         });
     }, [props.fields]);
   }, [authUser.email, props.fields])
@@ -292,7 +296,7 @@ function ProfilePage(props) {
                 className="switch is-rounded is-info is-rtl"
                 checked="checked"
               ></input>
-              <label for="switchRoundedInfo"> </label>
+              <label htmlFor="switchRoundedInfo"> </label>
             </div>
           </div>
           <div className="field">
@@ -305,7 +309,7 @@ function ProfilePage(props) {
                 className="switch is-rounded is-info is-rtl"
                 checked="checked"
               ></input>
-              <label for="switchRoundedInfo"></label>
+              <label htmlFor="switchRoundedInfo"></label>
             </div>
           </div>
           <br></br>
@@ -461,21 +465,21 @@ function ProfilePage(props) {
             </div>
             <div style={styles.boxesContainer}>
             <details open><summary>MY CLUBS</summary>
-              <aside class="menu">
-              <ul class="menu-list">
+              <aside className="menu">
+              <ul className="menu-list">
                 <li>
                   <ul>
                   {myClubs.map(item => (
-                <div class="box" key={item.id}>
+                <div className="box" key={item.id}>
                 <FontAwesomeIcon key={item.fields.id}color={isMyClub ? "#FFAC32" : 'transparent'} className = "star" icon={faStar} onClick={toggleStar}/>
-                  <article class="media">
-                    <div class="media-left">
-                      <figure class="image is-64x64">
+                  <article className="media">
+                    <div className="media-left">
+                      <figure className="image is-64x64">
                       {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
                       </figure>
                     </div>
-                    <div class="media-content">
-                      <div class="content">
+                    <div className="media-content">
+                      <div className="content">
                         <p>
                           <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
                           <br />
@@ -490,21 +494,21 @@ function ProfilePage(props) {
               </ul>
             </aside></details>
             <details><summary className="all_clubs">ALL CLUBS</summary>
-              <aside class="menu">
-              <ul class="menu-list">
+              <aside className="menu">
+              <ul className="menu-list">
                 <li>
                   <ul>
                   {allClubs.map(item => (
-                <div class="box" key={item.id}>
+                <div className="box" key={item.id}>
                 <FontAwesomeIcon color="#FFAC32" className = "star" icon={faStar} />
-                  <article class="media">
-                    <div class="media-left">
-                      <figure class="image is-64x64">
+                  <article className="media">
+                    <div className="media-left">
+                      <figure className="image is-64x64">
                       {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name}/> :  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In"/>}
                       </figure>
                     </div>
-                    <div class="media-content">
-                      <div class="content">
+                    <div className="media-content">
+                      <div className="content">
                         <p>
                           <strong>{item.fields.Name}</strong> <small>{item.fields.Contact}</small> 
                           <br />
