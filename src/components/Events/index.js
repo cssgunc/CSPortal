@@ -29,7 +29,7 @@ function Events() {
   }, [airtableKey]);
 
   return (
-    <div className="column">
+    <div className="container column">
       <ViewWithTopBorder color={colors.green}>
         <section>
           <Heading>Calendar</Heading>

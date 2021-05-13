@@ -41,7 +41,7 @@ function Opportunities() {
   // https://airtable.com/appWPIPmVSmXaMhey/api/docs#curl/table:opportunities
 
   return (
-    <div>
+    <div className="container">
       { dataLoaded ? (
         <section className="section is-white">
           <ViewWithTopBorder>

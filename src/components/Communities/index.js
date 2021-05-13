@@ -28,7 +28,7 @@ function Communities() {
   }, [airtableKey]);
 
   return (
-    <div>
+    <div className="container">
       { dataLoaded ? (
         <section className="section is-white">
           <ViewWithTopBorder>
