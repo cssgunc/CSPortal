@@ -111,12 +111,15 @@ function ClubProfile(props) {
               style={styles.topBorderStyle}
               color={colors.limeGreen}
             >
-              <button
+              <a
                 className="button is-pulled-right"
                 style={styles.editButtonStyle}
+                href={club.Signup ? club.Signup : club.Website}
+                target="_blank"
+                rel="noreferrer"
               >
                 Join
-              </button>
+              </a>
               <div className="profileIcon" style={styles.verticalMargin}>
                 { club.Logo && club.Logo.length > 0 ? (
                   <img
