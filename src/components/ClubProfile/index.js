@@ -103,7 +103,7 @@ function ClubProfile(props) {
   };
 
   return (
-    <div>
+    <div className="container">
       { dataLoaded ? (
         <div className="columns">
           <div className="column is-three-quarters" style={styles.profileColumn}>
@@ -118,7 +118,14 @@ function ClubProfile(props) {
                 Join
               </button>
               <div className="profileIcon" style={styles.verticalMargin}>
-                <Avatar round={true} size="176px" />
+                { club.Logo && club.Logo.length > 0 ? (
+                  <img
+                    src={club.Logo[0].url}
+                    alt="Logo"
+                  />
+                ) : (
+                  <Avatar round={true} size="176px" />
+                )}
               </div>
               <p className="title">{club.Name}</p>
               <div className="columns" style={styles.verticalMargin}>

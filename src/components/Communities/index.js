@@ -48,12 +48,12 @@ function Communities() {
                   .map((club) => (
                     <div className="column is-flex is-one-quarter" key={club.id}>
                       <div className="box" key={club.id}> 
-                        {/* {club.fields.Logo &&
+                        {club.fields.Logo && club.fields.Logo.length > 0 &&
                           <img
-                            src={club.fields.Logo.url}
+                            src={club.fields.Logo[0].url}
                             alt="Logo"
                           />
-                        } */}
+                        }
                         <div className="content">
                           <p>
                             <Link to={`${ROUTES.COMMUNITIES}/${club.id}`}>
