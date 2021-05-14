@@ -101,8 +101,8 @@ function ClubProfile(props) {
                 <figure className="header-background image is-3by1" 
                   style={club.CoverImage && club.CoverImage.length > 0 ? 
                     {"background": `url(${club.CoverImage[0].url})`, 
-                    "background-size": "cover", 
-                    "background-repeat" : "no-repeat"} : {}}/>
+                    "backgroundSize": "cover", 
+                    "backgroundRepeat" : "no-repeat"} : {}}/>
               }
               <a
                 className="button is-pulled-right mt-2"
@@ -113,17 +113,17 @@ function ClubProfile(props) {
               >
                 Join
               </a>
-              <div className={ club.CoverImage && club.CoverImage.length > 0 ? "under-cover ml-3" : "" }>
-                <figure className="box image is-128x128" style={styles.verticalMargin}>
-                  { club.Logo && club.Logo.length > 0 ? (
+              <div className={ club.CoverImage && club.CoverImage.length > 0 ? "under-cover ml-3" : "mb-5" }>
+                { club.Logo && club.Logo.length > 0 ? (
+                  <figure className="box image is-128x128" style={styles.verticalMargin}>
                     <img
                       src={club.Logo[0].url}
                       alt="Logo"
                     />
-                  ) : (
-                    <Avatar round={true} size="176px" />
-                  )}
-                </figure>
+                    </figure>
+                ) : (
+                  <Avatar round={true} size="176px" />
+                )}
               </div>
               <p className="title">{club.Name}</p>
               <div className="columns" style={styles.verticalMargin}>
@@ -175,7 +175,7 @@ function ClubProfile(props) {
                     Upcoming Events
                 </Heading>
               </div>
-              {club.Events.map((event, i) => (
+              {club.Events && club.Events.map((event, i) => (
                 <div className="card" key={event}>
                   <div className="card-content">
                     <p className="title is-5 mb-0">{club["Name (from Events)"][i]}</p>
