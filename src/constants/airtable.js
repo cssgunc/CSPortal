@@ -23,3 +23,10 @@ export const CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD = "Profile Picture (from P
 export const CLUBS_TABLE_LEADER_FIRST_NAME_FIELD = "First Name (from Leaders)"
 export const CLUBS_TABLE_LEADER_LAST_NAME_FIELD = "Last Name (from Leaders)"
 export const CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD = "Profile Picture (from Leaders)"
+
+export const DIRECTORY_TABLE_SAVED_JOBS_FIELD = "SavedJobs"
+export const DIRECTORY_TABLE_SAVED_JOBS_TITLE_FIELD = "Title (from SavedJobs)"
+export const DIRECTORY_TABLE_SAVED_JOBS_COMPANY_FIELD = "CompanyName (from SavedJobs)"
+export const DIRECTORY_TABLE_SAVED_JOBS_LOCATION_FIELD = "Location (from SavedJobs)"
+export const DIRECTORY_TABLE_SAVED_JOBS_LINK_FIELD = "LinkToApply (from SavedJobs)"
+export const DIRECTORY_TABLE_SAVED_JOBS_LOGO_FIELD = "CompanyLogo (from SavedJobs)"

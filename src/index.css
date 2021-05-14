@@ -56,7 +56,7 @@ html {
   min-height: 100vh;
 }
 
-.star:hover{
+.unstar{
  color:transparent;
  stroke: black;
  stroke-width: 10;

@@ -36,7 +36,8 @@ function ProfilePage(props) {
   });
   const [myClubs, setMyClubs] = useState([])
   const [allClubs, setAllClubs] = useState([])
-  const [isMyClub, setStar] = useState(false)
+
+  const [myJobs, setMyJobs] = useState([])
 
   useEffect(() => {
       base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
@@ -44,7 +45,14 @@ function ProfilePage(props) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
           setUserInfo({"id": record.id, "fields": record.fields})
-          setTempInfo({"id": record.id, "fields": record.fields})
+          setTempInfo({"id": record.id, "fields": {
+            "Email": record.fields["Email"],
+            "First Name": record.fields["First Name"],
+            "Last Name": record.fields["Last Name"],
+            "Preferred Name": record.fields["Preferred Name"],
+            "Headline": record.fields["Headline"],
+            "About": record.fields["About"],
+          }})
           // set club info 
           if (record.fields.Clubs) {
             record.fields.Clubs.forEach((club_id) => {
@@ -54,6 +62,25 @@ function ProfilePage(props) {
               });
             })
           }
+
+          let jobs = [];
+          if (record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD]) {
+            for (let i = 0; i < record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD].length; i++) {  
+              jobs.push({
+                id: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD][i],
+                title: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_TITLE_FIELD][i],
+                company: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_COMPANY_FIELD][i],
+                logo: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOGO_FIELD][i],
+                location: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOCATION_FIELD][i],
+                link: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LINK_FIELD][i],
+              })
+            }
+          };
+
+          console.log(jobs);
+
+          setMyJobs(jobs);
+
         });
       }, [props.fields]);
   }, [authUser.email, props.fields])
@@ -83,9 +110,24 @@ function ProfilePage(props) {
     });
   };
 
-  const toggleStar = () => {
-    setStar(!isMyClub);
-  };
+  const deleteJob = (e) => {
+    let jobElement = e.target.parentNode;
+
+    // get saved job ids and remove deleted one
+    let jobIds = myJobs.map(job => job.id);
+    jobIds = jobIds.filter(id => id !== jobElement.getAttribute("data-key"));
+
+    // update table
+    base(AIRTABLE.DIRECTORY_TABLE).update([{
+      id: userInfo.id,
+      fields: {
+        "SavedJobs": jobIds,
+      }
+    }]);
+
+    // delete html element
+    jobElement.parentNode.removeChild(jobElement);
+  }
 
   const styles = {
     topBorderStyle: {
@@ -261,7 +303,15 @@ function ProfilePage(props) {
         console.log("Updated Record");
       });
     });
-    setUserInfo(tempInfo);
+
+    let newInfo = { ...userInfo };
+    newInfo.fields["Email"] = tempInfo.fields["Email"];
+    newInfo.fields["First Name"] = tempInfo.fields["First Name"];
+    newInfo.fields["Last Name"] = tempInfo.fields["Last Name"];
+    newInfo.fields["Preferred Name"] = tempInfo.fields["Preferred Name"];
+    newInfo.fields["Headline"] = tempInfo.fields["Headline"];
+    newInfo.fields["About"] = tempInfo.fields["About"];
+    setUserInfo(newInfo);
   }
 
   let cancelMode = function () {
@@ -273,7 +323,15 @@ function ProfilePage(props) {
     editForm.style.display = "none";
     editButton.style.display = "block";
     settingButtons.style.display = "flex";
-    setTempInfo(userInfo);
+
+    setTempInfo({id: userInfo.id, fields: {
+      "Email": userInfo.fields["Email"],
+      "First Name": userInfo.fields["First Name"],
+      "Last Name": userInfo.fields["Last Name"],
+      "Preferred Name": userInfo.fields["Preferred Name"],
+      "Headline": userInfo.fields["Headline"],
+      "About": userInfo.fields["About"],
+    }});
   };
 
   let settingMode = function () {
@@ -447,7 +505,7 @@ function ProfilePage(props) {
                     name="Headline"
                     type="text"
                     onChange={handleChange}
-                    value={tempInfo.fields['Headline']}
+                    value={tempInfo.fields['Headline'] || ''}
                   />
                 </div>
               </div>
@@ -459,7 +517,7 @@ function ProfilePage(props) {
                     name="First Name"
                     type="text"
                     onChange={handleChange}
-                    value={tempInfo.fields['First Name']}
+                    value={tempInfo.fields['First Name'] || ''}
                   />
                 </div>
               </div>
@@ -471,7 +529,7 @@ function ProfilePage(props) {
                     name="Last Name"
                     type="text"
                     onChange={handleChange}
-                    value={tempInfo.fields['Last Name']}
+                    value={tempInfo.fields['Last Name'] || ''}
                   />
                 </div>
               </div>
@@ -483,20 +541,20 @@ function ProfilePage(props) {
                     name="Preferred Name"
                     type="text"
                     onChange={handleChange}
-                    value={tempInfo.fields['Preferred Name']}
+                    value={tempInfo.fields['Preferred Name'] || ''}
                   />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Email</label>
                 <div className="control">
-                  <input className="input" name="Email" type="text" onChange={handleChange} value={tempInfo.fields['Email']} />
+                  <input className="input" name="Email" type="text" onChange={handleChange} value={tempInfo.fields['Email'] || ''} />
                 </div>
               </div>
               <div className="field">
                 <label className="label">About</label>
                 <div className="control">
-                  <textarea className="textarea" name="About" type="text" onChange={handleChange} value={tempInfo.fields['About']} />
+                  <textarea className="textarea" name="About" type="text" onChange={handleChange} value={tempInfo.fields['About'] || ''} />
                 </div>
               </div>
               <div style={styles.editFormButtons}>
@@ -539,7 +597,30 @@ function ProfilePage(props) {
               </div>
             </div>
             <div id="jobMode" style={styles.jobContainer}>
-              jobs here
+              <ul className="menu-list">
+                <li>
+                  <ul style={styles.clubFormat}>
+                    {myJobs.map(item => (
+                      <div className="box" key={item.id} data-key={item.id}>
+                        <button className="delete is-pulled-right" onClick={deleteJob}></button>
+                        <div style={styles.clubImage}>
+                          <figure className="image is-64x64">
+                            {item.logo != null ? <img src={item.logo.url} alt={item.company} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
+                          </figure>
+                        </div>
+                        <div>
+                          <div className="content" style={styles.clubContent}>
+                            <div><strong><h4 style={styles.clubName}>{item.title}</h4></strong></div>
+                            <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="sm"/>{item.company}</div>
+                            <div>{item.location}</div>
+                              
+                            </div>
+                        </div>
+                      </div>
+                    ))}
+                  </ul>
+                </li>
+              </ul>
             </div>
             <div id="clubMode" style={styles.boxesContainer}>
               <details open><summary>MY CLUBS</summary>
@@ -549,7 +630,7 @@ function ProfilePage(props) {
                       <ul style={styles.clubFormat}>
                         {myClubs.map(item => (
                           <div className="box" key={item.id}>
-                          <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
+                          {/* <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} /> */}
                           <div>
                             <div style={styles.clubImage}>
                               <figure className="image is-64x64">
@@ -578,7 +659,7 @@ function ProfilePage(props) {
                       <ul style={styles.clubFormat}>
                         {allClubs.map(item => (
                           <div className="box" key={item.id}>
-                            <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
+                            {/* <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} /> */}
                             <div>
                               <div style={styles.clubImage}>
                                 <figure className="image is-64x64">
