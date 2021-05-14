@@ -3,8 +3,8 @@ import { withAuthorization } from "../Session";
 import colors from "../../constants/RTCColors";
 
 function ProfileIcon(props) {
-  const { authUser, size } = props;
-  const identifier = authUser.displayName ?? authUser.email;
+  let { authUser, size, user, userId } = props;
+  const identifier = user ?? authUser.displayName ?? authUser.email;
   const pfp = props.img;
   let sizepx = null;
   let halfsizepx= null;
@@ -34,9 +34,11 @@ function ProfileIcon(props) {
   };
 
   return (
-    <div className="is-hidden-touch" style={styles.circle}>
-      {pfp != null ? <img src={pfp[0].url} alt="" style={styles.circle}></img> : <p style={styles.initial}>{identifier.charAt(0).toUpperCase()}</p>}
-    </div>
+    <a href={userId ? `/user/${userId}` : "#"}>
+      <div className="is-hidden-touch" style={styles.circle}>
+        {pfp != null ? <img src={pfp[0].url} alt="" style={styles.circle}></img> : <p style={styles.initial}>{identifier.charAt(0).toUpperCase()}</p>}
+      </div>
+    </a>
   );
 }
 

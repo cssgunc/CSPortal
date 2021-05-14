@@ -162,14 +162,6 @@ const NavigationAuthYes = () => {
                 >
                   Opportunities
                 </Link>
-                {/* <Link
-                  className="navbar-item"
-                  to="/opportunities/recPgc9d3om1ioAcx"
-                  onClick={closeMenu}
-                >
-                  Sample Opportunities Sub-Page
-                </Link> */}
-
                 <Link
                   className="navbar-item"
                   to={ROUTES.WEBINARS}
@@ -177,13 +169,6 @@ const NavigationAuthYes = () => {
                 >
                   Webinars
                 </Link>
-                {/* <Link
-                  className="navbar-item"
-                  to="/webinars/recCKN1aUgHjgHkLr"
-                  onClick={closeMenu}
-                >
-                  Sample Webinars Sub-Page
-                </Link> */}
                 <Link
                   className="navbar-item"
                   to={ROUTES.EVENTS}
@@ -242,20 +227,11 @@ const NavEndDesktop = (props) => {
 
   return (
     <div className="buttons is-hidden-touch" style={styles.button}>
-      <Link className="navbar-item" to={ROUTES.REFER} onClick={onClick}>
-        <button
-          className="button is-light"
-          style={{ ...styles.lightButton, ...styles.button }}
-          type="button"
-        >
-          Refer
-        </button>
-      </Link>
       <div
         className="navbar-item has-dropdown is-hoverable"
         style={styles.profileIcon}
       >
-        <ProfileIcon />
+        <ProfileIcon/>
         <div className="navbar-dropdown is-right" style={styles.dropdown}>
           <Link className="navbar-item" to={ROUTES.PROFILE} onClick={onClick}>
             Profile

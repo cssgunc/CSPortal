@@ -100,3 +100,13 @@ details[open] > summary {
 .box {
   width: 100%;
 }
+
+.header-background {
+  background: url(https://unsplash.it/1000/1000/?random&pic=1) no-repeat center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.under-cover {
+  margin-top: -5em;
+}
