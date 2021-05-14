@@ -25,6 +25,8 @@ function ClubProfile(props) {
   const airtableKey = process.env.REACT_APP_AIRTABLE_API_KEY;
   // all the data for a particular club is stored here
   const [club, setClub] = useState([]);
+  const [leaderInfo, setLeaderInfo] = useState([]);
+  const [memberInfo, setMemberInfo] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const { match } = props;
@@ -38,6 +40,38 @@ function ClubProfile(props) {
 
       setClub(result.fields);
       console.log(result.fields);
+
+      // Combine leader fields
+      let leaders = [];
+      for (let i = 0; i < result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD].length; i++) {
+        let hasProfPic = result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD] && result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD].length > 0;
+        leaders.push({
+          id: result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD][i],
+          firstName: result.fields[AIRTABLE.CLUBS_TABLE_LEADER_FIRST_NAME_FIELD][i],
+          lastName: result.fields[AIRTABLE.CLUBS_TABLE_LEADER_LAST_NAME_FIELD][i],
+          profilePicture: hasProfPic ? result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD][i] : null,
+        });
+      }
+
+      // Combine member fields
+      let members = [];
+      for (let i = 0; i < result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD].length; i++) {
+        let hasProfPic = result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD] && result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD].length > 0;
+        members.push({
+          id: result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD][i],
+          firstName: result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_FIRST_NAME_FIELD][i],
+          lastName: result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_LAST_NAME_FIELD][i],
+          profilePicture: hasProfPic ? result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD][i] : null,
+        });
+      }
+
+      // Sort both lists by firstname
+      leaders.sort((a, b) => a.firstName.localeCompare(b.firstName));
+      members.sort((a, b) => a.firstName.localeCompare(b.firstName));
+
+      setLeaderInfo(leaders);
+      setMemberInfo(members);
+
       setDataLoaded(true);
     }
     updateClub();
@@ -99,7 +133,7 @@ function ClubProfile(props) {
               color={colors.limeGreen}
             >
               { club.CoverImage && club.CoverImage.length > 0 && 
-                <figure className="header-background image is-3by1" 
+                <figure className="box header-background image is-3by1" 
                   style={club.CoverImage && club.CoverImage.length > 0 ? 
                     {"background": `url(${club.CoverImage[0].url})`, 
                     "backgroundSize": "cover", 
@@ -146,21 +180,43 @@ function ClubProfile(props) {
               </div>
               <div>
                 <u>
+                  <b>Leaders</b>
+                </u>
+                <div className="columns" style={styles.verticalMargin}>
+                { !club[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD] || club[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD].length === 0 ? (
+                    <p>
+                      <strong>No leaders listed! Please contact UNC CS Department staff! </strong>
+                    </p>
+                ) : (
+                  leaderInfo
+                    .map((member, i) => (
+                      <div className="column is-2 has-text-centered" style={{ margin: "20px" }} key={member.id}>
+                        <div className="is-inline-block">
+                          <ProfileIcon user={member.firstName} userId={member.id}/>
+                        </div>
+                        <p>{member.firstName} {member.lastName}</p>
+                      </div>
+                    ))
+                )}
+                </div>
+              </div>
+              <div>
+                <u>
                   <b>Members</b>
                 </u>
                 <div className="columns" style={styles.verticalMargin}>
-                { !club["Public Members"] || club["Public Members"].length === 0 ? (
+                { !club[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD] || club[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD].length === 0 ? (
                     <p>
                       <strong>No members yet! Check back later! </strong>
                     </p>
                 ) : (
-                  club["Public Members"]
+                  memberInfo
                     .map((member, i) => (
-                      <div className="column is-2 has-text-centered" style={{ margin: "20px" }} key={member}>
+                      <div className="column is-2 has-text-centered" style={{ margin: "20px" }} key={member.id}>
                         <div className="is-inline-block">
-                          <ProfileIcon user={club["First Name (from Public Members)"][i]} userId={member}/>
+                          <ProfileIcon user={member.firstName} userId={member.id}/>
                         </div>
-                        <p>{club["First Name (from Public Members)"][i]} {club["Last Name (from Public Members)"][i]}</p>
+                        <p>{member.firstName} {member.lastName}</p>
                       </div>
                     ))
                 )}
@@ -178,13 +234,13 @@ function ClubProfile(props) {
               {club.Events && club.Events.map((event, i) => (
                 <div className="card" key={event}>
                   <div className="card-content">
-                    <p className="title is-5 mb-0">{club["Name (from Events)"][i]}</p>
+                    <p className="title is-5 mb-0">{club[AIRTABLE.CLUBS_TABLE_EVENT_NAME_FIELD][i]}</p>
                     <div className="content">
                       <p className="mb-0">
-                        {format(parse(club["StartTime (from Events)"][i], "yyyy-MM-dd'T'HH:mm:ss.SSSx", new Date()), "LLL d 'at' p")}
+                        {format(parse(club[AIRTABLE.CLUBS_TABLE_EVENT_TIME_FIELD][i], "yyyy-MM-dd'T'HH:mm:ss.SSSx", new Date()), "LLL d 'at' p")}
                       </p>
                       <p>
-                        {club["Location (from Events)"][i] || "Location TBD"}
+                        {club[AIRTABLE.CLUBS_TABLE_EVENT_LOCATION_FIELD][i] || "Location TBD"}
                       </p>
                       <a className="button" href={`/events/${event}`}>Learn More</a>
                     </div>
