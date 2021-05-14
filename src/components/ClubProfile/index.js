@@ -41,36 +41,42 @@ function ClubProfile(props) {
       setClub(result.fields);
       console.log(result.fields);
 
-      // Combine leader fields
-      let leaders = [];
-      for (let i = 0; i < result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD].length; i++) {
-        let hasProfPic = result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD] && result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD].length > 0;
-        leaders.push({
-          id: result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD][i],
-          firstName: result.fields[AIRTABLE.CLUBS_TABLE_LEADER_FIRST_NAME_FIELD][i],
-          lastName: result.fields[AIRTABLE.CLUBS_TABLE_LEADER_LAST_NAME_FIELD][i],
-          profilePicture: hasProfPic ? result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD][i] : null,
-        });
+      if (result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD]) {
+        // Combine leader fields
+        let leaders = [];
+        for (let i = 0; i < result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD].length; i++) {
+          let hasProfPic = result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD] && result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD].length > 0;
+          leaders.push({
+            id: result.fields[AIRTABLE.CLUBS_TABLE_LEADERS_FIELD][i],
+            firstName: result.fields[AIRTABLE.CLUBS_TABLE_LEADER_FIRST_NAME_FIELD][i],
+            lastName: result.fields[AIRTABLE.CLUBS_TABLE_LEADER_LAST_NAME_FIELD][i],
+            profilePicture: hasProfPic ? result.fields[AIRTABLE.CLUBS_TABLE_LEADER_PROFILE_PICTURE_FIELD][i] : null,
+          });
+        }
+        // Sort by firstname
+        leaders.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        setLeaderInfo(leaders);
       }
 
-      // Combine member fields
-      let members = [];
-      for (let i = 0; i < result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD].length; i++) {
-        let hasProfPic = result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD] && result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD].length > 0;
-        members.push({
-          id: result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD][i],
-          firstName: result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_FIRST_NAME_FIELD][i],
-          lastName: result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_LAST_NAME_FIELD][i],
-          profilePicture: hasProfPic ? result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD][i] : null,
-        });
+      if (result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD]) {
+        // Combine member fields
+        let members = [];
+        for (let i = 0; i < result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD].length; i++) {
+          let hasProfPic = result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD] && result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD].length > 0;
+          members.push({
+            id: result.fields[AIRTABLE.CLUBS_TABLE_PUBLIC_MEMBERS_FIELD][i],
+            firstName: result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_FIRST_NAME_FIELD][i],
+            lastName: result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_LAST_NAME_FIELD][i],
+            profilePicture: hasProfPic ? result.fields[AIRTABLE.CLUBS_TABLE_MEMBER_PROFILE_PICTURE_FIELD][i] : null,
+          });
+        }
+        // Sort by firstname
+        members.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        setMemberInfo(members);
       }
 
-      // Sort both lists by firstname
-      leaders.sort((a, b) => a.firstName.localeCompare(b.firstName));
-      members.sort((a, b) => a.firstName.localeCompare(b.firstName));
-
-      setLeaderInfo(leaders);
-      setMemberInfo(members);
+      
+      
 
       setDataLoaded(true);
     }
