@@ -30,6 +30,10 @@ function ProfilePage(props) {
     id: "",
     fields: {}
   });
+  const [tempInfo, setTempInfo] = useState({
+    id: "",
+    fields: {}
+  });
   const [myClubs, setMyClubs] = useState([])
   const [allClubs, setAllClubs] = useState([])
   const [isMyClub, setStar] = useState(false)
@@ -40,7 +44,7 @@ function ProfilePage(props) {
         if (err) { console.error(err); return; }
         records.forEach(function(record) {
           setUserInfo({"id": record.id, "fields": record.fields})
-
+          setTempInfo({"id": record.id, "fields": record.fields})
           // set club info 
           if (record.fields.Clubs) {
             record.fields.Clubs.forEach((club_id) => {
@@ -68,7 +72,7 @@ function ProfilePage(props) {
   const handleChange = (e) => {
     let field = e.target.name  // get field name
     let value = e.target.value;    // get field's updated value
-    setUserInfo(prevState => {
+    setTempInfo(prevState => {
       return {
         ...prevState,           // copy all other field/objects
         "fields": {              // recreate the object that contains the field to update
@@ -245,8 +249,8 @@ function ProfilePage(props) {
     settingButtons.style.display = "flex";
     base('Directory').update([
       {
-        "id": userInfo.id,
-        "fields": userInfo.fields
+        "id": tempInfo.id,
+        "fields": tempInfo.fields
       }
     ], function (err, records) {
       if (err) {
@@ -257,6 +261,7 @@ function ProfilePage(props) {
         console.log("Updated Record");
       });
     });
+    setUserInfo(tempInfo);
   }
 
   let cancelMode = function () {
@@ -268,6 +273,7 @@ function ProfilePage(props) {
     editForm.style.display = "none";
     editButton.style.display = "block";
     settingButtons.style.display = "flex";
+    setTempInfo(userInfo);
   };
 
   let settingMode = function () {
@@ -441,7 +447,7 @@ function ProfilePage(props) {
                     name="Headline"
                     type="text"
                     onChange={handleChange}
-                    defaultValue={userInfo.fields['Headline']}
+                    value={tempInfo.fields['Headline']}
                   />
                 </div>
               </div>
@@ -453,7 +459,7 @@ function ProfilePage(props) {
                     name="First Name"
                     type="text"
                     onChange={handleChange}
-                    defaultValue={userInfo.fields['First Name']}
+                    value={tempInfo.fields['First Name']}
                   />
                 </div>
               </div>
@@ -465,7 +471,7 @@ function ProfilePage(props) {
                     name="Last Name"
                     type="text"
                     onChange={handleChange}
-                    defaultValue={userInfo.fields['Last Name']}
+                    value={tempInfo.fields['Last Name']}
                   />
                 </div>
               </div>
@@ -477,26 +483,20 @@ function ProfilePage(props) {
                     name="Preferred Name"
                     type="text"
                     onChange={handleChange}
-                    defaultValue={userInfo.fields['Preferred Name']}
+                    value={tempInfo.fields['Preferred Name']}
                   />
-                </div>
-              </div>
-              <div className="field">
-                <label className="label">Role</label>
-                <div className="control">
-                  <input className="input" name="Role" type="text" onChange={handleChange} defaultValue={userInfo.fields['Role']} />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Email</label>
                 <div className="control">
-                  <input className="input" name="Email" type="text" onChange={handleChange} defaultValue={userInfo.fields['Email']} />
+                  <input className="input" name="Email" type="text" onChange={handleChange} value={tempInfo.fields['Email']} />
                 </div>
               </div>
               <div className="field">
                 <label className="label">About</label>
                 <div className="control">
-                  <input className="input" name="About" type="text" onChange={handleChange} defaultValue={userInfo.fields['About']} />
+                  <textarea className="textarea" name="About" type="text" onChange={handleChange} value={tempInfo.fields['About']} />
                 </div>
               </div>
               <div style={styles.editFormButtons}>
