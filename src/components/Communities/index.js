@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Airtable from "airtable";
 import Markdown from "react-markdown";
 import { Link } from "react-router-dom";
+import Avatar from "react-avatar";
 import { withAuthorization } from "../Session";
 import Heading from "../General/Heading";
 import ViewWithTopBorder from '../General/ViewWithTopBorder';
@@ -19,7 +20,9 @@ function Communities() {
     let updateClubs = async () => {
       let base = new Airtable({apiKey: airtableKey}).base(AIRTABLE.BASE_ID);
 
-      let records = await base(AIRTABLE.CLUBS_TABLE).select().all();
+      let records = await base(AIRTABLE.CLUBS_TABLE).select({
+        sort: [{field: "Name", direction: "asc"}]
+      }).all();
 
       setClubs(records);
       console.log(records);
@@ -48,12 +51,18 @@ function Communities() {
                   .map((club) => (
                     <div className="column is-flex is-one-quarter" key={club.id}>
                       <div className="box" key={club.id}> 
-                        {club.fields.Logo && club.fields.Logo.length > 0 &&
-                          <img
-                            src={club.fields.Logo[0].url}
-                            alt="Logo"
-                          />
-                        }
+                        <div className="mb-2">
+                          {club.fields.Logo && club.fields.Logo.length > 0 ? (
+                            <figure className="image is-128x128">
+                              <img
+                                src={club.fields.Logo[0].url}
+                                alt="Logo"
+                              />
+                            </figure>
+                          ) : (
+                            <Avatar round={true} size="128px" />
+                          )}
+                        </div>
                         <div className="content">
                           <p>
                             <Link to={`${ROUTES.COMMUNITIES}/${club.id}`}>

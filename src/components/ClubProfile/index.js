@@ -122,7 +122,7 @@ function ClubProfile(props) {
                     />
                     </figure>
                 ) : (
-                  <Avatar round={true} size="176px" />
+                  <Avatar round={true} size="128px" />
                 )}
               </div>
               <p className="title">{club.Name}</p>
