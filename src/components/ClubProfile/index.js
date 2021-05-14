@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import Markdown from "react-markdown";
 import Airtable from "airtable";
 import { parse, format } from "date-fns";
 import { withAuthorization } from "../Session";
@@ -140,9 +141,8 @@ function ClubProfile(props) {
                 <u>
                   <b>About</b>
                 </u>
-                <p style={{ marginTop: "15px" }}>
-                  { club.Description }
-                </p>
+                <Markdown
+                  children={club.Description}/>
               </div>
               <div>
                 <u>
