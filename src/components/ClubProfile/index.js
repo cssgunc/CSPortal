@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
-import Airtable from 'airtable';
+import Airtable from "airtable";
+import { parse, format } from "date-fns";
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
 import ProfileIcon from "../ProfileIcon";
 import MediaIcon from "../MediaIcon";
 import colors from "../../constants/RTCColors";
+import link from "../../constants/icons/link.png";
 import facebook from "../../constants/icons/facebook.png";
 import twitter from "../../constants/icons/twitter.png";
 import instagram from "../../constants/icons/instagram.png";
@@ -86,24 +88,8 @@ function ClubProfile(props) {
     },
   };
 
-  let editMode = function () {
-    console.log("Edit mode!");
-    const editForm = document.getElementById("editForm");
-    const profileInfo = document.getElementById("profileInfo");
-    profileInfo.style.display = "none";
-    editForm.style.display = "block";
-  };
-
-  let submitMode = function () {
-    console.log("Submit mode!");
-    const editForm = document.getElementById("editForm");
-    const profileInfo = document.getElementById("profileInfo");
-    profileInfo.style.display = "block";
-    editForm.style.display = "none";
-  };
-
   return (
-    <div>
+    <div className="container">
       { dataLoaded ? (
         <div className="columns">
           <div className="column is-three-quarters" style={styles.profileColumn}>
@@ -111,17 +97,39 @@ function ClubProfile(props) {
               style={styles.topBorderStyle}
               color={colors.limeGreen}
             >
-              <button
-                className="button is-pulled-right"
+              { club.CoverImage && club.CoverImage.length > 0 && 
+                <figure className="header-background image is-3by1" 
+                  style={club.CoverImage && club.CoverImage.length > 0 ? 
+                    {"background": `url(${club.CoverImage[0].url})`, 
+                    "background-size": "cover", 
+                    "background-repeat" : "no-repeat"} : {}}/>
+              }
+              <a
+                className="button is-pulled-right mt-2"
                 style={styles.editButtonStyle}
+                href={club.Signup ? club.Signup : club.Website}
+                target="_blank"
+                rel="noreferrer"
               >
                 Join
-              </button>
-              <div className="profileIcon" style={styles.verticalMargin}>
-                <Avatar round={true} size="176px" />
+              </a>
+              <div className={ club.CoverImage && club.CoverImage.length > 0 ? "under-cover ml-3" : "" }>
+                <figure className="box image is-128x128" style={styles.verticalMargin}>
+                  { club.Logo && club.Logo.length > 0 ? (
+                    <img
+                      src={club.Logo[0].url}
+                      alt="Logo"
+                    />
+                  ) : (
+                    <Avatar round={true} size="176px" />
+                  )}
+                </figure>
               </div>
               <p className="title">{club.Name}</p>
               <div className="columns" style={styles.verticalMargin}>
+                <a href={club.Website} target="_blank" rel="noreferrer">
+                  <MediaIcon src={link} alt="Website" />
+                </a>
                 <MediaIcon src={facebook} alt="Facebook" />
                 <MediaIcon src={twitter} alt="Twitter" />
                 <MediaIcon src={instagram} alt="Instagram" />
@@ -141,16 +149,19 @@ function ClubProfile(props) {
                   <b>Members</b>
                 </u>
                 <div className="columns" style={styles.verticalMargin}>
-                { !club.Directory || club.Directory.length === 0 ? (
+                { !club["Public Members"] || club["Public Members"].length === 0 ? (
                     <p>
                       <strong>No members yet! Check back later! </strong>
                     </p>
                 ) : (
-                  club.Directory
-                    .map((member) => (
-                      <section style={{ margin: "20px" }} key={member}>
-                        <ProfileIcon displayName={member.displayName}></ProfileIcon>
-                      </section>
+                  club["Public Members"]
+                    .map((member, i) => (
+                      <div className="column is-2 has-text-centered" style={{ margin: "20px" }} key={member}>
+                        <div className="is-inline-block">
+                          <ProfileIcon user={club["First Name (from Public Members)"][i]} userId={member}/>
+                        </div>
+                        <p>{club["First Name (from Public Members)"][i]} {club["Last Name (from Public Members)"][i]}</p>
+                      </div>
                     ))
                 )}
                 </div>
@@ -160,182 +171,26 @@ function ClubProfile(props) {
           <div className="column" style={styles.starredColumn}>
             <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
               <div>
-                <Heading
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    lineHeight: "21px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  Upcoming Events
+                <Heading>
+                    Upcoming Events
                 </Heading>
               </div>
-              <div
-                style={{
-                  backgroundColor: "white",
-                  width: "80%",
-                  height: "250px",
-                  margin: "40px",
-                }}
-              >
-                <Heading
-                  style={{
-                    padding: "15px",
-                    textAlign: "center",
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    lineHeight: "21px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "200px",
-                  }}
-                >
-                  Figma Workshop
-                </Heading>
-                <p
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    fontSize: "16px",
-                    lineHeight: "19px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "235px",
-                    left: "75px",
-                  }}
-                >
-                  Friday, 2/26/2021
-                </p>
-                <p
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    fontSize: "16px",
-                    lineHeight: "19px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "250px",
-                    left: "85px",
-                    color: "#B6B6B6",
-                  }}
-                >
-                  Zoom
-                </p>
-                <button style={styles.registerButtonStyle}>Register Now</button>
-                <p
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    fontSize: "12px",
-                    lineHeight: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "310px",
-                    left: "75px",
-                    color: "#6C6D6F",
-                  }}
-                >
-                  5 members attending
-                </p>
-              </div>
-              <div
-                style={{
-                  backgroundColor: "white",
-                  width: "80%",
-                  height: "250px",
-                  margin: "40px",
-                }}
-              >
-                <Heading
-                  style={{
-                    padding: "15px",
-                    textAlign: "center",
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    lineHeight: "21px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "495px",
-                  }}
-                >
-                  Psychology in UX
-                </Heading>
-                <p
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    fontSize: "16px",
-                    lineHeight: "19px",
-                    display: "flex",
-                    alignItems: "center",
-                    position: "absolute",
-                    top: "530px",
-                    left: "75px",
-                  }}
-                >
-                  Monday, 3/1/2021
-                </p>
-                <p
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    fontSize: "16px",
-                    lineHeight: "19px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "545px",
-                    left: "85px",
-                    color: "#B6B6B6",
-                  }}
-                >
-                  Zoom
-                </p>
-                <button style={styles.registerButtonStyle}>Register Now</button>
-                <p
-                  style={{
-                    fontFamily: "Roboto",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    fontSize: "12px",
-                    lineHeight: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    letterSpacing: "0.05em",
-                    position: "absolute",
-                    top: "600px",
-                    left: "75px",
-                    color: "#6C6D6F",
-                  }}
-                >
-                  5 members attending
-                </p>
-              </div>
+              {club.Events.map((event, i) => (
+                <div className="card" key={event}>
+                  <div className="card-content">
+                    <p className="title is-5 mb-0">{club["Name (from Events)"][i]}</p>
+                    <div className="content">
+                      <p className="mb-0">
+                        {format(parse(club["StartTime (from Events)"][i], "yyyy-MM-dd'T'HH:mm:ss.SSSx", new Date()), "LLL d 'at' p")}
+                      </p>
+                      <p>
+                        {club["Location (from Events)"][i] || "Location TBD"}
+                      </p>
+                      <a className="button" href={`/events/${event}`}>Learn More</a>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </ViewWithTopBorder>
           </div>
         </div>
