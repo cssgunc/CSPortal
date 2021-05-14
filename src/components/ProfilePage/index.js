@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import Avatar from "react-avatar";
 import "bulma/css/bulma.css";
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
@@ -131,7 +132,6 @@ function ProfilePage(props) {
     },
     jobClubStyle: {
       float: "right",
-      paddingLeft: "50%",
     },
     starredHeader: {
       display: "flex",
@@ -311,7 +311,7 @@ function ProfilePage(props) {
   }
 
   return (
-    <div>
+    <div className="container">
       <div
         id="outerBackground"
         className="is-overlay"
@@ -350,7 +350,7 @@ function ProfilePage(props) {
                 type="checkbox"
                 name="switchRoundedInfo"
                 className="switch is-rounded is-info is-rtl"
-                checked="checked"
+                defaultChecked
               ></input>
               <label htmlFor="switchRoundedInfo"> </label>
             </div>
@@ -363,7 +363,7 @@ function ProfilePage(props) {
                 type="checkbox"
                 name="switchRoundedInfo"
                 className="switch is-rounded is-info is-rtl"
-                checked="checked"
+                defaultChecked
               ></input>
               <label htmlFor="switchRoundedInfo"></label>
             </div>
@@ -380,6 +380,12 @@ function ProfilePage(props) {
             style={styles.topBorderStyle}
             color={colors.limeGreen}
           >
+            { userInfo.fields.CoverImage && userInfo.fields.CoverImage.length > 0 && 
+              <figure className="box header-background image is-3by1" 
+                style={{"background": `url(${userInfo.fields.CoverImage[0].url})`, 
+                  "backgroundSize": "cover", 
+                  "backgroundRepeat" : "no-repeat"}}/>
+            }
             <div id="settingButtons" className="is-pulled-right" style={styles.changeButtons}>
               <div>
                 <button
@@ -396,8 +402,21 @@ function ProfilePage(props) {
               </div>
             </div>
             <div id="profileInfo">
-              <div className="profileIcon" style={styles.verticalMargin}>
+              {/* <div className="profileIcon" style={styles.verticalMargin}>
                 <ProfileIcon size={120} img={userInfo.fields['Profile Picture']}></ProfileIcon>
+              </div> */}
+              <div className={ userInfo.fields.CoverImage && userInfo.fields.CoverImage.length > 0 ? "under-cover ml-3" : "mb-5" }>
+                { userInfo.fields.["Profile Picture"] && userInfo.fields.["Profile Picture"].length > 0 ? (
+                  <figure className="image is-128x128" style={styles.verticalMargin}>
+                    <img
+                      className="is-rounded"
+                      src={userInfo.fields.["Profile Picture"][0].url}
+                      alt="Logo"
+                    />
+                    </figure>
+                ) : (
+                  <Avatar round={true} size="128px" />
+                )}
               </div>
               <p className="title">{userInfo.fields['First Name']} {userInfo.fields['Last Name']}</p>
               <p className="subtitle">
@@ -505,12 +524,12 @@ function ProfilePage(props) {
         </div>
         <div className="column is-one-third" style={styles.starredColumn}>
           <ViewWithTopBorder style={styles.topBorderStyle} color={colors.green}>
-            <div style={styles.starredHeader}>
-              <div style={styles.starredTitle}>
+            <div className="columns is-vcentered" style={styles.starredHeader}>
+              <div className="column is-half" style={styles.starredTitle}>
                 <p>Starred</p>
               </div>
 
-              <div style={styles.jobClubStyle}>
+              <div className="column is-half" style={styles.jobClubStyle}>
                 <button id="jobButton" className="button" style={styles.jobsButtonStyle} onClick={jobMode}>
                   Jobs
                 </button>
@@ -524,23 +543,23 @@ function ProfilePage(props) {
             </div>
             <div id="clubMode" style={styles.boxesContainer}>
               <details open><summary>MY CLUBS</summary>
-                <aside class="menu">
-                  <ul class="menu-list">
+                <aside className="menu">
+                  <ul className="menu-list">
                     <li>
                       <ul style={styles.clubFormat}>
                         {myClubs.map(item => (
-                          <div class="box" key={item.id}>
+                          <div className="box" key={item.id}>
                           <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
                           <div>
                             <div style={styles.clubImage}>
-                              <figure class="image is-64x64">
+                              <figure className="image is-64x64">
                                 {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
                               </figure>
                             </div>
                             <div>
-                              <div class="content" style={styles.clubContent}>
+                              <div className="content" style={styles.clubContent}>
                                 <div><strong><h4 style={styles.clubName}>{item.fields.Name}</h4></strong></div>
-                                <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="med"/>{item.fields.Contact}</div>
+                                <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="sm"/>{item.fields.Contact}</div>
                                 <div>{item.fields.Description}</div>
                                   
                                 </div>
@@ -553,23 +572,23 @@ function ProfilePage(props) {
                   </ul>
                 </aside></details>
               <details><summary className="all_clubs">ALL CLUBS</summary>
-                <aside class="menu">
-                  <ul class="menu-list">
+                <aside className="menu">
+                  <ul className="menu-list">
                     <li>
                       <ul style={styles.clubFormat}>
                         {allClubs.map(item => (
-                          <div class="box" key={item.id}>
+                          <div className="box" key={item.id}>
                             <FontAwesomeIcon style={styles.starButton} color="#FFAC32" className="star" icon={faStar} />
                             <div>
                               <div style={styles.clubImage}>
-                                <figure class="image is-64x64">
+                                <figure className="image is-64x64">
                                   {item.fields.Logo != null ? <img src={item.fields.Logo[0].url} alt={item.fields.Name} /> : <img src="https://bulma.io/images/placeholders/128x128.png" alt="Fill In" />}
                                 </figure>
                               </div>
                               <div>
-                                <div class="content" style={styles.clubContent}>
+                                <div className="content" style={styles.clubContent}>
                                   <div><strong><h4 style={styles.clubName}>{item.fields.Name}</h4></strong></div>
-                                  <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="med"/>{item.fields.Contact}</div>
+                                  <div><FontAwesomeIcon style={styles.clubContactButton} icon={faEnvelope} size="sm"/>{item.fields.Contact}</div>
                                   <div>{item.fields.Description}</div>
                                     
                                   </div>
