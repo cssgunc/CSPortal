@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import Avatar from "react-avatar";
 import "bulma/css/bulma.css";
+import * as bulmaToast from 'bulma-toast'
 import { withAuthorization } from "../Session";
 import { AuthUserContext } from "../Session";
 import ViewWithTopBorder from "../General/ViewWithTopBorder";
@@ -39,50 +40,52 @@ function ProfilePage(props) {
 
   const [myJobs, setMyJobs] = useState([])
 
+  const [deletedJob, setDeletedJob] = useState()
+
   useEffect(() => {
-      base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
-      .firstPage(function(err, records) {
-        if (err) { console.error(err); return; }
-        records.forEach(function(record) {
-          setUserInfo({"id": record.id, "fields": record.fields})
-          setTempInfo({"id": record.id, "fields": {
-            "Email": record.fields["Email"],
-            "First Name": record.fields["First Name"],
-            "Last Name": record.fields["Last Name"],
-            "Preferred Name": record.fields["Preferred Name"],
-            "Headline": record.fields["Headline"],
-            "About": record.fields["About"],
-          }})
-          // set club info 
-          if (record.fields.Clubs) {
-            record.fields.Clubs.forEach((club_id) => {
-              base(AIRTABLE.CLUBS_TABLE).find(club_id, function(err, record) {
-                if (err) { console.error(err); return; }
-                setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
-              });
+    base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
+    .firstPage(function(err, records) {
+      if (err) { console.error(err); return; }
+      records.forEach(function(record) {
+        setUserInfo({"id": record.id, "fields": record.fields})
+        setTempInfo({"id": record.id, "fields": {
+          "Email": record.fields["Email"],
+          "First Name": record.fields["First Name"],
+          "Last Name": record.fields["Last Name"],
+          "Preferred Name": record.fields["Preferred Name"],
+          "Headline": record.fields["Headline"],
+          "About": record.fields["About"],
+        }})
+        // set club info 
+        if (record.fields.Clubs) {
+          record.fields.Clubs.forEach((club_id) => {
+            base(AIRTABLE.CLUBS_TABLE).find(club_id, function(err, record) {
+              if (err) { console.error(err); return; }
+              setMyClubs(myClubs => [...myClubs, ({"id": record.id, "fields": record.fields})])
+            });
+          })
+        }
+
+        let jobs = [];
+        if (record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD]) {
+          for (let i = 0; i < record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD].length; i++) {  
+            jobs.push({
+              id: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD][i],
+              title: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_TITLE_FIELD][i],
+              company: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_COMPANY_FIELD][i],
+              logo: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOGO_FIELD][i],
+              location: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOCATION_FIELD][i],
+              link: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LINK_FIELD][i],
             })
           }
+        };
 
-          let jobs = [];
-          if (record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD]) {
-            for (let i = 0; i < record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD].length; i++) {  
-              jobs.push({
-                id: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD][i],
-                title: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_TITLE_FIELD][i],
-                company: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_COMPANY_FIELD][i],
-                logo: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOGO_FIELD][i],
-                location: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOCATION_FIELD][i],
-                link: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LINK_FIELD][i],
-              })
-            }
-          };
+        console.log(jobs);
 
-          console.log(jobs);
+        setMyJobs(jobs);
 
-          setMyJobs(jobs);
-
-        });
-      }, [props.fields]);
+      });
+    }, [props.fields]);
   }, [authUser.email, props.fields])
 
   useEffect(() => {
@@ -110,23 +113,105 @@ function ProfilePage(props) {
     });
   };
 
-  const deleteJob = (e) => {
+  const deleteJob = async (e) => {
     let jobElement = e.target.parentNode;
+    let jobToDelete = jobElement.getAttribute("data-key");
 
-    // get saved job ids and remove deleted one
-    let jobIds = myJobs.map(job => job.id);
-    jobIds = jobIds.filter(id => id !== jobElement.getAttribute("data-key"));
+    let jobIds = [];
 
-    // update table
-    base(AIRTABLE.DIRECTORY_TABLE).update([{
+    // Pull saved jobs from airtable again for updated list
+    let records = await base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`}).all();
+    console.log(records);
+    records.forEach(function(record) {
+      jobIds = record.fields["SavedJobs"] ?? [];
+    })
+
+    // Remove deleted one
+    jobIds = jobIds.filter(id => id !== jobToDelete);
+
+    // Update airtable
+    await base(AIRTABLE.DIRECTORY_TABLE).update([{
       id: userInfo.id,
       fields: {
         "SavedJobs": jobIds,
       }
     }]);
 
-    // delete html element
-    jobElement.parentNode.removeChild(jobElement);
+    // Get updated jobs
+    base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
+    .firstPage(function(err, records) {
+      if (err) { console.error(err); return; }
+      records.forEach(function(record) {
+        let jobs = [];
+        if (record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD]) {
+          for (let i = 0; i < record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD].length; i++) {  
+            jobs.push({
+              id: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD][i],
+              title: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_TITLE_FIELD][i],
+              company: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_COMPANY_FIELD][i],
+              logo: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOGO_FIELD][i],
+              location: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOCATION_FIELD][i],
+              link: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LINK_FIELD][i],
+            })
+          }
+        };
+        setMyJobs(jobs);
+      });
+    }, [props.fields]);
+
+    setDeletedJob(jobToDelete);
+    bulmaToast.toast({ 
+      message: "Job successfully deleted", 
+      type: "is-success", 
+      closeOnClick: true,
+      duration: 2000,
+      position: "bottom-right",
+    })
+  }
+
+  const undoDeleteJob = async () => {
+    let jobIds = [];
+
+    // Pull saved jobs from airtable again for updated list
+    let records = await base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`}).all();
+    console.log(records);
+    records.forEach(function(record) {
+      jobIds = record.fields["SavedJobs"] ?? [];
+    })
+
+    jobIds.push(deletedJob);
+
+    // Update airtable
+    await base(AIRTABLE.DIRECTORY_TABLE).update([{
+      id: userInfo.id,
+      fields: {
+        "SavedJobs": jobIds,
+      }
+    }]);
+
+    // Get updated jobs
+    base(AIRTABLE.DIRECTORY_TABLE).select({filterByFormula: `Email = "${authUser.email}"`})
+    .firstPage(function(err, records) {
+      if (err) { console.error(err); return; }
+      records.forEach(function(record) {
+        let jobs = [];
+        if (record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD]) {
+          for (let i = 0; i < record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD].length; i++) {  
+            jobs.push({
+              id: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_FIELD][i],
+              title: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_TITLE_FIELD][i],
+              company: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_COMPANY_FIELD][i],
+              logo: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOGO_FIELD][i],
+              location: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LOCATION_FIELD][i],
+              link: record.fields[AIRTABLE.DIRECTORY_TABLE_SAVED_JOBS_LINK_FIELD][i],
+            })
+          }
+        };
+        setMyJobs(jobs);
+      });
+    }, [props.fields]);
+
+    setDeletedJob("");
   }
 
   const styles = {
